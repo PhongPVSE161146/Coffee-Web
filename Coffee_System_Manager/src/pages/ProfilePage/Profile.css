@@ -1,0 +1,201 @@
+.profile-header {
+  background-color: transparent;
+  padding: 20px 30px;
+  animation: float-down 0.5s ease-in-out forwards;
+  animation-iteration-count: 1;
+}
+
+@keyframes float-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+.display-location-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 35px;
+  width: 100%;
+}
+
+.profile-item-header-left {
+  flex: 1;
+}
+
+.h1-profile-header {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.profile-item-header {
+  margin-left: auto;
+}
+
+.profile-item-header-button {
+  display: flex;
+  gap: 10px;
+}
+
+.profile-item-header button {
+  border: none;
+  cursor: pointer;
+  background-color: #0097ff;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 15px;
+  color: white;
+  min-width: 80px;
+  justify-content: center;
+  border: 1px solid transparent;
+  transition: all 0.5s ease;
+}
+
+.profile-item-header button:hover {
+  background-color: rgb(195, 195, 195);
+
+  color: rgb(44, 40, 40);
+  transition: all 0.3s ease;
+}
+
+
+.divider-profile {
+  border-bottom: 1px solid rgb(30, 29, 29);
+  margin: 0px 20px;
+  opacity: 0;
+  animation: line-out 0.5s ease-in-out forwards;
+  animation-iteration-count: 1;
+  animation-delay: 0.3s;
+}
+
+@keyframes line-out {
+  0% {
+    opacity: 0;
+    margin: 0px 500px;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    margin: 0px 20px;
+  }
+}
+
+.categories-profile-items {
+  padding: 10px 30px 0px 30px;
+  background-color: white;
+  display: flex;
+  gap: 20px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.categories-profile-items span:nth-child(1) {
+  opacity: 0;
+  animation: float-down 0.5s ease-in-out forwards;
+  animation-iteration-count: 1;
+  animation-delay: 0.6s;
+}
+
+.categories-profile-items span:nth-child(2) {
+  opacity: 0;
+  animation: float-down 0.5s ease-in-out forwards;
+  animation-iteration-count: 1;
+  animation-delay: 0.8s;
+}
+
+@keyframes line-out {
+  0% {
+    opacity: 0;
+    margin: 0px 500px;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    margin: 0px 20px;
+  }
+}
+
+.categories-profile-items span {
+  color: black;
+  padding-bottom: 10px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.5s ease;
+}
+
+.categories-profile-items span:hover:not(.selected) {
+  color: #3200a5;
+  padding-bottom: 10px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.categories-profile-items span.selected {
+  color: rgb(72, 139, 247);
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgb(72, 139, 247);
+  transition: all 0.3s ease;
+}
+
+.profile-item-header-button button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.profile-item-header-button button .ant-spin {
+  margin-right: 8px;
+}
+
+/* Thêm vào cuối file CSS */
+.exporting-pdf {
+  /* Tắt các animation và transition */
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+
+  /* Đảm bảo opacity đầy đủ */
+  opacity: 1 !important;
+
+  /* Loại bỏ các hiệu ứng shadow */
+  box-shadow: none !important;
+
+  /* Đảm bảo text hiển thị đầy đủ */
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+
+  /* Đảm bảo màu sắc rõ ràng */
+  background-color: white !important;
+  color: black !important;
+
+  /* Tăng độ nét cho text */
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+.exporting-pdf * {
+  /* Áp dụng cho tất cả các phần tử con */
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+}

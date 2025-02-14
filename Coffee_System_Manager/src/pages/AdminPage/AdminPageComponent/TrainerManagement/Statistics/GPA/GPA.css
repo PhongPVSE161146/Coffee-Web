@@ -1,0 +1,61 @@
+.GPA-chart {
+  margin-top: 50px;
+  text-align: center;
+}
+.GPA-GPA-container{
+  transition: 0.5s;
+  padding: 20px;
+}
+.GPA-GPA-select-container{
+  display: flex;
+  justify-content: space-evenly;
+}
+.GPA-select-1{
+  width: 20%;
+}
+.GPA-select-1-text{
+  width: max-content;
+  padding-bottom: 20px;
+  display: inline-flex;
+  
+}
+.GPA-select-2{
+  width: 20%;
+}
+.GPA-select-2-text{
+  width: max-content;
+  padding-bottom: 20px;
+  display: inline-flex;
+  
+}
+.GPA-select-3{
+  width: 30%;
+}
+.GPA-select-3-text{
+  width: max-content;
+  padding-bottom: 20px;
+  display: inline-flex;
+  
+}
+.no-data {
+  text-align: center;
+  font-size: 18px;
+  color: grey;
+  margin-top: 150px;
+}
+.GPA-mixed-chart h1{
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.GPA-data-table{
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.GPA-data-table h1{
+  padding: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}

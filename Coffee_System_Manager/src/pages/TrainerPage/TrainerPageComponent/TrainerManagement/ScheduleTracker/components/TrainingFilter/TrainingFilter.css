@@ -1,0 +1,48 @@
+.report-filter-table-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.report-form-container {
+  margin-bottom: 20px;
+  margin-top: 30px;
+  margin: 0px 20px
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #595959;
+}
+
+.form-select,
+.form-input,
+.form-range-picker {
+  width: 100%;
+}
+
+.form-select .ant-select-selector,
+.form-input,
+.form-range-picker .ant-picker {
+  height: 38px;
+  border-radius: 4px;
+}
+
+.form-input {
+  padding-left: 12px;
+}
+
+@media (max-width: 768px) {
+  .report-form-container .ant-col {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+}

@@ -1,0 +1,98 @@
+/* styles.css */
+
+.layout {
+    padding: 30px;
+    background-color: #ffffff;
+  }
+  
+  .module-overview-card {
+    height: 100%;
+    background-color: #2A2A2E;
+    color: #fff;
+    border-radius: 8px;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .overview-card-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  .overview-card-text-1{
+    color: #fff;
+  }
+
+  .overview-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    font-size: 36px;
+    color: #fff;
+    width: 50px; /* Chiều rộng cố định */
+    aspect-ratio: 1;
+    background-color: #9645B375;
+  }
+  
+  .module-overview-title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  
+  .chart-card-1 {
+    height: 100%;
+    text-align: center;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+
+  .chart-card-2 {
+    height: 100%;
+    text-align: center;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+  
+  .chart-card-extra {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .chart-card-extra select,
+  .chart-card-extra button {
+    width: 120px;
+    height: 32px;
+  }
+  
+  .chart-card-title {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .pie-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+  }
+  
+  .statistic-module-select{
+    display: flex;
+    justify-content: space-evenly;
+  }

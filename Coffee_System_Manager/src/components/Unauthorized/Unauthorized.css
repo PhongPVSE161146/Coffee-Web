@@ -1,0 +1,139 @@
+body:has(.unauthorizedPage) {
+    overflow: hidden;
+}
+
+.unauthorizedPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: black;
+    height: 100vh;
+}
+
+.unauthorizedPage .error-text {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    color: red;
+    font-size: 20px;
+    position: absolute;
+    transform: translateY(-100%);
+    margin: 20px; padding: 8px 16px 8px 120px;
+    top: 5px;
+    font-weight: 400;
+    animation: error-float 0.8s forwards;
+    animation-iteration-count: 1;
+}
+@keyframes error-float {
+    to {
+        transform: translateY(0%);
+    }
+}
+
+.unauthorizedPage .error-text span {
+    font-size: 24px;
+    background-color: black;
+    transform: translateX(-100%);
+    padding-right: 100px;
+    margin-top: -5px;
+    opacity: 1;
+    animation: error-typewrite-float 0.8s forwards, error-typewrite-flash 1.5s ease-out;
+    animation-iteration-count: 1, infinite;
+    animation-delay: 2s, 3s;
+}
+
+@keyframes error-typewrite-float {
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes error-typewrite-flash {
+    to {
+        opacity: 0;
+    }
+}
+
+.unauthorizedPage .Unauthorized-text {
+    color: red; font-size: 26px;
+    position: absolute;
+    margin: 20px; padding: 8px 16px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    font-weight: 600;
+    color: #41E969; transform: rotate(-40deg);
+    animation: text-float 0.8s ease-out forwards;
+    animation-iteration-count: 1;
+}
+
+@keyframes text-float {
+  0% {
+    color: #41E969;
+    transform: rotate(-40deg);
+  }
+
+  20% {
+    color: red;
+    transform: rotate(-40deg);
+  }
+
+  60% {
+    color: red;
+    transform: rotateX(0);
+  }
+
+  100% {
+    color: red;
+    transform: rotateX(0);
+  }
+}
+
+.unauthorizedPage .returnBtn {
+    position: absolute;
+    bottom: 40px;
+    display: flex; justify-content: center;
+    background-color: transparent;
+    border: 4px solid white;
+    color: white;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 30px;
+    transform: translateY(200%);
+    cursor: pointer;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    animation: btn-float 1.2s ease-in-out forwards;
+    animation-iteration-count: 1;
+    animation-delay: 3s;
+}
+
+.unauthorizedPage .returnBtn:hover {
+    background-color: white;
+    border: 4px solid white;
+    color: black;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@keyframes btn-float {
+  0% {
+    transform: translateY(200%);
+  }
+
+  60% {
+    transform: translateY(20%);
+  }
+
+  80% {
+    transform: translateY(40%);
+  }
+
+  90% {
+    transform: translateY(10%);
+  }
+
+  100% {
+    transform: translateY(-10%);
+  }
+}

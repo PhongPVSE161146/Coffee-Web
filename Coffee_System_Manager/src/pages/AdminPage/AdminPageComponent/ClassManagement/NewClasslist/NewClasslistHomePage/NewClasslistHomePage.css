@@ -1,0 +1,61 @@
+/* NewClasslistHomePage.css */
+  
+  .newclasslist-filters {
+    display: flex;
+    gap: 2.4%;
+    margin-bottom: 20px;
+    min-height: 60.4px;
+    flex-wrap: wrap;
+  }
+  
+  .newclasslist-select-status,
+  .newclasslist-date-input,
+  .newclasslist-search-input {
+    width: 250px;
+  }
+  
+  .newclasslist-content{
+    margin: 20px 10px;
+  }
+
+  .newclasslist-table{
+    overflow-x: scroll;
+    border-collapse: collapse;
+  }
+
+.newclasslist-filter-title{
+  padding: 5px;
+  font-weight: bold;
+}
+
+.newclasslist-container .ant-table-pagination{
+  position: fixed;
+  right: 0;
+}
+
+.newclasslist-container .newclasslist-table .ant-table-selection-column {
+  width: 120px !important;
+}
+
+.newclasslist-table .ant-table-thead > tr > th {
+  background-color: #BEBEBE !important;
+  font-weight: bold;
+  border: none;
+}
+
+/* Adjust top and bottom padding for table body cells */
+.newclasslist-table .ant-table-tbody > tr > td {
+  padding-top: 10px; /* Adjust the top padding */
+  padding-bottom: 10px; /* Adjust the bottom padding */
+}
+
+
+.newclasslist-container .ant-table-cell{
+  text-align: center !important;
+}
+.hover-claslist-name{
+  color: black;
+}
+.hover-claslist-name:hover{
+  color:rgb(0, 98, 255);
+}

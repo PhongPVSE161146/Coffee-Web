@@ -1,0 +1,23 @@
+/* ReportFilter.css */
+
+.report-header {
+  padding-top: 30px;
+  margin: 0px 20px;
+}
+
+.filter-item {
+  margin-bottom: 16px;
+  /* Khoảng cách giữa các phần tử filter */
+}
+
+.filter-item label {
+  display: block;
+  /* Đảm bảo label chiếm một dòng */
+  margin-bottom: 4px;
+  /* Khoảng cách dưới label */
+}
+
+.form-select {
+  width: 100%;
+  /* Đảm bảo Select chiếm toàn bộ chiều rộng */
+}

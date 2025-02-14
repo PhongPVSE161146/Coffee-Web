@@ -1,0 +1,68 @@
+/* TableTN.css */
+.filters-container-tableTN {
+  display: flex;
+  gap: 16px;/* Optional: Adds space between filters */
+}
+
+.filters-container-tableTN .label-select-trainer-class-module-group-filter-tableTN {
+  display: flex;
+  flex-direction: column;
+  flex: 1;/* Ensures each filter div takes equal space */
+  max-width: 330px;
+}
+
+
+.btn-export-tbst-str{
+  margin-top:0 ;
+}
+
+.custom-table-render-tableTN-container .ant-table-cell {
+  font-weight: normal;
+}
+
+.info-indicator-tableTN {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.custom-table-render-tableTN-container .ant-table-cell {
+  font-weight: normal;
+  font-size: 14px;
+  padding: 4px 8px !important;
+}
+
+.custom-table-render-tableTN-container .ant-table-thead th {
+  padding: 4px 8px !important;
+  /* Force padding change */
+  height: 32px !important;
+  /* Set a specific height */
+  line-height: 1 !important;
+  /* Reduce line-height for compact look */
+  font-size: 14px;
+  /* Optional: Adjust font size */
+  text-align: center !important;
+}
+
+/* Ensure the table has no rounded corners */
+.custom-tableCL .ant-table {
+  border: 1px solid #d9d9d9; /* Default border color */
+  border-radius: 0 !important; /* Remove rounding */
+}
+
+.custom-tableCL .ant-table-thead > tr > th,
+.custom-tableCL .ant-table-tbody > tr > td {
+  border-radius: 0 !important; /* Remove rounding on cells */
+}
+
+/* Ensure bordered styling applies to rows and cells */
+.custom-tableCL .ant-table-container {
+  border: 1px solid #d9d9d9;
+}
+
+.custom-tableCL .ant-table-thead > tr > th,
+.custom-tableCL .ant-table-tbody > tr > td {
+  border: 1px solid #d9d9d9; /* Add cell borders */
+}

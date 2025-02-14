@@ -1,0 +1,94 @@
+/* NewClasslistHomePage.css */
+  
+.scheduleDetail-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.scheduleDetail-search-input {
+  width: 250px;
+}
+  
+  .scheduleDetail-content{
+    margin: 20px 10px;
+  }
+
+  .scheduleDetail-table{
+    overflow-x: scroll;
+    border-collapse: collapse;
+  }
+
+.scheduleDetail-filter-title{
+  padding: 5px;
+  font-weight: bold;
+}
+
+.scheduleDetail-time-title {
+    padding: 5px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24.2px;
+}
+
+.scheduleDetail-filters div:last-child span:last-child {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.94px;
+}
+
+.scheduleDetail-container .ant-table-pagination{
+  position: fixed;
+  right: 0;
+}
+
+.scheduleDetail-container .newclasslist-table .ant-table-selection-column {
+  width: 120px !important;
+}
+
+.scheduleDetail-table .ant-table-thead > tr > th {
+  background-color: #BEBEBE !important;
+  font-weight: bold;
+  border: none;
+}
+
+/* Adjust top and bottom padding for table body cells */
+.scheduleDetail-table .ant-table-tbody > tr > td {
+  padding-top: 10px; /* Adjust the top padding */
+  padding-bottom: 10px; /* Adjust the bottom padding */
+}
+
+
+.scheduleDetail-container .ant-table-cell{
+  text-align: center !important;
+}
+
+.schedule-detail-footer {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #a5a5a5;
+    position: fixed;
+    height: 60px;
+    bottom: 0;
+    width: 100%;
+    padding: 0 30px;
+    z-index: 1000;
+}
+  
+.schedule-detail-footer .back-btn {
+    border: 2px solid #DCDCDC;
+    color: #374456;
+    padding: 8px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.5s ease, border 0.5s ease;
+}
+  
+.schedule-detail-footer .back-btn:hover {
+    border: 2px solid rgb(0, 0, 0);
+    background-color: rgba(232, 232, 232, 0.8);
+    transition: background-color 0.3s ease, border 0.3s ease;
+}

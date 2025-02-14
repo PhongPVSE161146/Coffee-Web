@@ -1,0 +1,140 @@
+/*Schedule tracker report */
+.custom-tab-table-schedule-tracker-report .ant-tabs-tab-btn {
+    color: #6A6262 !important;
+}
+
+.custom-tab-table-schedule-tracker-report .ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #8A19A0 !important;
+}
+
+.custom-tab-table-schedule-tracker-report .ant-tabs-ink-bar {
+    background-color: #8A19A0 !important;
+}
+
+.schedule-tracker-report-container {
+    padding: 30px;
+}
+
+/* TableCA */
+.schedule-tracker-report-table .ant-table-thead>tr>th,
+.schedule-tracker-report-table .ant-table-tbody>tr>td {
+    font-size: small;
+}
+
+.schedule-tracker-report-table .ant-table-tbody>tr>td {
+    font-weight: normal !important;
+}
+
+.schedule-tracker-report-table .ant-table-cell {
+    padding: 8px !important;
+}
+
+.search-with-filter-tbst {
+    display: flex;
+}
+
+.btn-export-tbst-str {
+    margin-top: 17px;
+    margin-left: 15px;
+    margin-right: 15px;
+    background: #345DC7;
+}
+
+.funnel-filter-tbst-str {
+    margin-top: 18px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.unordered-bullet-list-filter-panel-sd-tr-rp-tbst {
+    list-style: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.unordered-bullet-list-filter-panel-sd-tr-rp-tbst li {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.filter-group-panel-sd-tr-rp-tbst {
+    background: grey;
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+
+.info-indicator-str-tbst {
+    margin-top: 40px;
+    margin-bottom: 5px;
+}
+
+.info-indicator-str-tbst label {
+    margin-right: 20px;
+    font-weight: normal;
+}
+/* Ensure the table has no rounded corners */
+.schedule-tracker-report-table .ant-table {
+    border: 1px solid #d9d9d9; /* Default border color */
+    border-radius: 0 !important; /* Remove rounding */
+  }
+  
+  .schedule-tracker-report-table .ant-table-thead > tr > th,
+  .schedule-tracker-report-table .ant-table-tbody > tr > td {
+    border-radius: 0 !important; /* Remove rounding on cells */
+  }
+  
+  /* Ensure bordered styling applies to rows and cells */
+  .schedule-tracker-report-table .ant-table-container {
+    border: 1px solid #d9d9d9;
+  }
+  
+  .schedule-tracker-report-table .ant-table-thead > tr > th,
+  .schedule-tracker-report-table .ant-table-tbody > tr > td {
+    border: 1px solid #d9d9d9; /* Add cell borders */
+  }
+
+/* tablelog */
+.flex-info-tblog-container {
+    display: flex;
+}
+
+.flex-info-tblog-ptag {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.custom-table-header-tableFixed-tableLOG .ant-table-thead>tr>th {
+    background-color: #BEBEBE;
+}
+
+.custom-table-header-tableFixed-tableLOG .ant-table-cell {
+    font-weight: normal;
+}
+
+.tableST-container-sd-tr-rp .ant-table-cell {
+    font-weight: normal;
+    font-size: 14px;
+    padding: 4px 8px !important;
+}
+
+.tableST-container-sd-tr-rp .ant-table-thead th {
+    padding: 4px 8px !important;
+    /* Force padding change */
+    height: 32px !important;
+    /* Set a specific height */
+    line-height: 1 !important;
+    /* Reduce line-height for compact look */
+    font-size: 14px;
+    /* Optional: Adjust font size */
+    text-align: center !important;
+}
+.center-align-tableLOG-column-header{
+    text-align: center !important;
+}

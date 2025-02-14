@@ -1,0 +1,153 @@
+.schedule-loader-popup {
+    z-index: 900;
+    position: fixed;
+    top: 134px;
+    left: 255px;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: left 0.2s ease;
+    animation: scheduleLoaderMask 2s infinite ease;
+  }
+
+  body:has(.sideBarDropdownControl) .schedule-loader-popup {
+    left: 80px;
+    transition: left 0.2s ease;
+  }
+  body:has(.menu-handle) .schedule-loader-popup {
+    left: 0;
+    transition: left 0.2s ease;
+  }
+  
+  .schedule-loader-popup-content {
+    background-color: rgba(155, 155, 155, 0.3);
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .scheduleLoader {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    position: relative;
+    border: 4px solid #fb6969;
+    border-radius: 50%;
+    top: 50%;
+    animation: scheduleLoader 2s infinite ease;
+  }
+
+  .scheduleLoader svg {
+    display: flex;
+    position: absolute;
+    stroke: #555;
+    stroke-width: 0.5px;
+  }
+
+  .scheduleLoader svg:first-child {
+    width: 85%;
+    height: 85%;
+    animation: scheduleLoaderInner 2s infinite ease,  scheduleLoaderShift 2s infinite ease;
+  }
+
+  .scheduleLoader svg:last-child {
+    width: 80%;
+    height: 80%;
+    transform: translateY(120%); opacity: 0;
+    animation: scheduleLoaderInner 2s infinite ease,  scheduleLoaderShift2 2s infinite ease;
+    animation-delay: 0s, 1s;
+  }
+
+  @keyframes scheduleLoaderMask {
+    0% {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+    50% {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+  
+  @keyframes scheduleLoader {
+    0% {
+      border: 4px solid #2f00ff;
+      transform: rotate(0deg);
+    }
+    
+    25% {
+      transform: rotate(180deg);
+    }
+    
+    50% {
+      border: 4px solid #fba869;
+      transform: rotate(180deg);
+    }
+    
+    75% {
+      transform: rotate(360deg);
+    }
+    
+    100% {
+      border: 4px solid #2f00ff;
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes scheduleLoaderInner {
+    0% {
+        color: #2f00ff;
+    }
+    
+    50% {
+        color: #fba869;
+    }
+    
+    100% {
+        color: #2f00ff;
+    }
+  }
+
+  @keyframes scheduleLoaderShift {
+    0% {
+        transform: translateY(120%);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+    
+    100% {
+        transform: translateY(120%);
+        opacity: 0;
+    }
+  }
+
+  @keyframes scheduleLoaderShift2 {
+    0% {
+        transform: translateY(120%);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+    
+    100% {
+        transform: translateY(120%);
+        opacity: 0;
+    }
+  }

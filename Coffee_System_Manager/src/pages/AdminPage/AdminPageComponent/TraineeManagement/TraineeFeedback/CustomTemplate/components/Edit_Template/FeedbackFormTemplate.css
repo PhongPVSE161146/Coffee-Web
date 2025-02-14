@@ -1,0 +1,280 @@
+/* Block: header-container */
+.feedback-form__header-container {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  position: relative;
+}
+
+/* Element: header-bar */
+.feedback-form__header-bar {
+  height: 20px;
+  width: 100%;
+  background-color: #ff6f00;
+  /* Adjust this color to match your design */
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  position: absolute;
+  top: -8px;
+  left: 0;
+}
+
+/* Block: form-container */
+.feedback-form {
+  max-width: 1100px;
+  margin: auto;
+  padding: 16px;
+  font-family: Arial, sans-serif;
+}
+
+/* Block: form-section */
+.feedback-form__section {
+  margin-bottom: 24px;
+  /* Adjust the spacing between sections */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Element: section-header */
+.feedback-form__section-header_ver3 {
+
+
+  background-color: #d3d3d3;
+
+  border-top-left-radius: 8px;
+  margin-top: -20px;
+  padding: 3px;
+
+
+
+}
+
+
+/* Element: section-content */
+.feedback-form__section-content {
+  padding: 16px;
+  background-color: #ffffff;
+}
+
+/* Element: section-title */
+.feedback-form__section-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Element: sub-title */
+.feedback-form__sub-title {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+/* Element: input-field, radio-group, and select-field */
+.feedback-form__input-field,
+.feedback-form__radio-group,
+.feedback-form__select-field {
+  margin-top: 4px;
+  margin-bottom: 12px;
+  width: 60%;
+  margin-left: 30px;
+}
+
+
+/* Block: divider */
+.feedback-form__divider {
+  margin: 0px 0;
+}
+
+/* Element: action-button */
+.feedback-form__action-button {
+  margin-top: 16px;
+}
+
+
+.feedback-form__button-container .add-question-button {
+  background-color: #FBF8FF;
+  /* Nền màu hồng nhạt */
+  color: #2E45FF;
+  /* Màu xanh đậm cho chữ */
+  border-radius: 10px;
+  /* Góc bo tròn */
+  padding: 8px 16px;
+  /* Khoảng cách padding */
+  font-weight: bold;
+  /* Chữ đậm */
+  font-size: 16px;
+  /* Kích thước chữ */
+  border: none;
+  /* Bỏ đường viền */
+  display: flex;
+  /* Hiển thị linh hoạt cho icon và chữ */
+  align-items: center;
+  /* Căn giữa icon và chữ */
+  gap: 8px;
+  /* Khoảng cách giữa icon và chữ */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  /* Hiệu ứng nổi lên */
+  transition: transform 0.2s, box-shadow 0.2s;
+  /* Hiệu ứng chuyển động khi hover */
+}
+
+.feedback-form__button-container .add-question-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* check helpp me */
+/* Modal Container */
+.custom-modal .ant-modal-content {
+  border-radius: 8px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  ;
+}
+
+/* Modal Header Titles */
+.save-modal .ant-modal-header,
+.back-modal .ant-modal-header {
+  font-size: 18px !important;
+  font-weight: bold !important;
+  color: white !important;
+  padding: 10px 20px !important;
+  text-transform: uppercase !important;
+  background-color: #4b1f9c !important;
+  /* Blue for Save Modal */
+  border-radius: 4px !important;
+}
+
+.back-modal .ant-modal-header {
+  background-color: red !important;
+  /* Red for Back Modal */
+}
+
+/* Modal Content Text */
+.save-modal .ant-modal-body,
+.back-modal .ant-modal-body {
+  font-size: 16px !important;
+  color: #333 !important;
+  /* padding: 20px !important; */
+  padding-top: -10px !important;
+  margin-left: 25px;
+}
+
+/* Footer Buttons */
+.save-modal .ant-btn,
+.back-modal .ant-btn {
+  border: none !important;
+  font-weight: 600 !important;
+  padding: 15px 30px !important;
+  border-radius: 26px !important;
+}
+
+/* Cancel Button Style */
+.save-modal-cancel-button,
+.back-modal-cancel-button12 {
+  background-color: #f5f5f5 !important;
+  color: #e74c3c !important;
+  /* Red text */
+  margin-right: 20px !important;
+
+
+}
+
+.save-modal-cancel-button:hover,
+.back-modal-cancel-button12:hover {
+  background-color: #e74c3c !important;
+  color: white !important;
+  border-radius: 4px !important;
+}
+
+/* Confirm Button Style */
+.save-modal-confirm-button {
+  background-color: #1a10b1 !important;
+  /* Blue for Save button */
+  color: white !important;
+
+  margin-right: 30px !important;
+  margin-bottom: 10px !important;
+}
+
+.save-modal-confirm-button12:hover {
+  background-color: #7990c2 !important;
+  border-radius: 4px !important;
+}
+
+.back-modal-confirm-button12 {
+  background-color: #e74c3c !important;
+  /* Red for Yes button */
+  color: white !important;
+  margin-right: 40px !important;
+  margin-bottom: 10px !important;
+}
+
+.back-modal-confirm-button12:hover {
+  background-color: #c2b6b4 !important;
+}
+
+/* Close Icon */
+.modal-close-icon {
+  color: white !important;
+  font-size: 16px !important;
+}
+
+
+.feed-blaback-button-template {
+
+
+  border-radius: 50px;
+  z-index: 1000;
+  font-weight: bold;
+  margin-left: 50px !important;
+
+}
+
+.feed-blaback-save-button {
+
+  border-radius: 50px;
+  z-index: 1000;
+  font-weight: bold;
+  margin-right: 190px !important;
+
+}
+
+.input-title-template-edit {
+  font-weight: 600;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 20px;
+
+}
+
+.input-title-template {
+
+  font-weight: 600;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.input-description-template-edit {
+  min-height: 150px;
+  cursor: pointer;
+}
+
+.input-description-template {
+  cursor: pointer;
+}
+
+.input-section-template-edit {
+
+  font-weight: 600;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.input-section-template {
+  cursor: pointer;
+}

@@ -1,0 +1,71 @@
+.module-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.module-detail-table th,
+.module-detail-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.module-detail-table .field {
+    background-color: #f0f0f0;
+}
+
+.ant-card.ant-card-bordered {
+    border: none;
+}
+
+.ant-card-body .star-bar-list .star-rating-row ul {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    max-width: 132px;
+    overflow: hidden;
+}
+
+.ant-card-body .star-bar-list .star-rating-row ul li {
+    transform: scale(0.8);
+}
+
+.ant-card-body .star-bar-list .star-rating-row ul:hover li {
+    animation: jiggle 0.5s infinite;
+}
+
+@keyframes jiggle {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(10deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    75% {
+        transform: rotate(-10deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+.feedback-content-container .ant-collapse-content.ant-collapse-content-active .ant-collapse-content-box {
+    overflow: hidden;
+}
+
+.feedback-content-container .ant-collapse-content.ant-collapse-content-active .ant-collapse-content-box .progress-step-details {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.feedback-content-container .ant-collapse-content.ant-collapse-content-active .ant-collapse-content-box .progress-step-details .ant-progress-steps-outer {
+    width: 100%;
+}

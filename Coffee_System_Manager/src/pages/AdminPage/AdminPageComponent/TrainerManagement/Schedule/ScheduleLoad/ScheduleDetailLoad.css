@@ -1,0 +1,138 @@
+.scheduleDetail-loader-popup {
+    z-index: 900;
+    position: fixed;
+    top: 134px;
+    left: 255px;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: left 0.2s ease;
+  }
+
+  body:has(.sideBarDropdownControl) .scheduleDetail-loader-popup {
+    left: 80px;
+    transition: left 0.2s ease;
+  }
+  body:has(.menu-handle) .scheduleDetail-loader-popup {
+    left: 0;
+    transition: left 0.2s ease;
+  }
+  
+  .scheduleDetail-loader-popup-content {
+    background-color: rgba(155, 155, 155, 0.3);
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .scheduleDetailLoader,
+  .scheduleDataLoader {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    position: relative;
+    top: 50%;
+    animation: scheduleDetailLoader 4s infinite ease;
+  }
+
+  .scheduleDetail-loader-popup-content .scheduleDetailScanner {
+    position: absolute;
+    transform: scale(4) rotate(90deg);
+    fill: #ebebeb;
+    filter: drop-shadow(0 0 2px #ffc5d9a5);
+    animation: scheduleDetailScanner 4s infinite ease;
+  }
+
+
+  .scheduleDetailLoader svg {
+    width: 100%;
+    height: 100%;
+    transform: translate(50%, -4%);
+    stroke-width: 0.2px;
+    stroke: #555;
+    animation: scheduleLoaderInner 4s infinite ease,  scheduleShift 4s infinite ease;
+  }
+
+  .scheduleDataLoader svg {
+    width: 100%;
+    height: 100%;
+    transform: translateX(-50%);
+    stroke-width: 0.2px;
+    stroke: #555;
+    animation: scheduleLoaderInner 4s infinite ease,  scheduleDataShift 4s infinite ease;
+  }
+
+  @keyframes scheduleDetailLoader {
+    0% {
+        transform: translateX(35%);
+    }
+    50% {
+        transform: translateX(-35%);
+    }
+    100% {
+        transform: translateX(35%);
+    }
+  }
+
+  @keyframes scheduleDetailScanner {
+    0% {
+        transform: scale(4) rotate(90deg) translateY(-26%);
+    }
+    50% {
+        transform: scale(4) rotate(90deg) translateY(26%);
+    }
+    100% {
+        transform: scale(4) rotate(90deg) translateY(-26%);
+    }
+  }
+
+  @keyframes scheduleLoaderInner {
+    0% {
+        color: #2f00ff;
+    }
+    
+    50% {
+        color: #fba869;
+    }
+    
+    100% {
+        color: #2f00ff;
+    }
+  }
+
+  @keyframes scheduleShift {
+    0% {
+        transform: translate(0%, -4%);
+    }
+
+    50% {
+        transform: translate(100%, -4%);
+    }
+    
+    100% {
+        transform: translate(0%, -4%);
+    }
+  }
+
+  @keyframes scheduleDataShift {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(0%);
+    }
+    
+    100% {
+        transform: translateX(-100%);
+    }
+  }

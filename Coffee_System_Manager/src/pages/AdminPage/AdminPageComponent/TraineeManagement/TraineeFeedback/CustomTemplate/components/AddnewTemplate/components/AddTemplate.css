@@ -1,0 +1,111 @@
+/* Block: header-container */
+.feedback-form__header-container {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  position: relative;
+}
+
+/* Element: header-bar */
+.feedback-form__header-bar {
+  height: 20px;
+  width: 100%;
+  background-color: #ff6f00;
+  /* Adjust this color to match your design */
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  position: absolute;
+  top: -8px;
+  left: 0;
+}
+
+
+.add-question-button {
+  color: #1890ff;
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+}
+
+
+
+.feedback-form__buttonadd-container12 .add-question-button {
+  background-color: #FBF8FF;
+  /* Nền màu hồng nhạt */
+  color: #2E45FF;
+  /* Màu xanh đậm cho chữ */
+  border-radius: 10px;
+  /* Góc bo tròn */
+  padding: 8px 16px;
+  /* Khoảng cách padding */
+  font-weight: bold;
+  /* Chữ đậm */
+  font-size: 16px;
+  /* Kích thước chữ */
+  border: none;
+  /* Bỏ đường viền */
+  display: flex;
+  /* Hiển thị linh hoạt cho icon và chữ */
+  align-items: center;
+  /* Căn giữa icon và chữ */
+  gap: 8px;
+  /* Khoảng cách giữa icon và chữ */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  /* Hiệu ứng nổi lên */
+  transition: transform 0.2s, box-shadow 0.2s;
+  /* Hiệu ứng chuyển động khi hover */
+  margin-bottom: 30px;
+}
+
+.feedback-form__buttonadd-container12 .add-question-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.css-footer-add-templates {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+
+
+.feed-blaback-button-template {
+  border-radius: 50px;
+  z-index: 1000;
+  font-weight: bold;
+
+}
+
+.feed-blaback-save-button {
+
+  border-radius: 50px;
+  z-index: 1000;
+  font-weight: bold;
+
+}
+
+.feedback-form__section {
+  margin-bottom: 24px;
+  /* Adjust the spacing between sections */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* .feedback-form__section-header_ver3 {
+
+
+  background-color: #d3d3d3;
+
+  border-top-left-radius: 8px;
+ 
+  padding: 3px;
+
+
+
+} */

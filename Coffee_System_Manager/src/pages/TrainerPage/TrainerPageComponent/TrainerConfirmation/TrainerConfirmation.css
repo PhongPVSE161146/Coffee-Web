@@ -1,0 +1,151 @@
+.trainer-confirmation-title {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #a5a5a5;
+  align-items: center;
+  height: 68px;
+  padding: 0 20px 0 20px;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.trainer-confirmation-title .h1 {
+  margin-left: 20px;
+  color: #374456;
+}
+
+.trainer-confirmation-select-container {
+  margin-left: 20px;
+  display: flex;
+  gap: 20px;
+}
+.trainer-confirmation-select-1 {
+  width: 12%;
+}
+.trainer-confirmation-select-1-text {
+  color: #6b6b6d;
+  width: max-content;
+  display: inline-flex;
+  h2 {
+    margin-bottom: 5px;
+  }
+}
+.trainer-confirmation-select-2 {
+  width: 18%;
+}
+.trainer-confirmation-select-2-text {
+  color: #6b6b6d;
+  width: max-content;
+  display: inline-flex;
+  h2 {
+    margin-bottom: 5px;
+  }
+}
+
+.trainer-confirmation-search {
+  width: 21%;
+}
+
+.trainer-confirmation-search-text {
+  color: #6b6b6d;
+  width: max-content;
+  display: inline-flex;
+  h2 {
+    margin-bottom: 5px;
+  }
+}
+
+.confirm-footer {
+  position: sticky;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: #fff;
+  border-top: 1px solid gray;
+  bottom: 0px;
+  right: 20px;
+  text-align: right;
+  width: 100%;
+  height: 60px; 
+}
+
+.confirm-container {
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: calc(100vh - 120px);
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.trainer-confirmation-footer {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  height: 60px;
+  bottom: 0;
+  padding: 0 30px;
+  z-index: 900;
+  gap: 20px;
+}
+.confirm-action{
+  display: flex;
+  justify-content: space-evenly;
+}
+.decline-btn {
+  border: 1px solid rgba(232, 232, 232, 1);
+  padding: 8px 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  background-color: #dc2627;
+  color: white;
+}
+.decline-btn:hover {
+  background-color: #ff0000;
+}
+
+.accpect-btn {
+  border: 1px solid rgba(232, 232, 232, 1);
+  background-color: #5750df;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.accpect-btn:hover {
+  background-color: #6f6afa;
+}
+
+.consider-btn {
+  border: 1px solid rgb(169, 169, 169);
+  background-color: #ffffff;
+  color: #4a45c9;
+  padding: 8px 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.consider-btn:hover {
+  background-color: #cdcdcd;
+}
+
+.io-check{
+  color: green;
+  font-size: 20px;
+}
+.io-eye{
+  color: grey;
+  font-size: 20px;
+}
+.io-close{
+  color: red;
+  font-size: 20px;
+}

@@ -1,0 +1,182 @@
+.trainer-container {
+  height: 100%;
+  padding: 20px 50px 0px 50px;
+}
+
+.trainer-content {
+  position: relative;
+}
+
+.trainer-info-dropdown {
+  width: 100%;
+}
+
+.trainer-info-dropdown-header {
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: 0.5s;
+  background-color: rgb(236, 228, 228);
+  cursor: pointer;
+}
+
+.trainer-info-dropdown-header.active {
+  border-radius: 10px 10px 0 0;
+}
+
+.trainer-dropdown-body {
+  width: 100%;
+  box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.15);
+  border: none;
+  background-color: white;
+  border-radius: 0 0 10px 10px;
+  max-height: 1000px;
+  padding: 15px 20px;
+}
+
+.trainer-filter {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap; 
+}
+
+.trainer-filter > div {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px; 
+}
+
+.trainer-filter label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.table-icon {
+  height: 30px;
+  width: 30px;
+  background-color: rgb(250, 55, 55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  margin-left: 96%;
+}
+
+.table-icon:hover {
+  background-color: rgb(195, 14, 14);
+  cursor: pointer;
+}
+
+.trainer-filter-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.trainer-info-dropdown-header svg {
+  margin-bottom: 5px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .trainer-container {
+    padding: 20px 20px 0px 20px;
+  }
+
+  .trainer-info-dropdown-header {
+    font-size: 14px;
+  }
+
+  .trainer-dropdown-body {
+    padding: 10px 15px;
+  }
+
+  .trainer-filter {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .trainer-filter > div {
+    flex: none; 
+    width: 100%; 
+  }
+
+  .table-icon {
+    margin-left: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .trainer-info-dropdown-header {
+    font-size: 12px;
+  }
+
+  .trainer-dropdown-body {
+    padding: 5px 10px;
+  }
+
+  .table-icon {
+    height: 25px;
+    width: 25px;
+    margin-left: 85%; 
+  }
+}
+
+.average-score-1{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  p{
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .lower-range, .higher-range{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 55px;
+    background-color: rgb(234, 231, 231);
+    border-radius: 7px;
+  }
+}
+
+.average-score-2{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: fit-content;
+    padding: 10px;
+    background-color: rgb(234, 231, 231);
+    border-radius: 7px;
+    margin-bottom: 5px;
+    gap: 10px;
+
+  p{
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+   .higher-range-2{
+    color: blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 28px;
+    width: 28px; 
+    background-color: white; 
+    border-radius: 50%; 
+}}

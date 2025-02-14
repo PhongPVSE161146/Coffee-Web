@@ -1,0 +1,5 @@
+.custom-table .ant-table-thead > tr > th {
+    background-color: rgb(130, 130, 249);
+    color: black;
+    font-weight: bold;
+  }

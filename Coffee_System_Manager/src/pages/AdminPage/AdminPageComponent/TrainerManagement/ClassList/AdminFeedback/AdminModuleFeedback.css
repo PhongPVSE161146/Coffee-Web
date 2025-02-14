@@ -1,0 +1,313 @@
+.module-feedback-statistics-container {
+    max-width: 600px;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #FFFFFF !important;
+    border-radius: 2px !important;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    margin-top: 200px;
+}
+
+
+/* Header Layout: Average on left, star-bar-list on right */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -20px !important;
+    /* Adds space between header and divider */
+    margin-top: -20px !important;
+}
+
+/* Average Styling */
+.average-star-container {
+    text-align: left;
+    width: 20%;
+}
+
+.average-star-container h2 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.average-star-container span {
+    font-size: 30px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+/* Star Bar List */
+.star-bar-list {
+    list-style-type: none;
+    padding: 0;
+    width: 80%;
+}
+
+.feedback-progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.feedback-progress-bar {
+    width: 200px;
+}
+
+.star-rating-row p {
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    color: #AAAAAA;
+}
+
+/* Filter section */
+.filter-flex-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: -40px;
+}
+
+.filter-flex-container h2 {
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+    text-align: center;
+    color: #7F7F85;
+}
+
+.score-list {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+}
+
+.score-list li {
+    margin-right: 10px;
+}
+
+.score-list button {
+    border-radius: 50px;
+    font-family: Inter;
+    font-weight: 500;
+}
+
+/* Collapse header content layout */
+.collapse-header-content {
+    display: flex;
+    align-items: center;
+    /* Align items vertically centered */
+    gap: 15px;
+    /* Space between the rating and the feedback text */
+    padding: 10px 0;
+    /* Adjust padding to reduce height */
+}
+
+/* Average rating and star layout */
+.collapse-header-content-rating {
+    display: flex;
+    align-items: center;
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+    text-align: center;
+}
+
+.collapse-header-content-rating .star-icon {
+    color: gold;
+}
+
+/* Feedback text styling */
+.collapse-header-content-modtrainer {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+}
+
+/* Optional: Adjust star icon size */
+.collapse-header-content .anticon-star {
+    font-size: 20px;
+}
+
+
+/* Training program content */
+.trainer-comment-training-program-content-container {
+    display: flex;
+    justify-content: space-between;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: 14.52px;
+    text-align: left;
+    align-items: center;
+}
+
+.training-program-content-titlebox,
+.trainer-coach-titlebox,
+.course-organization-titlebox {
+    display: flex;
+    justify-content: center;
+    background: #F4F4F6;
+    padding-top: 2px;
+}
+
+.training-program-content-titlebox {
+    font-family: Inter;
+    font-weight: bold;
+}
+
+.progress-training-program-content {
+    margin-top: 7px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/* Modal Wrapper */
+.modal-info-container {
+    position: fixed;
+    /* Keep the modal fixed on screen */
+    top: 50%;
+    /* Center it vertically */
+    left: 50%;
+    /* Center it horizontally */
+    transform: translate(-50%, -50%);
+    /* Perfectly center the modal */
+    width: 400px;
+    /* Set a fixed width for the modal */
+    background: #fff;
+    /* White background for the modal */
+    padding: 20px;
+    /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add a shadow to give a card effect */
+    z-index: 9999;
+    /* Make sure the modal is above other elements */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Space between modal content */
+}
+
+/* Backdrop */
+.modal-info-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+}
+
+/* Modal Header */
+.modal-info-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-info-header img {
+    width: 30px;
+    /* Adjust size of the icon */
+}
+
+.modal-info-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Modal Content */
+.modal-info-content {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    text-align: left;
+}
+
+/* Modal Close Button */
+.modal-info-container button {
+    background-color: var(--button-positive, #5750DF);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    align-self: flex-end;
+    /* Align button to the right */
+    transition: background-color 0.3s;
+}
+
+.modal-info-container button:hover {
+    background-color: #0056b3;
+}
+
+.no-data-feedback {
+    color: #C7C7C7;
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 29.05px;
+    text-align: center;
+    padding-top: 80px;
+}
+
+.feedback-content-container {
+    padding-bottom: 80px;
+    margin-right: 20px;
+}
+
+.feedback-class-title {
+    font-size: 32px;
+}
+
+.Feedback-for-class {
+    font-weight: 700;
+}
+
+.classname-feedback-class-title {
+
+    font-weight: 400;
+}
+
+.feedback-page-big-div {
+    margin-left: 20px;
+}
+
+.feedback-class-class-info {}
+
+.feedback-class-class-info-left {
+    width: 25%;
+    float: left;
+}
+
+.feedback-class-class-info-right {
+    width: 75%;
+    float: right;
+}
+
+.feedback-class-class-info-title {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.feedback-class-class-info-detail {
+    font-weight: 400;
+    font-size: 20px;
+    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.feedback-class-class-info-detail:hover {
+    overflow: visible;
+    max-height: none;
+}

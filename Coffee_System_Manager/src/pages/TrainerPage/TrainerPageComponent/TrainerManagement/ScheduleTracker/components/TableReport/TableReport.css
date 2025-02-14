@@ -1,0 +1,163 @@
+/* Table container */
+.table-container {
+  margin-top: 20px;
+}
+
+/* Make the table more compact */
+.ant-table {
+  border-collapse: collapse;
+  width: 100%;
+  /* Ensure the table takes up full width */
+  table-layout: fixed;
+  /* Fix the layout so column widths are consistent */
+}
+
+.ant-table-cell {
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #d9d9d9;
+  /* Light gray borders for cells */
+  padding: 4px;
+  /* Smaller padding for compact cells */
+}
+
+/* Table header styling */
+.ant-table-thead>tr>th {
+  background-color: #f5f5f5;
+  /* Light gray background for headers */
+  border: 1px solid #d9d9d9;
+  padding: 4px;
+  /* Smaller padding for headers */
+  font-size: 12px;
+  /* Reduce font size */
+  line-height: 1.2;
+  white-space: nowrap;
+  /* Prevent text wrapping */
+  text-align: center;
+  /* Center align headers */
+  vertical-align: middle;
+  /* Align text in the middle vertically */
+}
+
+/* Adjust specific column widths */
+.ant-table-thead th:nth-child(1),
+.ant-table-tbody td:nth-child(1) {
+  width: 100px;
+  /* Date column width */
+}
+
+.ant-table-thead th:nth-child(2),
+.ant-table-tbody td:nth-child(2) {
+  width: 150px;
+  /* Topics column width */
+}
+
+.ant-table-thead th:nth-child(3),
+.ant-table-tbody td:nth-child(3) {
+  width: 120px;
+  /* Delivery Type column width */
+}
+
+.ant-table-thead th:nth-child(4),
+.ant-table-tbody td:nth-child(4) {
+  width: 120px;
+  /* Training Format column width */
+}
+
+.ant-table-thead th:nth-child(5),
+.ant-table-tbody td:nth-child(5) {
+  width: 100px;
+  /* Duration (h) column width */
+}
+
+.ant-table-thead th:nth-child(6),
+.ant-table-tbody td:nth-child(6) {
+  width: 100px;
+  /* Note column width */
+}
+
+.ant-table-thead th:nth-child(7),
+.ant-table-tbody td:nth-child(7) {
+  width: 100px;
+  /* Reason column width */
+}
+
+/* Table header and body cell styling */
+.ant-table-thead>tr>th,
+.ant-table-tbody>tr>td {
+  font-size: 16px;
+  /* Font size for both header and body */
+  padding: 4px;
+  /* Compact padding */
+  height: 50px;
+  /* Set row height */
+  border: 1px solid #d9d9d9;
+  /* Keep borders consistent */
+}
+
+/* Keep header content styling unchanged */
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 20px;
+}
+
+.module-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.lighter-text {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.date-info {
+  display: flex;
+  gap: 10px;
+}
+
+.date-info span {
+  margin-right: 20px;
+  padding-left: 60px;
+}
+
+/* Styling for duration section */
+.duration-total {
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.no-data-message {
+  display: flex;
+  /* Enable flexbox layout */
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+  height: 100%;
+  /* Use full height of the parent container */
+  font-size: 48px;
+  top: 80%;
+  /* Adjust font size as needed */
+  color: #999;
+  /* Optional: Change text color */
+  text-align: center;
+  padding-top: 230px;
+  /* Center text */
+}
+
+.table-report-container {
+  margin-top: 20px;
+}
+
+.table-report-container .ant-spin {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -1,0 +1,58 @@
+/* .import-btn {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 20px;
+  padding: 0px 20px;
+  cursor: pointer;
+  background-color: rgb(70, 125, 235);
+  color: white;
+  margin-right: 10px;
+}
+
+.import-btn:hover {
+  background-color: #0988ff;
+} */
+.titkle_test_templates1 {
+  margin: 0 -300px;
+  margin-top: 16px;
+  color: #1815bb;
+}
+.titkle_test_templates {
+  color: #1815bb;
+}
+
+
+.statitics-text {
+  margin-top: 10px;
+  padding: 0px 20px;
+  font-size: 20px;
+  margin-right: auto; /* Push other elements to the right */
+}
+
+.diviner{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.import-btn-dobodi {
+  margin: 5px 10px; /* Adjust margin to maintain consistency */
+  margin-left: auto; /* Pushes the button to the right */
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: #4845f9;
+  color: white;
+}
+
+
+.import-btn-dobodi:hover {
+  background-color: #0988ff;
+}

@@ -1,0 +1,489 @@
+.outer-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 9px 8px 8px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    margin: 16px 0;
+
+  }
+  
+  :where(.css-dev-only-do-not-override-5wsri9).ant-modal .ant-modal-body {
+    font-size: 14px;
+    line-height: 1.5714285714285714;
+    word-wrap: break-word;
+    padding: 0;
+    background: white;
+}
+  
+  .question-form {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .option-button {
+    width: 100%;
+    font-weight: bold;
+  }
+  
+  
+  .cancel-button {
+    color: red;
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+  }
+  
+  .cancel-button .anticon {
+    margin-right: 4px;
+  }
+  
+  .button-grid {
+    margin-top: 8px;
+  }
+  
+  .option-button {
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .option-button:hover, .option-button:focus {
+    background-color: #f0f0f0;
+    color: #000;
+  }
+  
+
+  /* Modal styles */
+.multiple-choice-modal .ant-modal-content {
+  background-color: #f5f5f5; /* Light gray background */
+  padding: 16px;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Orange top border */
+.modal-top-border {
+  width: 100%;
+  height: 4px;
+  background-color: #ff9900; /* Orange color */
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Question container styling */
+.question-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.question-input {
+  width: 80%;
+}
+
+.required-checkbox {
+  color: #4c4cff; /* Purple text color */
+  font-weight: bold;
+}
+
+/* Option container styling */
+.option-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px; /* Space between options */
+  padding-left: 20px;
+}
+
+.option-radio-template {
+  margin-right: 8px; /* Space between radio button and input */
+  width: 16px;
+  height: 16px;
+}
+.option-input-template {
+  width: 200px; /* Set the desired width */
+  padding: 4px 8px;
+  font-size: 14px;
+  height: auto;
+}
+
+/* Add option button styling */
+.add-option-button {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  color: #4c4cff; /* Blue text color */
+  background-color: white;
+  border: 1px solid #4c4cff;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/*Rating  */
+
+
+.star-rating .ant-rate-star {
+  font-size: 40px; /* Increase star size even more */
+  color: #d9d9d9; /* Light grey color for unselected stars */
+  width: 10%;
+  margin-left: 30px;
+  
+}
+
+.star-rating .ant-rate-star-full {
+  color: #faad14; /* Gold color for selected stars */
+}
+
+     /*uloaf file*/
+      
+      .question-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      
+      .question-input {
+        width: 60%;
+        height: 36px;
+        border-radius: 4px;
+        border: 1px solid #d9d9d9;
+        padding: 8px;
+      }
+      
+      .required-checkbox {
+        margin-left: 10px;
+        font-size: 14px;
+      }
+      
+      .upload-box {
+        width: 100%;
+        height: 150px;
+        background-color: #d3d3d3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #000;
+        border-radius: 8px;
+        font-size: 16px;
+        color: #000;
+        text-align: center;
+        cursor: pointer;
+      }
+      
+      .upload-button {
+        background: none;
+        border: none;
+        color: inherit;
+        font-weight: normal;
+        cursor: pointer;
+      }
+       /* liker */
+
+       
+      .likert-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      
+      .question-input {
+        width: 40%;
+        height: 36px;
+        border-radius: 4px;
+        border: 1px solid #d9d9d9;
+        padding: 8px;
+      }
+      
+      .required-checkbox {
+        font-size: 14px;
+      }
+      
+      .likert-table {
+        border: 1px solid #d9d9d9;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-top: 16px;
+      }
+      
+      .likert-table-header, .likert-table-row {
+        display: grid;
+        grid-template-columns: 1.5fr repeat(3, 1fr) 0.3fr; /* Điều chỉnh độ rộng cột đầu */
+        align-items: center;
+        padding: 8px 0;
+   
+      }
+     
+      
+      .likert-table-header span,
+      .likert-table-row span {
+        text-align: center;
+        font-weight: 500;
+      }
+      
+      .likert-table-row {
+        border-top: 1px solid #d9d9d9;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Ba cột cho các nút Radio */
+        align-items: center;
+        padding-top: 8px;
+      }
+      
+      .radio-group-edit-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Tạo ba cột để các nút radio nằm ngang */
+        justify-items: center; /* Căn giữa các nút radio trong từng ô */
+        column-gap: 70px; /* Khoảng cách giữa các nút radio */
+        padding-right: -90px;
+        padding-left: 30px;
+      }
+      
+
+      .likert-table-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .cauhoiso1{
+        flex: 1;
+       
+        text-align: center;
+        
+       margin-left: 79px
+      }
+      .cauhoiso3{
+        flex: 1;
+    
+        text-align: center;
+      margin-right: 40px
+      }
+       .cauhoiso2{
+        flex: 1;
+  
+        text-align: center;
+        
+        padding-left: -10px;
+      }
+      
+     
+      
+      .add-icon {
+       
+        font-size: 18px;
+        color: #1890ff;
+      }
+      
+      
+      
+      .add-question-button {
+        color: #1890ff;
+        display: flex;
+        align-items: center;
+        margin-top: 16px;
+      }
+      
+      /* Net Promoter Score */
+
+      /* Modal background */
+
+
+/* Question Row */
+.question-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.question-number {
+  margin-right: 8px;
+}
+
+.question-input {
+  flex-grow: 1;
+  margin-right: 16px;
+}
+
+.required-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+/* Rating Options */
+.rating-options {
+  display: flex;
+  border: 1px solid #000; /* Outer border for the entire rating bar */
+  /* Rounded corners for the overall box */
+  overflow: hidden; /* Keeps border radius consistent */
+  margin-bottom: 16px;
+}
+
+.rating-box {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  cursor: pointer;
+  border-left: 1px solid #000; /* Divider between each box */
+  background-color: #fff;
+  transition: background-color 0.3s;
+}
+
+.rating-box:first-child {
+  border-left: none; /* Remove border from the first box */
+}
+
+.rating-box.selected {
+  background-color: #007bff; /* Highlight selected box */
+  color: #fff; /* Change text color for selected */
+  font-weight: bold; /* Emphasize selected number */
+}
+
+
+/* Max Rating Row */
+.max-rating-row {
+  display: flex;
+  align-items: center;
+}
+
+.max-rating-label {
+  margin-right: 8px;
+}
+
+.max-rating-input {
+  width: 80px;
+}
+
+
+.likert-modal .section-card {
+  background-color: #f5f5f5;
+  padding: 16px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.likert-modal .modal-top-border {
+  height: 5px;
+  background-color: #c4c4c4;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.likert-modal .section-content {
+  margin-top: 16px;
+}
+
+.likert-modal .section-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.likert-modal .section-description {
+  color: #888;
+  margin-top: 4px;
+}
+
+.feedback-form__button-container .add-question-button {
+  background-color: #FBF8FF;    /* Nền màu hồng nhạt */
+  color: #2E45FF;               /* Màu xanh đậm cho chữ */
+  border-radius: 10px;          /* Góc bo tròn */
+  padding: 8px 16px;            /* Khoảng cách padding */
+  font-weight: bold;            /* Chữ đậm */
+  font-size: 16px;              /* Kích thước chữ */
+  border: none;                 /* Bỏ đường viền */
+  display: flex;                /* Hiển thị linh hoạt cho icon và chữ */
+  align-items: center;          /* Căn giữa icon và chữ */
+  gap: 8px;                     /* Khoảng cách giữa icon và chữ */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng nổi lên */
+  transition: transform 0.2s, box-shadow 0.2s; /* Hiệu ứng chuyển động khi hover */
+}
+
+.feedback-form__button-container .add-question-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.feedback-form__section-header {
+  background-color: #c7c5c5;
+  padding: 12px 16px;
+  font-weight: bold;
+}
+
+
+.custom-slkdkl-che {
+  margin: -25px;
+  color: rgba(0, 0, 0, 0.88);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  background-color: gray;
+  padding: 30px;
+  padding-left: 492px;
+  padding-bottom: 10px;
+  padding-top: 23px;
+}
+
+
+.titel-sesion-verygoof {
+  position: absolute;
+  left: 20px; /* Di chuyển chữ "Section 1" sang trái */
+ /* Điều chỉnh vị trí dọc nếu cần */
+  transform: translateY(-50%); /* Căn giữa theo chiều dọc */
+  color: inherit; /* Giữ nguyên màu chữ */
+  padding-top: 10px;
+}
+
+
+.section-card{
+  font-size: 14px;
+  line-height: 1.5714285714285714;
+  word-wrap: break-word;
+  padding: -9px;
+  background: white;
+  margin-top: 30px;
+}
+
+
+.feedback-form__button-container .add-question-button {
+  background-color: #FBF8FF;    /* Nền màu hồng nhạt */
+  color: #2E45FF;               /* Màu xanh đậm cho chữ */
+  border-radius: 10px;          /* Góc bo tròn */
+  padding: 8px 16px;            /* Khoảng cách padding */
+  font-weight: bold;            /* Chữ đậm */
+  font-size: 16px;              /* Kích thước chữ */
+  border: none;                 /* Bỏ đường viền */
+  display: flex;                /* Hiển thị linh hoạt cho icon và chữ */
+  align-items: center;          /* Căn giữa icon và chữ */
+  gap: 8px;                     /* Khoảng cách giữa icon và chữ */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng nổi lên */
+  transition: transform 0.2s, box-shadow 0.2s; /* Hiệu ứng chuyển động khi hover */
+}
+
+.feedback-form__button-container .add-question-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+.limited-text {
+  white-space: nowrap;        /* Không cho chữ xuống dòng */
+  overflow: hidden;           /* Ẩn phần chữ vượt ra ngoài ô */
+  text-overflow: ellipsis;    /* Thêm dấu ba chấm */
+  max-width: 150px;           /* Giới hạn chiều rộng (tùy chỉnh theo nhu cầu) */
+  display: inline-block;      /* Đảm bảo hoạt động đúng */
+}

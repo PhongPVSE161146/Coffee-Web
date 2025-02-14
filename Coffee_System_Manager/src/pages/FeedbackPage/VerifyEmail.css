@@ -1,0 +1,308 @@
+.email-form-container {
+  background-image: url('/src/assets/feedbackemail-bg.png');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  /* Ensure it covers the full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.email-form__header-container {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+}
+
+.email-form__header-bar {
+  width: 50px;
+  height: 3px;
+  background-color: white;
+  margin-bottom: 10px;
+}
+
+.email-form__title {
+  font-size: 2rem;
+  text-align: center;
+  margin: 0;
+  color: white;
+}
+
+.email-form {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+}
+
+.email-form-require {
+  display: flex;
+  justify-content: center;
+}
+
+.logo-email-img {
+  display: flex;
+  justify-content: center;
+}
+
+.diviner-img {
+  border-right: 2px solid black;
+  margin: 0 20px;
+}
+
+.h1-text-email {
+  display: flex;
+  justify-content: center;
+  font-weight: 200;
+  font-size: 13px;
+}
+
+.email-diviner {
+  border-bottom: 2px solid black;
+  margin: 0 80px;
+}
+
+.mail-text-head {
+  margin: 10px 0px;
+  display: flex;
+  justify-content: center;
+  margin-right: 320px;
+}
+
+.send-form-button {
+  display: flex;
+  justify-content: center;
+}
+
+.otp-input-container .timer {
+  position: absolute; transform: translateX(45px);
+  right: 275px;
+  width: 5%;
+  font-weight: 600;
+  color: black;
+}
+.otp-input-container .timer.animate {
+  animation: time-out-countdown 10s ease-in-out;
+}
+@keyframes time-out-countdown {
+  0% {
+    color: black;
+    transform: translateX(45px) rotate(0);
+  }
+  5% {
+    color: red;
+    transform: translateX(45px) rotate(0);
+  }
+  10% {
+    color: red;
+    transform: translateX(45px) rotate(0);
+  }
+  20% {
+    color: black;
+    transform: translateX(45px) rotate(0);
+  }
+  25% {
+    color: red;
+    transform: translateX(45px) rotate(0);
+  }
+  30% {
+    color: red;
+    transform: translateX(45px) rotate(0);
+  }
+  40% {
+    color: black;
+    transform: translateX(45px) rotate(0);
+  }
+  45% {
+    color: red;
+    transform: translateX(45px) rotate(0);
+  }
+  50% {
+    color: red;
+    transform: translateX(45px) rotate(0);
+  }
+  60% {
+    color: black;
+    transform: translateX(45px) rotate(0);
+  }
+  65% {
+    color: red;
+    transform: translateX(45px) rotate(0);
+  }
+  70% {
+    color: red;
+    transform: translateX(45px) rotate(0);
+  }
+  80% {
+    color: black;
+    transform: translateX(45px) rotate(0);
+  }
+  85% {
+    color: red;
+    transform: translateX(45px) rotate(0);
+  }
+  90% {
+    color: red;
+    transform: rotate(0) translateX(45px) translateY(0);
+  }
+  95% {
+    color: black;
+    transform: rotate(0) translateX(45px) translateY(-10px);
+  }
+  96% {
+    color: red;
+    transform: rotate(10deg) translateX(45px) translateY(-10px);
+  }
+  97% {
+    transform: rotate(-10deg) translateX(45px) translateY(-10px);
+  }
+  98% {
+    transform: rotate(10deg) translateX(45px) translateY(-8px);
+  }
+  99% {
+    color: red;
+    transform: rotate(-10deg) translateX(45px) translateY(-4px);
+  }
+  100% {
+    color: black;
+    transform: rotate(0) translateX(45px) translateY(0);
+  }
+}
+
+.otp-input-container .timeoutBar.animate {
+  animation: time-out-bar-reset 10s ease-in-out forwards;
+  width: 20%;
+  border-bottom: 2px solid rgb(255, 128, 0);
+}
+@keyframes time-out-bar-reset {
+  0% {
+    width: 20%;
+    border-bottom: 2px solid rgb(255, 128, 0);
+  }
+  95% {
+    width: 5%;
+    border-bottom: 2px solid rgb(255, 0, 0);
+  }
+  100% {
+    width: 80%;
+    border-bottom: 2px solid rgb(0, 180, 0);
+  }
+}
+
+.otp-input-container .timeoutBar {
+  width: 80%;
+  mask-image: linear-gradient(to left, transparent 2%, black 5%, black 95%, transparent 98%);
+  border-bottom: 2px solid rgb(0, 180, 0);
+  animation: time-out-bar 180s ease-in-out infinite;
+}
+
+@keyframes time-out-bar {
+  0% {
+    width: 80%;
+    border-bottom: 2px solid rgb(0, 180, 0);
+  }
+  80% {
+    border-bottom: 2px solid rgb(255, 238, 0);
+  }
+  100% {
+    width: 20%;
+    border-bottom: 2px solid rgb(255, 128, 0);
+  }
+}
+
+.otp-input-container .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
+  font-size: 40px;
+  position: absolute;
+  right: 280px;
+}
+
+.otp-input-container .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.animate {
+  transform: rotate(0) translateY(0);
+  animation: time-out 10s ease-in-out;
+}
+
+@keyframes time-out {
+  0% {
+    color: black;
+    transform: rotate(0);
+  }
+  5% {
+    color: red;
+    transform: rotate(20deg);
+  }
+  10% {
+    color: red;
+    transform: rotate(-20deg);
+  }
+  20% {
+    color: black;
+    transform: rotate(0);
+  }
+  25% {
+    color: red;
+    transform: rotate(20deg);
+  }
+  30% {
+    color: red;
+    transform: rotate(-20deg);
+  }
+  40% {
+    color: black;
+    transform: rotate(0);
+  }
+  45% {
+    color: red;
+    transform: rotate(20deg);
+  }
+  50% {
+    color: red;
+    transform: rotate(-20deg);
+  }
+  60% {
+    color: black;
+    transform: rotate(0);
+  }
+  65% {
+    color: red;
+    transform: rotate(20deg);
+  }
+  70% {
+    color: red;
+    transform: rotate(-20deg);
+  }
+  80% {
+    color: black;
+    transform: rotate(0);
+  }
+  85% {
+    color: red;
+    transform: rotate(20deg);
+  }
+  90% {
+    color: red;
+    transform: rotate(0) translateY(0);
+  }
+  95% {
+    color: black;
+    transform: rotate(0) translateY(-10px);
+  }
+  96% {
+    color: red;
+    transform: rotate(10deg) translateY(-10px);
+  }
+  97% {
+    transform: rotate(-10deg) translateY(-10px);
+  }
+  98% {
+    transform: rotate(10deg) translateY(-8px);
+  }
+  99% {
+    color: red;
+    transform: rotate(-10deg) translateY(-4px);
+  }
+  100% {
+    color: black;
+    transform: rotate(0) translateY(0);
+  }
+}

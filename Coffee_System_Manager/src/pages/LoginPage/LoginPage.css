@@ -1,0 +1,496 @@
+body:has(.login-container) {
+  overflow: hidden;
+}
+
+.login-container {
+  background-color: black;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  animation: bg-change 3s ease-in-out forwards;
+  animation-iteration-count: 1;
+}
+
+@keyframes bg-change {
+  0% {
+    background-color: black;
+  }
+
+  60% {
+    background-color: black;
+  }
+
+  100% {
+    background-color: #f1f5f9;
+  }
+}
+
+.login-container .startTop.startup-animation #logo-svg {
+  position: fixed;
+  opacity: 1;
+  height: 60px;
+  stroke: #fff;
+  stroke-width: 10px;
+  fill-opacity: 0;
+  stroke-dasharray: 3500;
+  stroke-dashoffset: 3500;
+  filter: drop-shadow(0px 0px 6px #fff) drop-shadow(0px 0px 10px #fff);
+  transform: translateY(-20%);
+  animation: topDropSvg 3s ease-in-out forwards;
+  animation-iteration-count: 1;
+}
+
+@keyframes topDropSvg {
+  0% {
+    opacity: 1;
+    stroke-width: 10px;
+    fill-opacity: 0;
+    stroke-dashoffset: -3500;
+  }
+
+  60% {
+    stroke-width: 10px;
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+  }
+
+  70% {
+    stroke-width: 0;
+  }
+
+  90% {
+    stroke-width: 0;
+    opacity: 1;
+    fill-opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    fill-opacity: 1;
+  }
+}
+
+.startBot,
+.startTop {
+  width: 25%;
+  min-width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.startTop.startup-animation {
+  opacity: 0;
+  animation: topDrops 3s ease-in-out forwards;
+  animation-iteration-count: 1;
+}
+
+.startBot.startup-animation {
+  border-radius: 10px;
+  opacity: 0;
+  box-shadow: 0 4px 8px 20px rgba(0, 0, 0, 0.1);
+  transform: scale(1.2);
+  animation: botDrops 0.6s ease-out forwards;
+  animation-iteration-count: 1;
+  animation-delay: 3s;
+}
+
+@keyframes topDrops {
+  0% {
+    opacity: 0;
+    transform: scale(2) translateY(100px);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(2) translateY(100px);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale(2) translateY(100px);
+  }
+
+  90% {
+    opacity: 1;
+    transform: scale(1) translateY(100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes botDrops {
+  to {
+    opacity: 1;
+    box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.1);
+    transform: scale(1);
+  }
+}
+
+.fsa-logo {
+  margin-bottom: 20px;
+
+
+}
+
+.startTop.startup-animation .fsa-logo img {
+  width: auto;
+  height: 60px;
+  opacity: 0;
+  animation: topDropsImg 3s ease-in-out forwards;
+  animation-iteration-count: 1;
+}
+
+@keyframes topDropsImg {
+  0% {
+    opacity: 0;
+  }
+
+  90% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.login-box {
+  border: 1px solid transparent;
+  background-color: white;
+  width: 100%;
+  border-radius: 10px;
+  padding: 40px;
+  transition: border 0.5s ease;
+}
+
+.login-box:has(.login-content form .input-field .input:focus-within) {
+  border: 1px solid black;
+  transition: border 0.3s ease;
+}
+
+.login-box:has(.login-content form .input-field .input:valid) {
+  border: 1px solid blue;
+  transition: border 0.3s ease;
+}
+
+.login-box:has(.error-message) {
+  border: 1px solid red;
+  transition: border 0.3s ease;
+}
+
+.login-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login-content .title {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  letter-spacing: -0.05em;
+  margin-bottom: 30px;
+  margin-left: 10px;
+}
+
+.login-content .title span:nth-child(3) {
+  margin-right: 5px;
+}
+
+.login-content .title span:nth-child(4) {
+  margin-left: 5px;
+}
+
+.login-content .title.startup-animation span:nth-child(1) {
+  opacity: 0;
+  animation: titleShow 0.2s ease-out forwards;
+  animation-iteration-count: 1;
+  animation-delay: 3.8s;
+}
+
+.login-content .title.startup-animation span:nth-child(2) {
+  opacity: 0;
+  animation: titleShow 0.2s ease-out forwards;
+  animation-iteration-count: 1;
+  animation-delay: 4s;
+}
+
+.login-content .title.startup-animation span:nth-child(3) {
+  opacity: 0;
+  animation: titleShow 0.2s ease-out forwards;
+  animation-iteration-count: 1;
+  animation-delay: 4.2s;
+}
+
+.login-content .title.startup-animation span:nth-child(4) {
+  opacity: 0;
+  animation: titleShow 0.2s ease-out forwards;
+  animation-iteration-count: 1;
+  animation-delay: 4.4s;
+}
+
+.login-content .title.startup-animation span:nth-child(5) {
+  opacity: 0;
+  animation: titleShow 0.2s ease-out forwards;
+  animation-iteration-count: 1;
+  animation-delay: 4.6s;
+}
+
+.login-content .title.startup-animation span:nth-child(6) {
+  opacity: 0;
+  transform: translate(-900%, -10%);
+  animation: titleTypeWrite 1s ease-out forwards, titleTypeWriteFlash 1s ease-out forwards;
+  animation-iteration-count: 1, 3;
+  animation-delay: 3.6s, 4.6s;
+}
+
+@keyframes titleShow {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes titleTypeWrite {
+  0% {
+    opacity: 0;
+    transform: translate(-900%, -10%);
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  20% {
+    opacity: 1;
+    transform: translate(-700%, -10%);
+  }
+
+  40% {
+    opacity: 1;
+    transform: translate(-500%, -10%);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translate(-500%, -10%);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translate(-300%, -10%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0%, -10%);
+  }
+}
+
+@keyframes titleTypeWriteFlash {
+  to {
+    opacity: 0;
+  }
+}
+
+.login-content form {
+  width: 100%;
+}
+
+.login-content form .input-field {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.login-content form .input-field .input {
+  display: inline;
+  margin-top: 7px;
+  padding: 15px;
+  width: 91%;
+  border: 1px solid lightgrey;
+  border-radius: 7px;
+}
+
+.login-content form .input-field:nth-child(3) .passContainer .input {
+  border-radius: 7px 0 0 7px;
+}
+
+.login-content form .input-field:has(.input:focus-within) .input {
+  border: 2px solid black;
+  outline: none;
+}
+
+.login-content form .input-field:has(.input:valid) .input {
+  border: 2px solid blue;
+  border-radius: 12px;
+}
+
+.login-content form:has(.error-message) .input-field .input {
+  border: 2px solid red;
+  border-radius: 12px;
+}
+
+.login-content form:has(.error-message) .input-field .passContainer .input {
+  border-radius: 12px 0 0 12px;
+}
+
+.login-content form .input-field .input::placeholder {
+  transform: translateX(0);
+  transition: transform 0.6s ease;
+}
+
+.login-content form .input-field .input:focus-within::placeholder {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.login-content form .input-field label {
+  display: inline-block;
+  background-color: transparent;
+  font-weight: 450;
+  margin: 0;
+  color: black;
+  padding: 0 10px 4px 10px;
+  transform: translate(0, 0);
+  border-radius: 8px;
+  transition: 0.5s ease;
+  transition-property: transform, background-color, color, padding;
+}
+
+.login-content form .input-field:has(.input:focus-within) label {
+  display: inline-block;
+  background-color: black;
+  color: white;
+  border-radius: 8px;
+  transform: translate(10px, 12px);
+  transition: 0.3s ease;
+  transition-property: transform, background-color, color, padding;
+}
+
+.login-content form .input-field:has(.input:valid) label {
+  display: inline-block;
+  background-color: blue;
+  color: white;
+  border-radius: 8px;
+  transform: translate(15px, 18px);
+  transition: 0.3s ease;
+  transition-property: transform, background-color, color, padding;
+}
+
+.login-content form:has(.error-message) .input-field label {
+  display: inline-block;
+  background-color: red;
+  color: white;
+  border-radius: 8px;
+  transform: translate(10px, 15px);
+  transition: 0.3s ease;
+  transition-property: transform, background-color, color, padding;
+}
+
+.login-content form .input-field:nth-child(3):has(.input:focus-within) .showPass,
+.login-content form .input-field:nth-child(3):has(.input:focus-within) .hidePass {
+  border: 2px solid black;
+  height: 45.5px;
+  transform: translateY(67%);
+}
+
+.login-content form .input-field:nth-child(3):has(.input:valid) .showPass,
+.login-content form .input-field:nth-child(3):has(.input:valid) .hidePass {
+  border: 2px solid blue;
+  border-radius: 0 12px 12px 0;
+  height: 45.8px;
+  transform: translateY(67%);
+}
+
+.login-content form:has(.error-message) .input-field:nth-child(3) .showPass,
+.login-content form:has(.error-message) .input-field:nth-child(3) .hidePass {
+  border: 2px solid red;
+  border-radius: 0 12px 12px 0;
+  height: 45.8px;
+  transform: translateY(67%);
+}
+
+.login-content form .input-field:nth-child(3) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 0px;
+}
+
+.login-content form .input-field:nth-child(3) .passContainer {
+  width: 90%;
+}
+
+.login-content form .input-field:nth-child(3) .passContainer input {
+  width: 90%;
+  z-index: 1;
+}
+
+.login-content form .input-field .passContainer .input:valid {
+  border: 2px solid blue;
+  border-radius: 12px 0 0 12px;
+}
+
+.login-content form .input-field:nth-child(3) .showPass {
+  height: 46px;
+  transform: translateY(68%);
+  padding: 0 12px;
+  background-color: white;
+  border-radius: 0 5px 5px 0;
+  border: 1px solid lightgrey;
+}
+
+.login-content form .input-field:nth-child(3) .hidePass {
+  height: 46px;
+  transform: translateY(68%);
+  padding: 0 12px;
+  border-radius: 0 5px 5px 0;
+  color: white;
+  background-color: gray;
+  border: 1px solid lightgrey;
+}
+
+
+.action {
+  margin-top: 35px;
+  width: 100%;
+  display: flex;
+  /* justify-content: right; */
+  justify-content: center;
+}
+
+.login-button {
+  display: flex;
+  padding: 10px;
+  text-align: center;
+  justify-content: center;
+  width: 150px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 15px;
+  margin: 0 10px;
+}
+
+.login-button:hover {
+  background-color: rgb(37, 99, 235);
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+}

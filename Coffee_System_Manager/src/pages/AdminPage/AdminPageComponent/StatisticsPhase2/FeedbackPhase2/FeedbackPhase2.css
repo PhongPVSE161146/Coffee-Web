@@ -1,0 +1,30 @@
+.main_page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .options{
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 90%;
+        height: 50px;
+        background-color: rgb(236, 228, 228);
+        margin-top: 15px;
+        border-radius: 15px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+
+        p{
+            margin-top: -25px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .icon{
+            margin-top: -35px;
+            cursor: pointer;
+        }
+    }
+}

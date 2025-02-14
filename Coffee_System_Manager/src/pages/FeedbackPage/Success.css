@@ -1,0 +1,84 @@
+.success-send-container {
+    background-image: url('/src/assets/feedbackemail-bg.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    /* Ensure it covers the full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.success-send-page {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+}
+
+.success-send-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.success-send-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.success-card {
+    width: 1000px;
+    height: 600px;
+}
+
+.success-space {
+    width: 100%;
+}
+
+.title-container .feedback-title {
+    text-align: center;
+}
+
+.icon-container-img {
+    font-size: 72px;
+    color: #52c41a;
+    display: flex;
+    justify-content: center;
+}
+
+.text-container {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    text-align: center;
+}
+
+.divider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: #d9d9d9;
+}
+
+.divider-text {
+    margin: 0 16px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    color: rgb(9, 190, 255);
+}
+
+.button-save-my-answer {
+    color: rgb(9, 190, 255);
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid rgb(95, 164, 255);
+}

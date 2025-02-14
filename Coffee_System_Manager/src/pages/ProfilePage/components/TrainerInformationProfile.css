@@ -1,0 +1,965 @@
+.trainer-profile {
+    padding: 20px 20px 100px 20px;
+    animation: appear 0.8s ease-in-out forwards;
+    animation-iteration-count: 1;
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.view-profile-trainer {
+    display: flex;
+    flex-wrap: wrap;
+    /* Cho phép các phần tử wrap xuống dòng */
+    align-items: center;
+    /* Căn đầu các phần tử */
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.profile-avatar {
+    margin-left: 30px;
+    min-width: 200px;
+    /* Đặt chiều rộng tối thiểu cho avatar */
+}
+
+.profile-detail-information {
+    flex: 1;
+    min-width: 500px;
+}
+
+/* Media query cho màn hình nhỏ */
+@media screen and (max-width: 768px) {
+    .view-profile-trainer {
+        flex-direction: column;
+    }
+
+    .profile-avatar {
+        margin-left: 0;
+    }
+
+    .profile-detail-information {
+        min-width: 500px;
+        /* Chiếm toàn bộ chiều rộng */
+        padding: 0 20px;
+        /* Thêm padding cho màn hình nhỏ */
+    }
+}
+
+.avatar-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border: 1.5px solid blue;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.avatar-container:hover .avatar-controls {
+    opacity: 1;
+}
+
+.avatar-upload-overlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.avatar-cancel-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #ff4d4f;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+    margin-right: 30px;
+}
+
+.avatar-cancel-button:hover {
+    transform: scale(1.1);
+    background: #fff0f0;
+}
+
+.upload-icon {
+    color: white;
+    font-size: 24px;
+}
+
+/* Style cho overlay khi hover trong edit mode */
+.avatar-upload-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.avatar-container:hover .avatar-upload-overlay {
+    opacity: 1;
+}
+
+.upload-icon {
+    color: white;
+    font-size: 24px;
+}
+
+/* Đảm bảo ảnh mặc định có kích thước phù hợp */
+.avatar-container img[src*="image.png"] {
+    object-fit: contain;
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+
+
+
+.profile-trainer-name {
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.body-profile-information {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    gap: 30px;
+}
+
+.body-profile-information-column1,
+.body-profile-information-column2 {
+    flex: 1;
+    min-width: 280px;
+}
+
+.body-profile-information-header {
+    font-size: 18px;
+    text-align: center;
+    background-color: #0097ff;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 20px 60px;
+}
+
+.item-profile-information {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px 20px 20px 0px;
+    margin: 0px 20px;
+    overflow: hidden;
+}
+
+.body-profile-information-column1 .item-profile-information span {
+    display: flex;
+    align-items: end;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.body-profile-information-column1 .item-profile-information:nth-child(2) span svg {
+    background-color: transparent;
+    color: black;
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
+}
+
+.body-profile-information-column1 .item-profile-information:nth-child(2) span:first-child svg {
+    background-color: black;
+    color: white;
+    width: 24px;
+    height: 100%;
+    padding: 2px;
+}
+
+/* Apply bullet points only to Professional Skills, Soft Skills, and Certificates */
+.body-profile-information-column2 .item-profile-information span::before {
+    content: "•";
+    /* Unicode character for a bullet */
+    color: black;
+    /* Set color for the bullet */
+    font-size: 16px;
+    /* Adjust the size of the bullet */
+    margin-right: 8px;
+    /* Space between bullet and text */
+}
+
+/* Optional: Adjust padding or margins if needed to align the content */
+.body-profile-information-column2 .item-profile-information {
+    list-style-type: none;
+    /* Remove default list bullets */
+    padding-left: 0;
+    /* Remove left padding */
+}
+
+/* Style for Professional Skills, Soft Skills, and Certificates sections */
+.body-profile-information-column2 .body-profile-information-header {
+    font-size: 18px;
+    text-align: center;
+    background-color: #0097ff;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 20px 60px;
+}
+
+/* Style for each certificate item with a bullet */
+.body-profile-information-column2 .certificate-item span::before {
+    content: "•";
+    color: black;
+    font-size: 16px;
+    margin-right: 8px;
+
+}
+
+.cert-name-profile ::before {
+    content: "•";
+    color: black;
+    font-size: 16px;
+    margin-right: 8px;
+}
+
+.cert-name-and-date {
+    margin-bottom: 10px;
+}
+
+.cert-name-and-date {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.cert-name-profile {
+    font-weight: 600;
+    font-size: 16px;
+    position: relative;
+    padding-left: 20px;
+    /* Add some padding to make space for the bullet */
+}
+
+.certview-url {
+    max-width: 200px;
+}
+
+.cert-name-profile::before {
+    content: "•";
+    color: black;
+    font-size: 16px;
+    position: absolute;
+    left: 0;
+    /* Position the bullet to the left */
+    top: 0;
+    /* Align the bullet with the text */
+}
+
+
+.link-and-download {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sort-icon-load-and-download {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+
+.download-icon {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.details-profile {
+    background-color: rgb(229 229 228);
+    height: 100px;
+    padding: 10px;
+    box-sizing: border-box;
+    max-width: 600px;
+    min-width: 450px;
+    border-radius: 10px;
+    overflow-x: auto;
+}
+
+.profile-trainer-job-title-job-rank {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.details-profile .full-width-input {
+    width: 100%;
+    height: 100%;
+    padding: 4px 11px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+}
+
+.details-profile .full-width-input:focus {
+    border-color: #40a9ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    outline: none;
+}
+
+
+.download-icon a {
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.back-to-mainpage-button button {
+    border: 1px solid transparent;
+    cursor: pointer;
+    background-color: #0097ff;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 15px;
+    color: white;
+    transition: all 0.5s ease;
+}
+
+.back-to-mainpage-button button:hover {
+    transition: all 0.3s ease;
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+}
+
+.underline-data {
+    justify-content: flex-end;
+    border-bottom: 1px solid black;
+    /* Optional: Customize the underline color */
+}
+
+body:has(.sideBarDropdownControl) .loading-container {
+    left: 80px;
+    transition: left 0.3s ease;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 180px;
+    bottom: 0;
+    left: 255px;
+    right: 0;
+    transition: left 0.3s ease;
+}
+
+.cert-date-profile {
+    font-size: 12px;
+}
+
+.footer-button-profile {
+    margin-top: 100px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.option-update-button {
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+    margin-right: 50px;
+}
+
+.option-cancel-button button {
+    background-color: aliceblue;
+    border: 1px solid rgb(161, 161, 161);
+    padding: 8px 12px;
+    border-radius: 18px;
+    width: 100px;
+    cursor: pointer;
+}
+
+.option-cancel-button button:hover {
+    background-color: rgb(229, 105, 105);
+    color: aliceblue;
+}
+
+.option-save-button button {
+    background-color: #0097ff;
+    border: 1px solid rgb(217, 191, 139);
+    padding: 8px 12px;
+    border-radius: 18px;
+    max-width: 200px;
+    cursor: pointer;
+    color: rgb(255, 248, 248);
+    transition: all 0.5s ease;
+}
+
+.option-save-button button:hover {
+    background-color: #99fcff;
+    color: #0097ff;
+    border: 1px solid rgb(113, 113, 113);
+    transition: all 0.3s ease;
+}
+
+.underlined-input {
+
+    border: none;
+    border-bottom: 1px solid #ccc;
+
+    max-width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 2px 10px;
+    transition: border-color 0.3s;
+}
+
+.underlined-input:focus {
+    border-bottom: 1px solid #1890ff;
+    /* Underline color on focus */
+}
+
+.column-devider {
+    border-right: 2px solid rgb(98, 98, 98);
+}
+
+.dropdown-input-profile {
+    border: none;
+    border-radius: 12px;
+    max-width: 400px;
+    /* Remove border-radius */
+    transition: border-bottom-color 0.3s ease;
+
+}
+
+.edit-skill-options {
+    margin-left: 80px;
+    display: flex;
+    gap: 30px
+}
+
+.add-new-skill-button {
+    display: flex;
+    justify-content: center;
+}
+
+.add-new-skill-button button {
+
+    margin-top: 20px;
+    padding: 10px 60px;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+}
+
+.add-new-skill-button button:hover {
+    color: white;
+    background-color: #0097ff;
+}
+
+.delete-skill-profile {
+    border: none;
+    font-size: 16px;
+    background-color: white;
+    cursor: pointer;
+    color: rgb(131, 37, 37);
+}
+
+/* Certificate URL container styles */
+.certificate-url-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 25px;
+    flex: 1;
+    max-width: 400px;
+}
+
+/* Certificate input group styles */
+.certificate-item .cert-name-and-date {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Upload button styles */
+.upload-certificate-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-certificate-btn .anticon {
+    font-size: 16px;
+    color: #595959;
+}
+
+.upload-certificate-btn:hover .anticon {
+    color: #1890ff;
+    transform: scale(1.1);
+}
+
+/* Loading state styles */
+.upload-certificate-btn.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.upload-certificate-btn.loading .anticon {
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Certificate input styles */
+.certificate-item .underlined-input {
+    max-width: none;
+    flex: 1;
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #d9d9d9;
+    transition: all 0.3s;
+}
+
+.certificate-item .underlined-input:focus {
+    border-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* Certificate date picker styles */
+
+
+/* Delete button styles */
+.certificate-item .delete-skill-profile {
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.certificate-item .delete-skill-profile:hover {
+    background-color: #fff1f0;
+    color: #ff4d4f;
+}
+
+/* View mode certificate styles */
+.certificate-item {
+    border-radius: 8px;
+    transition: all 0.3s;
+    margin: 20px 50px 0px 20px;
+    padding: 10px;
+}
+
+.skill-type-item {
+    /* padding: 10px 50px 10px 10px; */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    /* display: flex
+; */
+    align-items: center;
+    gap: 15px;
+    margin: 20px 50px 20px 50px;
+    overflow-x: auto;
+
+
+
+}
+
+
+
+
+
+.skill-type-item:hover {
+    background-color: #f5f5f5;
+}
+
+.certificate-item:hover {
+    background-color: #f5f5f5;
+}
+
+/* Link and download section styles */
+.link-and-download {
+    overflow-x: auto;
+    margin-top: 5px;
+    padding-left: 20px;
+}
+
+.cert-url {
+    font-size: small;
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+.cert-url {
+    color: #1890ff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.cert-url:hover {
+    color: #40a9ff;
+}
+
+.download-icon a {
+    color: #595959;
+    background: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.download-icon a:hover {
+    color: #0079eb;
+}
+
+.save-loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.option-save-button button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+    background-color: #ccc;
+}
+
+.option-save-button button:disabled:hover {
+    background-color: #ccc;
+    color: rgb(255, 248, 248);
+    border: 1px solid rgb(217, 191, 139);
+}
+
+.skill-edit-location {
+    padding: 10px 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 50px 0px 20px;
+    overflow-x: auto;
+}
+
+.item-profile-details {
+    padding: 10px 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.item-profile-details .ant-select.ant-select-outlined.dropdown-input-profile {
+    min-width: 100px;
+}
+
+.item-profile-skill-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.item-profile-skill-details span {
+    display: block;
+    position: relative;
+    padding: 10px 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    overflow-x: auto;
+    /* Tạo khoảng trống cho bullet point */
+}
+
+.item-profile-skill-details span:hover {
+    background-color: #f5f5f5;
+}
+
+/* Thêm bullet point cho mỗi item */
+.item-profile-skill-details span::before {
+    content: "•";
+    position: absolute;
+    left: 5px;
+    color: #000;
+}
+
+.item-profile-details:hover {
+    background-color: #f5f5f5;
+}
+
+.skill-edit-location:hover {
+    background-color: #f5f5f5;
+}
+
+.cert-header {
+    display: flex;
+    justify-content: flex-start;
+    gap: 25px;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.cert-input-url {
+    max-width: 300px;
+}
+
+.profile-body-skill-and-cert {
+    margin-left: 30px;
+}
+
+.fixed-footer {
+    position: fixed;
+    bottom: 0;
+    left: 255px;
+    right: 0;
+    background: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.2s left ease;
+}
+
+body:has(.sideBarDropdownControl) .fixed-footer {
+    left: 80px;
+    transition: 0.3s left ease;
+}
+
+@media (max-width: 766px) {
+    .fixed-footer {
+        position: fixed;
+        bottom: 0;
+        left: 255px;
+        right: 0;
+        background: white;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        transition: 0.2s left ease;
+    }
+
+    body:has(.sideBarDropdownControl) .fixed-footer {
+        left: 0;
+        transition: 0.3s left ease;
+    }
+}
+
+.footer-content {
+    width: 100%;
+    margin-left: auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+    margin: 0 50px 0 20px;
+}
+
+.edit-actions div {
+    min-width: 100px;
+}
+
+body:has(.trainer-profile) .ant-modal {
+    transform: translateY(100%);
+}
+
+body:has(.trainer-profile) .ant-modal:has(.ant-modal-body img) {
+    transform: unset;
+}
+
+body:has(.trainer-profile) .ant-modal-wrap:has(.ant-modal .ant-modal-body img) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body:has(.trainer-profile) .ant-modal-root .ant-modal.ant-zoom-enter,
+body:has(.trainer-profile) .ant-modal-root .ant-modal.ant-zoom-appear {
+    animation: fade-in 0.2s ease-in-out forwards;
+    animation-iteration-count: 1;
+}
+
+body:has(.trainer-profile) .ant-modal-root .ant-modal.ant-zoom-leave {
+    animation: float-out 0.2s ease-in-out forwards;
+    animation-iteration-count: 1;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(100%);
+    }
+}
+
+@keyframes float-out {
+    0% {
+        transform: translateY(100%);
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(80%);
+    }
+}
+
+body:has(.trainer-profile) .ant-modal.ant-zoom-enter:has(.ant-modal-body img) {
+    animation: fade-in-preview 0.2s ease-in-out forwards;
+    animation-iteration-count: 1;
+}
+
+body:has(.trainer-profile) .ant-modal.ant-zoom-leave:has(.ant-modal-body img) {
+    animation: fade-out-preview 0.2s ease-in-out forwards;
+    animation-iteration-count: 1;
+}
+
+@keyframes fade-in-preview {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out-preview {
+    0% {
+        opacity: 1;
+        transform: translate(0%, 0%) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(20%, 20%) scale(0.2);
+    }
+}
+
+.loading-container .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.findFailed {
+    transform: scale(3) translate(-300%, 40%);
+    animation: unfound 5s ease-in-out infinite;
+}
+
+@keyframes unfound {
+    0% {
+        transform: scale(3) translate(-350%, 40%);
+    }
+
+    25% {
+        transform: scale(3) translate(-440%, -15%);
+    }
+
+    30% {
+        transform: scale(3) translate(-440%, -15%);
+    }
+
+    50% {
+        transform: scale(3) translate(-350%, -15%);
+    }
+
+    55% {
+        transform: scale(3) translate(-350%, -15%);
+    }
+
+    75% {
+        transform: scale(3) translate(-440%, 40%);
+    }
+
+    80% {
+        transform: scale(3) translate(-440%, 40%);
+    }
+
+    100% {
+        transform: scale(3) translate(-350%, 40%);
+    }
+}
+
+.ant-select-selector {
+    min-width: 100px;
+}

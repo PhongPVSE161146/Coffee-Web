@@ -1,0 +1,268 @@
+::-webkit-scrollbar {
+    width: 8px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #aaaaaa;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #707070;
+    transition: all 0.3s ease;
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark::-webkit-scrollbar {
+    position: absolute;
+    width: 5px;
+    height: 6px;
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark::-webkit-scrollbar-thumb {
+    background: #aaaaaa;
+    border-radius: 20px;
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark::-webkit-scrollbar-thumb:hover {
+    background: #707070;
+    opacity: 1;
+    transition: all 0.3s ease;
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-children .demo-logo-vertical {
+    background-color: #0F1629;
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark {
+    position: fixed;
+    min-height: 100%;
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark {
+    max-height: 82%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark.sideBarDropdownControl .ant-menu-submenu-title .ant-menu-submenu-arrow {
+    transform: rotate(-90deg) translateY(10px);
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark.sideBarDropdownControl .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-submenu.ant-menu-submenu-inline.ant-menu-submenu-open .ant-menu.ant-menu-sub.ant-menu-inline {
+    position: absolute;
+    min-width: 250px;
+    transform: translate(82px, -40px);
+    border-radius: 8px;
+    overflow-x: hidden;
+    box-shadow: 0 -1px 5px #aaaaaa;
+    transition: transform 0.3s ease, height 0.2s ease, opacity 0.2s ease, min-width 0.2s ease;
+}
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark.sideBarDropdownControl .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-submenu.ant-menu-submenu-inline .ant-menu.ant-menu-sub.ant-menu-inline.ant-motion-collapse-enter,
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark.sideBarDropdownControl .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-submenu.ant-menu-submenu-inline .ant-menu.ant-menu-sub.ant-menu-inline.ant-motion-collapse-enter-active {
+    min-width: 200px;
+    transform: translate(80px, -40px);
+}
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark.sideBarDropdownControl .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-submenu.ant-menu-submenu-inline .ant-menu.ant-menu-sub.ant-menu-inline.ant-motion-collapse-leave,
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark.sideBarDropdownControl .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-submenu.ant-menu-submenu-inline .ant-menu.ant-menu-sub.ant-menu-inline.ant-motion-collapse-leave-active {
+    min-width: 200px;
+    transform: translate(80px, -40px);
+    border-radius: 8px !important;
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark.sideBarDropdownControl .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-submenu.ant-menu-submenu-inline.ant-menu-submenu-open .ant-menu.ant-menu-sub.ant-menu-inline .ant-menu-item.ant-menu-item-only-child {
+    transition: transform 0.3s ease;
+}
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark.sideBarDropdownControl .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-submenu.ant-menu-submenu-inline .ant-menu.ant-menu-sub.ant-menu-inline.ant-motion-collapse-enter .ant-menu-item.ant-menu-item-only-child,
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark.sideBarDropdownControl .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-submenu.ant-menu-submenu-inline .ant-menu.ant-menu-sub.ant-menu-inline.ant-motion-collapse-enter-active .ant-menu-item.ant-menu-item-only-child {
+    transform: translateX(-250px);
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark.sideBarDropdownControl .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-submenu.ant-menu-submenu-inline {
+    height: 40px;
+}
+
+.ant-layout.ant-layout-has-sider .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-item .ant-menu-title-content {
+    height: 100%;
+    /* line-height: 20px; */
+    overflow-wrap: break-word;
+    text-wrap: wrap;
+    transition: all 0.4s ease;
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout .ant-layout-header .user-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    max-width: 220px;
+    min-width: 80px;
+    height: 38px;
+    transition: max-width 0.3s ease;
+}
+
+.ant-layout.ant-layout-has-sider .ant-layout-header .user-welcome .user-info .role-container {
+    height: 25px;
+    border-radius: 8px;
+    padding: 0 5px 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffff;
+    border: 0.2px solid #555;
+    width: 100%;
+    transition: color 0.3s ease, border-radius 0.1s ease, height 0.3s ease;
+}
+
+@media (max-width: 766px) {
+    body {
+        width: 100vmax;
+        min-height: 100vh;
+    }
+
+    #root {
+        min-height: 150vmax;
+    }
+
+    .ant-layout.ant-layout-has-sider {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark {
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-width: unset;
+        min-height: unset;
+        overflow: hidden;
+    }
+
+    /*.ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-children {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 999;
+    }
+
+    .ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark {
+        width: 100%;
+    }
+
+    .ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-item {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }*/
+
+    .ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-children .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-item span:nth-child(2) {
+        flex: unset;
+    }
+
+    .ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-children .menu-handle {
+        display: flex;
+        align-items: end;
+        justify-content: right;
+        padding-right: 20px;
+    }
+
+    .ant-layout.ant-layout-has-sider .ant-layout-sider.ant-layout-sider-dark .ant-layout-sider-children .menu-handle span {
+        font-size: large;
+    }
+
+
+    .ant-layout.ant-layout-has-sider .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark .ant-menu-item .ant-menu-title-content {
+        display: flex;
+    }
+
+    .ant-layout.ant-layout-has-sider .ant-layout-header .user-welcome .user-info {
+        min-width: 0;
+        max-width: 12px;
+        transition: max-width 0.3s ease;
+    }
+    .ant-layout.ant-layout-has-sider .ant-layout-header .user-welcome .user-info .role-container {
+        height: 10px;
+        color: transparent;
+        border-radius: 50%;
+        transition: color 0.3s ease, border-radius 0.3s ease, height 0.3s ease;
+        transition-delay: 0s, 0.3s, 0s;
+    }
+
+    .trainer-confirmation-footer {
+        margin-bottom: 50px;
+    }
+}
+
+
+/* Custom Notification popup */
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper .ant-notification-notice .ant-notification-notice-content .ant-notification-notice-with-icon .anticon {
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #ffff;
+}
+
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper {
+    min-width: 350px;
+    max-width: 400px;
+}
+
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper .ant-notification-notice-content .ant-notification-notice-message,
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper .ant-notification-notice-content .ant-notification-notice-description {
+    font-weight: 600;
+    background-color: transparent;
+}
+
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper:has(.ant-notification-notice.ant-notification-notice-success) {
+    background-image: linear-gradient(to right, #53c41a44, #e4e4e4d4, #ffffffc8, #ffffffd2, #ffffffd1, #ffffffe4);
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper:has(.ant-notification-notice.ant-notification-notice-error) {
+    background-image: linear-gradient(to right, #ff4d5048, #e4e4e4d4, #ffffffd2, #ffffffd1, #ffffffe4);
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper:has(.ant-notification-notice.ant-notification-notice-warning) {
+    background-image: linear-gradient(to right, #faad144f, #e4e4e4d4, #ffffffd2, #ffffffd1, #ffffffe4);
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper:has(.ant-notification-notice.ant-notification-notice-info) {
+    background-image: linear-gradient(to right, #1677ff4d, #e4e4e4d4, #ffffffd2, #ffffffd1, #ffffffe4);
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper .ant-notification-notice.ant-notification-notice-success {
+    border-left: 6px solid #52C41A;
+    border-radius: 8px;
+}
+
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper .ant-notification-notice.ant-notification-notice-error {
+    border-left: 6px solid #FF4D4F;
+    border-radius: 8px;
+}
+
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper .ant-notification-notice.ant-notification-notice-warning {
+    border-left: 6px solid #FAAD14;
+    border-radius: 8px;
+}
+
+body:has(.ant-notification.ant-notification-topRight) .ant-notification.ant-notification-topRight .ant-notification-notice-wrapper .ant-notification-notice.ant-notification-notice-info {
+    border-left: 6px solid #1677FF;
+    border-radius: 8px;
+}

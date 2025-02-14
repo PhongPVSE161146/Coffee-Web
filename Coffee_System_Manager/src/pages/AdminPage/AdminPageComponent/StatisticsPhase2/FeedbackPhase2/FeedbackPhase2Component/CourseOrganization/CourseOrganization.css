@@ -1,0 +1,149 @@
+.course-content {
+  position: relative;
+}
+
+.course-container {
+  height: 100%;
+  padding: 20px 50px 0px 50px;
+}
+
+.course-info-dropdown {
+  width: 100%;
+}
+
+.course-info-dropdown-header {
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: 0.5s;
+  background-color: rgb(236, 228, 228);
+  cursor: pointer;
+}
+
+.course-info-dropdown-header.active {
+  border-radius: 10px 10px 0 0;
+}
+
+.course-dropdown-body {
+  width: 100%;
+  box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.15);
+  border: none;
+  background-color: white;
+  border-radius: 0 0 10px 10px;
+  max-height: 1000px;
+  padding: 15px 20px;
+}
+
+.table-icon {
+  height: 20px;
+  width: 30px;
+  background-color: rgb(250, 55, 55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  margin-left: 96%;
+}
+.table-icon:hover {
+  background-color: rgb(195, 14, 14);
+  cursor: pointer;
+}
+
+.course-filter {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.course-filter > div {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.course-filter label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.course-filter-header{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  svg{
+    margin-bottom: 5px;
+  }
+}
+.average-score{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  p{
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .lower-range, .higher-range{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 55px;
+    background-color: rgb(234, 231, 231);
+    border-radius: 7px;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-info-dropdown-header {
+    font-size: 12px;
+  }
+
+  .course-dropdown-body {
+    padding: 5px 10px;
+  }
+
+  .table-icon {
+    height: 25px;
+    width: 25px;
+    margin-left: 85%; 
+  }
+}
+
+@media (max-width: 768px) {
+  .course-container {
+    padding: 20px 20px 0px 20px;
+  }
+
+  .course-info-dropdown-header {
+    font-size: 14px;
+  }
+
+  .course-dropdown-body {
+    padding: 10px 15px;
+  }
+
+  .course-filter {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .course-filter > div {
+    flex: none; 
+    width: 100%; 
+  }
+
+  .table-icon {
+    margin-left: 90%;
+  }
+}

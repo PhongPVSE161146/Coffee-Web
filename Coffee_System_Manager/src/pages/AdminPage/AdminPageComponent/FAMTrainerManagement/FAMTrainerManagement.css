@@ -1,0 +1,59 @@
+.tm-sl-btn {
+    font-size: 16px;
+}
+
+.tm-sl-btn.active {
+    color: #5750DF;
+    border-bottom: 2px solid #5750DF;
+    padding: 10px 0px;
+}
+
+.tm-add-btn {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    border: none;
+    background-color: #5750DF;
+    padding: 10px 30px;
+    border-radius: 35px;
+    color: white;
+}
+
+.tm-add-btn:hover {
+    background-color: #4096ff;
+}
+
+.tm-save-btn {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    border: none;
+    background-color: #5750DF;
+    padding: 5px 15px;
+    border-radius: 35px;
+    color: white;
+}
+
+.tm-save-btn:hover {
+    background-color: #4096ff;
+}
+
+.tm-cancel-btn {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    border: 1px solid lightgrey;
+    background-color: #ffffff;
+    padding: 5px 15px;
+    border-radius: 35px;
+    color: rgb(0, 0, 0);
+    margin-right: 10px;
+}
+
+.tm-cancel-btn:hover {
+    color: #4096ff;
+    border-color: #4096ff;
+}

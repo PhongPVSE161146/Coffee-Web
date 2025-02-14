@@ -1,0 +1,70 @@
+.networkError-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+.networkError-container .networkError-popup {
+    width: 200px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    animation: 1.5s bounce-in ease-in-out;
+    animation-iteration-count: 1;
+}
+
+.networkError-container .networkError-popup span:nth-child(1) {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    width: 80%;
+    height: 40%;
+    border: 1px solid rgb(92, 119, 130);
+    border-radius: 16px;
+}
+
+.networkError-container .networkError-popup span:nth-child(2) {
+    height: 20%;
+    border-style: solid;
+    border-width: 0 20px 20px 0;
+    border-color: transparent rgb(92, 119, 130) transparent transparent;
+    transform: translate(-50px, -1px);
+}
+
+.networkError-container .networkError-popup span:nth-child(3) {
+    height: 20%;
+    border-style: solid;
+    border-width: 0 19px 19px 0;
+    z-index: 1;
+    border-color: transparent #f1f5f9 transparent transparent;
+    transform: translate(-50.8px, -21.5px);
+}
+
+.networkError-container .networkError-popup div {
+    height: 75%;
+    display: flex;
+    justify-content: right;
+    padding-right: 20px;
+}
+
+.networkError-container .networkError-popup div svg {
+    font-size: 40px;
+    color: rgb(92, 119, 130);
+    filter: drop-shadow(2px 1px 1px #aaa);
+    transform: translate(0, -20px)
+}
+
+@keyframes bounce-in {
+    0% {
+        transform: translateY(200%);
+    }
+    80% {
+        transform: translateY(-10%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}

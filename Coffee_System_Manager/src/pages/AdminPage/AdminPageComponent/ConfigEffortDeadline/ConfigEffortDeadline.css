@@ -1,0 +1,188 @@
+.table-container {
+    overflow-x: scroll;
+    /* Allow horizontal scrolling */
+    margin-bottom: 10px;
+    /* Space below the table for scrollbar */
+}
+
+.config-table {
+    margin: 0px 20px 0px 20px;
+    /* Remove margin to avoid extra space */
+    border: 1px solid black;
+    /* Remove outer border if needed */
+    border-collapse: collapse;
+    /* Ensure no double borders */
+}
+
+.config-table .ant-table-thead>tr>th {
+    background-color: #E3E3E3 !important;
+    border-bottom: 1px solid black;
+    /* Keep bottom border for the header */
+}
+
+/* Remove internal borders from table cells */
+.config-table .ant-table .ant-table-cell {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid black;
+    /* Thicker border on top */
+    border-bottom: 1px solid black;
+    /* Thicker border on bottom */
+}
+
+
+.bottom-buttons {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.config-header-container {
+    display: flex;
+    align-items: end;
+    gap: 10px;
+    /* Space between title and dropdown */
+    margin-bottom: 20px;
+    /* Space from table */
+}
+
+.checkpoint-config {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    padding: 0px 20px;
+    cursor: pointer;
+    margin-right: 10px;
+    gap: 10px;
+}
+
+.checkpoint-config .checkpoint-dropdown {
+    width: 150px;
+}
+
+.dropdown-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* Adjust width as needed */
+    padding: 0 8px;
+    /* Optional padding */
+}
+
+.dropdown-text {
+    flex-grow: 1;
+    text-align: left;
+    padding: 2px;
+}
+
+.dropdown-icon {
+    margin-left: auto;
+    /* Pushes the icon to the right */
+}
+
+
+
+/* Center-align all table headers */
+.config-table .ant-table-thead>tr>th {
+    text-align: center !important;
+}
+
+.option-config-container {
+    display: flex;
+    /* Keep the flexbox layout */
+    justify-content: space-between;
+    /* Keep items spaced between */
+    align-items: center;
+    /* Center items vertically */
+    margin-top: auto;
+    /* Keep the buttons at the bottom of the container */
+    padding: 20px;
+    /* Optional padding */
+}
+
+.option-config-btn {
+    display: flex;
+    /* Keep buttons in a flex row */
+    gap: 10px;
+    /* Space between buttons */
+
+}
+
+.config-modal .ant-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    /* Align buttons to the right */
+}
+
+.status-indicators {
+    display: flex;
+    /* Keep indicators in a row */
+    align-items: center;
+    /* Center-align indicators */
+    gap: 5px;
+    /* Space between indicators */
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 16px;
+    /* Spacing between indicators */
+}
+
+.status-square {
+    width: 16px;
+    /* Size of the square */
+    height: 16px;
+    /* Size of the square */
+    border-radius: 2px;
+    /* Optional: to slightly round the corners */
+    margin-right: 4px;
+    /* Space between the square and text */
+}
+
+.highlight-row-edit {
+    background-color: rgba(255, 204, 0, 0.4);
+    /* Set the background color for the highlighted row */
+}
+
+.highlight-row-overlap {
+    background-color: #F5CCCC;
+}
+
+.config-container .ant-table-container .ant-table-content .ant-table-tbody .ant-table-row .ant-table-cell.ant-table-cell-row-hover {
+    background-color: transparent;
+}
+
+.edited-row {
+    background-color: rgba(255, 204, 0, 0.4) !important;
+}
+
+/* Update hover style */
+.config-container .ant-table-tbody>tr.edited-row:hover>td {
+    background-color: rgba(255, 204, 0, 0.4) !important;
+}
+
+/* Target the TimePicker input to align text to the right */
+.config-table .time-column .ant-picker-input input {
+    text-align: right; /* Align text to the right */
+}
+
+/* Remove the clock icon from the TimePicker */
+.config-table .time-column .ant-picker-suffix {
+    display: none; /* Hide the clock icon */
+}
+
+/* Move the clear icon to the prefix position */
+.config-table .time-column .ant-picker-clear {
+    position: absolute;
+    right: auto; /* Override default right positioning */
+}
+
+.overlapping-row {
+    background-color: #F5CCCC; /* Color for deadlines before today */
+}

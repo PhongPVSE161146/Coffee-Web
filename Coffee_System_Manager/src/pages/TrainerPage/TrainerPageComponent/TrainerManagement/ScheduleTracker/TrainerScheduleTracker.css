@@ -1,0 +1,98 @@
+.diviner {
+  min-height: 45px;
+  display: flex;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
+
+
+
+.statitics-text {
+  margin-top: 10px;
+  padding: 0px 20px;
+  font-size: 20px;
+}
+
+.import-btn {
+  margin: 5px 10px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 20px;
+  padding: 0px 20px;
+  cursor: pointer;
+  background-color: rgb(70, 125, 235);
+  color: white;
+}
+
+.import-btn:hover {
+  background-color: #0988ff;
+}
+
+.categories-items {
+  display: flex;
+  gap: 10px;
+  padding: 0px 40px;
+  border-bottom: 1px solid black;
+}
+
+.categories-items a {
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: black;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.categories-items a:hover {
+  color: blue;
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+}
+
+.categories-items a.selected {
+  color: #5144E4;
+  border-bottom: 3px solid #5144E4;
+}
+
+.categories-items a.selected:hover {
+  transform: scale(1.01);
+  transition: all 0.3s ease;
+}
+
+.options {
+  display: flex;
+  padding: 40px 30px 20px;
+  justify-content: center;
+
+}
+
+.options a {
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px 10px;
+  font-size: 17px;
+  text-decoration: none;
+  color: #747474;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.options a:hover {
+  color: blue;
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+}
+
+.options a.selected {
+  color: #7ad9f4;
+  border-bottom: 3px solid blue;
+  transition: all 0.2s ease;
+}
+
+.options a.selected:hover {
+  transform: scale(1);
+  transition: all 0.3s ease;
+}

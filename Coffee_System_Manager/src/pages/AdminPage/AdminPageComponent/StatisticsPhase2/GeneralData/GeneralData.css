@@ -1,0 +1,342 @@
+
+  
+  .statistic-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    color: lightgray;
+    margin-right: 10px;
+    width: 100px;
+    height: 35px;
+  }
+
+  .statistic-btn.active {
+    background-color: #000000; /* Màu nền khi active */
+    color: white; /* Màu chữ khi active */
+  }
+
+  /* styles.css */
+
+.layout {
+  padding: 30px;
+  background-color: #ffffff;
+}
+
+.module-overview-card {
+  height: 100%;
+  background-color: #1E293B;
+  color: #fff;
+  border-radius: 8px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.overview-card-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.overview-card-text-1{
+  color: #fff;
+}
+
+.overview-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  font-size: 36px;
+  color: #fff;
+  width: 50px; /* Chiều rộng cố định */
+  aspect-ratio: 1;
+  background-color: #9645B375;
+}
+
+.module-overview-title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.chart-card-1 {
+  text-align: center;
+  margin-top: 24px;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.chart-card-2 {
+  text-align: center;
+  margin-top: 24px;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.chart-card-extra {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chart-card-extra select,
+.chart-card-extra button {
+  width: 120px;
+  height: 32px;
+}
+
+.chart-card-title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.pie-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+.statistic-module-select{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.ant-select-multiple .ant-select-selection-overflow .ant-select-selection-item{
+  color: lightgray;
+}
+
+.ant-select-multiple.ant-select-sm .ant-select-selection-overflow .ant-select-selection-item{
+  padding-left: 5px;
+}
+
+:where(.css-dev-only-do-not-override-17u5hrg).ant-select-multiple.ant-select-sm .ant-select-selector {
+  border-radius: 50px;
+}
+
+body:has(.apexcharts-canvas) .apexcharts-canvas:not(.chart-card-1 .apexcharts-canvas):not(.chart-card-2 .apexcharts-canvas) .apexcharts-inner.apexcharts-graphical line {
+  stroke-dasharray: 5,5;
+}
+
+
+
+/*body:has(.apexcharts-canvas) .ant-row:nth-child(3) .apexcharts-canvas:not(.chart-card-1 .apexcharts-canvas):not(.chart-card-2 .apexcharts-canvas) .apexcharts-inner.apexcharts-graphical .apexcharts-line-series.apexcharts-plot-series .apexcharts-series:nth-last-child(4) {
+  mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.08) 1.96%, rgba(0, 0, 0, 0.6) 19.34%, black 37.78%, black 53.02%, rgba(0, 0, 0, 0.6) 74.38%, rgba(0, 0, 0, 0.08) 97.61%);
+  filter: drop-shadow(0 10px 0 red);
+}*/
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-16 div:has(.apexcharts-svg) .apexcharts-svg .apexcharts-legend.apexcharts-align-left.apx-legend-position-top {
+  display: flex;
+  gap: 5%;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-16 div:has(.apexcharts-svg) .apexcharts-svg .apexcharts-legend.apexcharts-align-left.apx-legend-position-top .apexcharts-legend-series .apexcharts-legend-marker svg {
+  height: 10px;
+}
+
+body:has(.apexcharts-canvas) .ant-row {
+  flex-wrap: wrap;
+}
+
+.ant-row:has(.apexcharts-canvas) {
+  min-height: 445px;
+}
+
+body:has(.apexcharts-canvas) .ant-row:first-child {
+  flex-wrap: nowrap;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 {
+  max-width: 40%;
+  min-width: 34%;
+  height: 400px;
+  flex: 0 0 40%;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-16 {
+  max-width: 66%;
+  min-width: 60%;
+  flex: 0 0 60%;
+}
+
+@media (max-width: 1024px) {
+  .ant-row:not(.apexcharts-canvas) .ant-col.ant-col-6 .module-overview-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-wrap: wrap-reverse;
+  }
+
+  .ant-row:has(.apexcharts-canvas) {
+    flex-direction: column;
+  }
+
+  body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 {
+    max-width: 100%;
+    flex: 1;
+  }
+
+  body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-16 {
+    max-width: 100%;
+    flex: 1;
+  }
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .ant-picker.ant-picker-small.ant-picker-outlined {
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+  width: 38% !important;
+  height: 26px;
+}
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .ant-picker.ant-picker-small.ant-picker-outlined .ant-picker-input input {
+  text-align: center;
+}
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .ant-picker.ant-picker-small.ant-picker-outlined .ant-picker-input span {
+  display: none;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-1 p,
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 p {
+  font-size: 18px;
+  font-style: italic;
+  line-height: 21px;
+  text-align: center;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-1 div:has(.apexcharts-canvas),
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div:has(.apexcharts-canvas) {
+  min-height: 90% !important;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-1 div .apexcharts-canvas,
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas {
+  height: 350px !important;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-1 div .apexcharts-canvas .apexcharts-svg,
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg {
+  height: 100% !important;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-1 div .apexcharts-canvas .apexcharts-svg foreignObject,
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg foreignObject {
+  height: 100%;
+  width: 100%;
+}
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-1 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical,
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical {
+  height: 100%;
+  width: 100%;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-1 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie {
+  transform: scale(1.2) translate(-6%, 0);
+}
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie {
+  transform: scale(1.2) translate(-6%, 0);
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie circle {
+  transform: translate(7%, 7.2%) scale(0.8);
+  fill: white;
+  filter: drop-shadow(0 0 10px #00000052);
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-1 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie .apexcharts-slices .apexcharts-series.apexcharts-pie-series {
+  stroke-linecap: round !important;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-1 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie .apexcharts-slices .apexcharts-series.apexcharts-pie-series [selected="true"] {
+  stroke-width: 10px;
+  stroke: #34B3F15E;
+}
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie .apexcharts-slices .apexcharts-series.apexcharts-pie-series {
+  stroke-linecap: round;
+}
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie .apexcharts-slices .apexcharts-series.apexcharts-pie-series .apexcharts-pie-area {
+  stroke-width: 4px;
+  stroke: white;
+  stroke-linejoin: round !important;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie .apexcharts-slices:has([selected="true"]) .apexcharts-series.apexcharts-pie-series:not([selected="true"]) path {
+  stroke-width: 2;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie .apexcharts-slices .apexcharts-series.apexcharts-pie-series:has([selected="true"]) path {
+  stroke: transparent;
+  filter: drop-shadow(0 15px 15px #000000);
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie .apexcharts-slices .apexcharts-datalabels .apexcharts-text.apexcharts-pie-label {
+  filter: drop-shadow(0 0 2px #000000);
+  font-weight: 400;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-1 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie .apexcharts-slices .apexcharts-datalabels .apexcharts-text.apexcharts-pie-label {
+  text-shadow: 0 0 5px #000000;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie .apexcharts-datalabels-group {
+  transform: translate(4%, -2%) scale(0.9);
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 div .apexcharts-canvas .apexcharts-svg .apexcharts-inner.apexcharts-graphical .apexcharts-pie .apexcharts-datalabels-group .apexcharts-text.apexcharts-datalabel-value {
+  font-size: 30px;
+}
+
+body:has(.apexcharts-canvas) .apexcharts-canvas:not(.chart-card-1 .apexcharts-canvas):not(.chart-card-2 .apexcharts-canvas) .apexcharts-inner.apexcharts-graphical .apexcharts-line-series.apexcharts-plot-series .apexcharts-series path {
+  stroke-linecap: round;
+  stroke-width: 7px;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-16:has(.error-fetching) div div:nth-child(2) {
+  opacity: 0.9;
+}
+
+.error-fetching {
+  position: absolute;
+  z-index: 999;
+  width: 95%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-1 .error-fetching,
+body:has(.apexcharts-canvas) .ant-row .ant-col.ant-col-8 .chart-card-2 .error-fetching {
+  width: 100%;
+  height: 80%;
+  transform: translateX(-12%);
+}
+
+.error-fetching span {
+  width: 240px;
+  height: 38px;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  color: #ccc;
+  font-style: italic;
+  border-radius: 8px;
+}

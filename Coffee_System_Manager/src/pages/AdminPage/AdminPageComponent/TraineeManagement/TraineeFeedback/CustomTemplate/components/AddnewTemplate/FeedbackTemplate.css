@@ -1,0 +1,58 @@
+/* Title styling */
+.feedback-template-title {
+  color: #333;
+  font-weight: bold;
+  font-size: 24px;
+  margin-top: 16px;
+  margin-bottom: 0;
+  box-shadow: 0 1px 0 #ccc, 0 -1px 0 #ccc;
+  text-align: left;
+}
+
+.edit-template-link {
+  color: #3f51b5; /* Blue color for link text */
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 500;
+  margin-top: 20px; /* Adds gap between title and link */
+  text-decoration: none; /* Remove default underline from links */
+  display: block; /* Change to block to occupy full width */
+  text-align: left; /* Align text to the left */
+
+
+}
+
+.edit-template-link::after {
+  content: "";
+
+  left: 0;
+  bottom: -2px; /* Position the line just below the text */
+  width: 100%; /* Full width underline */
+  height: 2px;
+  background-color: #3f51b5; /* Same blue color as text */
+  transition: background-color 0.3s ease; /* Smooth transition for color change */
+}
+
+.edit-template-link:hover::after {
+  background-color: #303f9f; /* Darker blue on hover */
+}
+
+/* NEW */
+
+.feedback-template-container {
+  padding: 16px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.feedback-template-title {
+  font-weight: bold;
+  text-align: center;
+}
+
+.edit-template-link {
+  color: #1890ff;
+  cursor: pointer;
+  font-weight: 500;
+}
