@@ -137,18 +137,19 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       console.log("Bắt đầu đăng nhập Google...");
-      console.log("Auth:", auth);
-      console.log("Provider:", provider);
-
       const result = await signInWithPopup(auth, provider);
       console.log("Kết quả đăng nhập:", result);
-
+  
       setEmail(result.user.email);
       localStorage.setItem("email", result.user.email);
+      
+
+      navigate("/adminPage"); 
     } catch (error) {
       console.error("Lỗi đăng nhập Google:", error.code, error.message);
     }
   };
+  
 
 
   // Xử lý đăng nhập bằng username/password
@@ -253,7 +254,6 @@ const Login = () => {
                 </button>
                 {/* Nút đăng nhập bằng Google */}
                 <div>
-                  {email ? <MainPage /> : console.log("Lỗi đăng nhập")}
                   <button onClick={handleGoogleLogin} className="google-button">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
