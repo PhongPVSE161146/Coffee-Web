@@ -1,6 +1,7 @@
 import { useState, useContext, createContext, useEffect } from "react";
 import RoleSelectionPopup from "../../pages/LoginPage/RoleSelectionPopUp/RoleSelectionPopup";
 
+
 const AuthContext = createContext(null);
 
 export const useAuth = () => {
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
     if (username === hardcodedUser.email && password === hardcodedUser.password) {
       sessionStorage.setItem("username", hardcodedUser.email);
-      sessionStorage.setItem("selectedRole", hardcodedUser.roles[0]);
+      sessionStorage.setItem("selectedRole", hardcodedUser.roles[1]);
 
       setUser({ roles: hardcodedUser.roles, selectedRole: hardcodedUser.roles[0] });
       return hardcodedUser.roles;
