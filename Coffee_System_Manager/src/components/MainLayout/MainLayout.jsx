@@ -163,16 +163,16 @@ const MainLayout = () => {
         //   { key: "ce", label: "Confirm Efforts", },
         // ],
       },
-      {
-        key: "6",
-        icon: <ShopOutlined style={{ fontSize: "24px" }} />,
-        label: "Kho Hàng ",
-        children: [
-          { key: "tcp", label: "Danh Sách Tồn Kho", },
-          { key: "tp", label: "Nhập Kho", },
-          { key: "t", label: "Kiểm Kê Kho", },
-        ],
-      },
+      // {
+      //   key: "6",
+      //   icon: <ShopOutlined style={{ fontSize: "24px" }} />,
+      //   label: "Kho Hàng ",
+      //   children: [
+      //     { key: "tcp", label: "Danh Sách Tồn Kho", },
+      //     { key: "tp", label: "Nhập Kho", },
+      //     { key: "t", label: "Kiểm Kê Kho", },
+      //   ],
+      // },
       {
         key: "7",
         icon: <MoneyCollectOutlined style={{ fontSize: "24px" }} />,

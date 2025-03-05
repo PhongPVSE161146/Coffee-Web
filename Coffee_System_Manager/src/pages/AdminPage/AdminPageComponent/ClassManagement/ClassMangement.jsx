@@ -5,9 +5,8 @@ import UnderConstruction from "../../../../components/Under-Construction/UnderCo
 const ClassMangement = () => {
   return (
     <text  >
-      Wellcome
+      Welcome
     </text>
-    // <UnderConstruction/>
 
   );
 };
