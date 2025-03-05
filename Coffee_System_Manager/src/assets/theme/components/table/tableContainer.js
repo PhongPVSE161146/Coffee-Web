@@ -14,8 +14,8 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 React base styles
-import colors from "assets/theme/base/colors";
-import boxShadows from "assets/theme/base/boxShadows";
+import colors from "../../base/colors";
+import boxShadows from "../../base/boxShadows";
 import borders from "assets/theme/base/borders";
 
 const { white } = colors;

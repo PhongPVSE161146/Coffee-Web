@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./PrivateRoutes";
 import Unauthorized from "../components/Unauthorized/Unauthorized";
 import LoginPage from "../pages/LoginPage/LoginPage";
+
+//ManagerRouter
+import ManagerPage from "../pages/Manager/ManagerPage";
+
 //AdminRoutes
 import MainPage from "../pages/AdminPage/MainPage";
 import TrainerList from "../pages/AdminPage/AdminPageComponent/TrainerList/TrainerList";
@@ -71,6 +75,7 @@ import ClassInfo from "../pages/TrainerPage/TrainerPageComponent/ClassDetails/Cl
 
 const AppRoutes = () => (
   <Routes>
+    <Route path="/dashboard" element={<ManagerPage/>}></Route>
     <Route path="/unauthorized" element={<Unauthorized />}></Route>
     <Route path="/" element={<LoginPage />} />
     <Route path="/adminPage" element={<PrivateRoutes requiredRole="admin" />}>
