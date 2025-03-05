@@ -22,7 +22,8 @@ import PropTypes from "prop-types";
 import MDBox from "components/MDBox";
 
 // Custom styles for MDPagination
-import MDPaginationItemRoot from "components/MDPagination/MDPaginationItemRoot";
+// import MDPaginationItemRoot from "components/MDPagination/MDPaginationItemRoot";
+import MDPaginationItemRoot from "./MDPaginationItemRoot";
 
 // The Pagination main context
 const Context = createContext();

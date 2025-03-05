@@ -22,7 +22,8 @@ import PropTypes from "prop-types";
 import MDTypography from "components/MDTypography";
 
 // Custom styles for MDProgress
-import MDProgressRoot from "components/MDProgress/MDProgressRoot";
+// import MDProgressRoot from "components/MDProgress/MDProgressRoot";
+import MDProgressRoot from "./MDProgressRoot";
 
 const MDProgress = forwardRef(({ variant, color, value, label, ...rest }, ref) => (
   <>
