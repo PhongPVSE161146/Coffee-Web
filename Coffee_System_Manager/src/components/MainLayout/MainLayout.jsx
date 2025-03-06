@@ -202,7 +202,14 @@ const MainLayout = () => {
             setCollapsed(!collapsed);
           }
           break;
-        
+          case "2":
+            navigate("traineeManagement");
+            sessionStorage.setItem("activekey", key);
+            sessionStorage.removeItem("activeTag");
+            if (responsiveCollapsed) {
+              setCollapsed(!collapsed);
+            }
+            break;
       }
     } 
     else if (role === "trainermanager") {
