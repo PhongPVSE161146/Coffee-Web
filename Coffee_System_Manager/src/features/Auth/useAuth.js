@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const savedUser = sessionStorage.getItem("user");
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      setUser(JSON.parse(savedUser))
     }
     setLoading(false);
   }, []);
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
     if (username === hardcodedUser.email && password === hardcodedUser.password) {
       sessionStorage.setItem("username", hardcodedUser.email);
-      sessionStorage.setItem("selectedRole", hardcodedUser.roles[1]);
+      sessionStorage.setItem("selectedRole", hardcodedUser.roles[0]);
 
       setUser({ roles: hardcodedUser.roles, selectedRole: hardcodedUser.roles[0] });
       return hardcodedUser.roles;
