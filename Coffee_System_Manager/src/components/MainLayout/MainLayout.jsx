@@ -127,7 +127,7 @@ const MainLayout = () => {
         label: "Mặt Hàng",
         children: [
           { key: "tl", label: "Danh Sách Mặt Hàng", },
-          { key: "tf", label: "Thức Đơn", },
+          { key: "tf", label: "Thực Đơn", },
 
         ],
       },
@@ -152,12 +152,7 @@ const MainLayout = () => {
       {
         key: "6",
         icon: <ShopOutlined style={{ fontSize: "24px" }} />,
-        label: "Kho Hàng ",
-        children: [
-          { key: "tcp", label: "Danh Sách Tồn Kho", },
-          { key: "tp", label: "Nhập Kho", },
-          { key: "t", label: "Kiểm Kê Kho", },
-        ],
+        label: "Quán",
       },
       {
         key: "7",
@@ -204,6 +199,22 @@ const MainLayout = () => {
           break;
           case "2":
             navigate("traineeManagement");
+            sessionStorage.setItem("activekey", key);
+            sessionStorage.removeItem("activeTag");
+            if (responsiveCollapsed) {
+              setCollapsed(!collapsed);
+            }
+            break;
+            case "tl":
+            navigate("danhsachsanpham");
+            sessionStorage.setItem("activekey", key);
+            sessionStorage.removeItem("activeTag");
+            if (responsiveCollapsed) {
+              setCollapsed(!collapsed);
+            }
+            break;
+            case "6":
+            navigate("danhsachcuahang");
             sessionStorage.setItem("activekey", key);
             sessionStorage.removeItem("activeTag");
             if (responsiveCollapsed) {

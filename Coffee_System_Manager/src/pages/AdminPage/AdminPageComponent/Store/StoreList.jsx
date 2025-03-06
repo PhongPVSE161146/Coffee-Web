@@ -4,7 +4,7 @@ import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
 import { useForm } from "antd/es/form/Form";
 
-const ClassMangement = () => {
+const StoreList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = useForm();
   const useStyle = createStyles(({ css }) => ({
@@ -35,27 +35,27 @@ const ClassMangement = () => {
   }
   const columns = [
     {
-      title: 'Mã máy',
+      title: 'Mã sản phẩm',
       width: 100,
-      dataIndex: 'mid',
+      dataIndex: 'pid',
       fixed: 'left',
     },
     {
-      title: 'Tên máy',
+      title: 'Tên sản phẩm',
       width: 100,
       dataIndex: 'name',
     },
     {
-      title: 'Ngày thêm máy',
+      title: 'Ngày thêm sản phẩm',
       dataIndex: 'adate',
       key: '1',
       width: 100,
     },
     {
-      title: 'Sản phẩm',
-      width: 90,
-      render: () => <a>Xem thêm</a>,
-    },
+        title: 'Giá sản phẩm',
+        width: 100,
+        dataIndex: 'price',
+      },
     {
       width: 90,
       render: () => <a>Chỉnh sửa</a>,
@@ -65,25 +65,20 @@ const ClassMangement = () => {
       width: 90,
       render: () => <a>Xóa</a>,
     },
-    {
-      title: 'Trạng thái',
-      width: 90,
-      render: () => <a>Sửa</a>,
-    },
   ];
 
   const data = [
     {
-      mid: '1',
+      pid: '1',
       name: 'Olivia',
-      age: 32,
+      price: 32,
       address: 'New York Park',
       adate: '01/01/2025',
     },
     {
-      mid: '2',
+      pid: '2',
       name: 'Ethan',
-      age: 40,
+      price: 40,
       address: 'London Park',
       adate: '01/01/2025',
     },
@@ -103,7 +98,7 @@ const ClassMangement = () => {
           style={{ width: "90%", maxWidth: "1200px" }}
         />
         <Button type="primary" onClick={showModal}>
-          Tạo thông tin máy mới
+          Tạo thông tin sản phẩm mới
         </Button>
         <Modal
           title="Tạo máy"
@@ -124,12 +119,12 @@ const ClassMangement = () => {
           >
             <Form.Item
               required
-              label="Mã máy"
+              label="Mã sản phẩm"
               name="firstname"
               rules={[
                 {
                   required: true,
-                  message: "Hãy nhập mã máy",
+                  message: "Hãy nhập mã sản phẩm",
                 },
               ]}
             >
@@ -137,83 +132,45 @@ const ClassMangement = () => {
             </Form.Item>
             <Form.Item
               required
-              label="Tên máy"
+              label="Tên sản phẩm"
               name="name"
               rules={[
                 {
                   required: true,
-                  message: "Hãy nhập tên máy",
+                  message: "Hãy nhập tên sản phẩm",
                 },
               ]}
             >
               <Input required />
             </Form.Item>
             <Form.Item
-              name="doa"
-              label="Ngày thêm máy"
-              rules={[{ required: true, message: "Chọn ngày thêm máy" }]}
+              name="doap"
+              label="Ngày thêm sản phẩm"
+              rules={[{ required: true, message: "Chọn ngày thêm sản phẩm" }]}
             >
               <DatePicker
-                placeholder="Ngày Thêm Máy"
+                placeholder="Ngày Thêm Sản Phẩm"
                 style={{ width: "100%" }}
               // format={dateFormat}
               />
             </Form.Item>
             <Form.Item
               required
-              label="Sản phẩm"
-              name="mproduct"
-              rules={[{ required: true, message: "Thêm sản phẩm của máy" }]}
+              label="Giá sản phẩm"
+              name="price"
+              rules={[
+                {
+                  required: true,
+                  message: "Hãy nhập giá tiền",
+                },
+              ]}
             >
-              <Select
-                mode="multiple"
-                placeholder="Chọn Sản Phẩm"
-                onChange={(value) => {
-                  // Loại bỏ giá trị bị trùng (nếu có)
-                  const uniqueValues = [...new Set(value)];
-                  form.setFieldsValue({ mproduct: uniqueValues });
-                }}
-                tagRender={(props) => {
-                  const { label, closable, onClose } = props;
-                  return (
-                    <span
-                      style={{
-                        fontWeight: "bold", // Làm đậm chữ
-                        padding: "4px 8px",
-                        borderRadius: "4px",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        margin: "2px",
-                        border: "1px solid #d9d9d9", // Giữ viền mặc định của Antd
-                        background: "#f5f5f5", // Màu nền nhẹ
-                      }}
-                    >
-                      {label}
-                      {closable && (
-                        <span
-                          onClick={onClose}
-                          style={{
-                            marginLeft: "8px",
-                            cursor: "pointer",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          ✖
-                        </span>
-                      )}
-                    </span>
-                  );
-                }}
-              >
-                <Option value="SALES">Cappuchino</Option>
-                <Option value="DELIVERY">Latte</Option>
-                <Option value="MANAGER">Mocha</Option>
-              </Select>
+              <Input required />
             </Form.Item>
 
 
             <Button onClick={hanldeClickSubmit} className="form-button ">
-              Thêm máy mới
+              Thêm sản phẩm mới
             </Button>
           </Form>
         </Modal>
@@ -223,4 +180,4 @@ const ClassMangement = () => {
   );
 };
 
-export default ClassMangement;
+export default StoreList;
