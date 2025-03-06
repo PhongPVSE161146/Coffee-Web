@@ -64,7 +64,7 @@ const ClassMangement = () => {
     },
     {
       width: 90,
-      render: () => <a>Thêm</a>,
+      render: () => <a>Chỉnh sửa</a>,
     },
     {
 
