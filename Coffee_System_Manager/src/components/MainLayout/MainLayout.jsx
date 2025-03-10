@@ -193,6 +193,15 @@ const MainLayout = () => {
             setCollapsed(!collapsed);
           }
           break;
+          case "2":
+          navigate("statisticsPhase2/generaldata");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          sessionStorage.setItem("activeTag", " - General Data");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
         
       }
     } 
