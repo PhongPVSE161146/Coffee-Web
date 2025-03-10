@@ -162,14 +162,15 @@ const MainLayout = () => {
             setCollapsed(!collapsed);
           }
           break;
-          case "2":
-            navigate("traineeManagement");
+          case "me":
+            navigate("manastaff");
             sessionStorage.setItem("activekey", key);
             sessionStorage.removeItem("activeTag");
             if (responsiveCollapsed) {
               setCollapsed(!collapsed);
             }
             break;
+         
             case "3":
             navigate("danhsachsanpham");
             sessionStorage.setItem("activekey", key);
