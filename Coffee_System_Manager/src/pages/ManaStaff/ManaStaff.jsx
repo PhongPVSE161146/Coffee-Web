@@ -213,7 +213,7 @@ const ManaStaff = () => {
 
 
             <Button onClick={hanldeClickSubmit} className="form-button ">
-              Thêm máy mới
+              Thêm nhân viên mới
             </Button>
           </Form>
         </Modal>
