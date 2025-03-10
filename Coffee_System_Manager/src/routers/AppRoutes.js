@@ -24,6 +24,8 @@ import FAQS from "../pages/AdminPage/AdminPageComponent/FAQS/FAQS";
 import ScheduleTrackerReport from "../pages/AdminPage/AdminPageComponent/ClassManagement/ScheduleTrackerReport/ScheduleTrackerReport";
 import FeedbackTemplate from "../pages/AdminPage/AdminPageComponent/TraineeManagement/TraineeFeedback/CustomTemplate/components/FeedbackTemplate";
 import AddTempalteHeader from "../pages/AdminPage/AdminPageComponent/TraineeManagement/TraineeFeedback/CustomTemplate/components/AddnewTemplate/AddTempalteHeader";
+import StoreList from "../pages/AdminPage/AdminPageComponent/Store/StoreList";
+import ProductList from "../pages/AdminPage/AdminPageComponent/Product/ProductList";
 //TrainerRoutes
 import TrainerScheduleTracker from "../pages/TrainerPage/TrainerPageComponent/TrainerManagement/ScheduleTracker/TrainerScheduleTracker2";
 import { AdminTrainerModuleDetail } from "../pages/AdminPage/AdminPageComponent/TrainerManagement/ClassList/AdminModuleDetail/AdminModuleDetail";
@@ -79,8 +81,10 @@ const AppRoutes = () => (
     <Route path="/adminPage" element={<PrivateRoutes requiredRole="admin" />}>
       <Route index element={<MainPage />} />
       <Route element={<MainPage />}>
-        <Route path="Profile" element={<ProfilePage />}></Route>
+        <Route path="Profile" element={<ProfilePage />}/>
         <Route path="trainerList" element={<TrainerList />} />
+        <Route path="danhsachsanpham" element={<ProductList />} />
+        <Route path="danhsachcuahang" element={<StoreList />} />
         <Route path="addTrainer" element={<AddTrainer />} />
         <Route path="manastaff" element={<ManaStaff />} />
         <Route path="classManagement" element={<ClassMangement />} />

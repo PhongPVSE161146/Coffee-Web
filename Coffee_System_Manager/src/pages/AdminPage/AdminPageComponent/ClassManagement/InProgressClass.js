@@ -1,9 +1,13 @@
 import React from "react";
 import UnderConstruction from "../../../../components/Under-Construction/UnderConstruction";
+import StickyHeadTable from "../../../../components/table/table";
 
 const InProgressClass = () => {
     return (
-        <UnderConstruction />
+        <div>
+            <StickyHeadTable />
+        </div>
+
     );
 };
 

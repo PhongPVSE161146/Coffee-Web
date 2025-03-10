@@ -138,11 +138,12 @@ const Login = () => {
     try {
       console.log("Bắt đầu đăng nhập Google...");
       const result = await signInWithPopup(auth, provider);
+      const user = sessionStorage.setItem("username", result.user.displayName)
       console.log("Kết quả đăng nhập:", result);
   
       setEmail(result.user.email);
       localStorage.setItem("email", result.user.email);
-      
+      sessionStorage.setItem("selectedRole","admin");
 
       navigate("/adminPage"); 
     } catch (error) {

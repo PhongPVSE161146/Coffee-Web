@@ -1,6 +1,7 @@
 import { useState, useContext, createContext, useEffect } from "react";
 import RoleSelectionPopup from "../../pages/LoginPage/RoleSelectionPopUp/RoleSelectionPopup";
 
+
 const AuthContext = createContext(null);
 
 export const useAuth = () => {
@@ -15,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const savedUser = sessionStorage.getItem("user");
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      setUser(JSON.parse(savedUser))
     }
     setLoading(false);
   }, []);
