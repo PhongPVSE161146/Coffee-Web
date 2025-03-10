@@ -24,6 +24,8 @@ import {
 } from "@ant-design/icons";
 
 import kohicoffee from "../../assets/kohicoffee.png";
+import logocoffee from "../../assets/logocoffee.png";
+
 import { Button, Layout, Menu, theme, Badge, ConfigProvider, Dropdown } from "antd";
 import { useNavigate, Outlet } from "react-router-dom";
 import { FaBell, FaRegUserCircle } from "react-icons/fa";
@@ -146,23 +148,14 @@ const MainLayout = () => {
       //   label: "Khuyến Mãi",
       //   // children: [
 
-        //   { key: "aee", label: "Add Extension Efforts", },
-        //   { key: "ce", label: "Confirm Efforts", },
-        // ],
+      //   { key: "aee", label: "Add Extension Efforts", },
+      //   { key: "ce", label: "Confirm Efforts", },
+      // ],
       {
         key: "6",
         icon: <ShopOutlined style={{ fontSize: "24px" }} />,
         label: "Quán",
       },
-      {
-        key: "7",
-        icon: <MoneyCollectOutlined style={{ fontSize: "24px" }} />,
-        label: "Thu Chi",
-        children: [
-          { key: "ed", label: "Danh Sách Phiếu", },
-        ],
-      },
-
       // {
       //   key: "9",
       //   icon: <UserOutlined style={{ fontSize: "24px" }} />,
@@ -181,7 +174,7 @@ const MainLayout = () => {
         label: "Thiết Lập Quán",
       },
     ],
-    
+
   };
 
   const handleMenuClick = (e) => {
@@ -197,7 +190,7 @@ const MainLayout = () => {
             setCollapsed(!collapsed);
           }
           break;
-          case "2":
+        case "2":
           navigate("statisticsPhase2/generaldata");
           sessionStorage.setItem("activekey", key);
           sessionStorage.removeItem("activeTag");
@@ -206,32 +199,25 @@ const MainLayout = () => {
             setCollapsed(!collapsed);
           }
           break;
-          case "2":
-            navigate("traineeManagement");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
-            case "tl":
-            navigate("danhsachsanpham");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
-            case "6":
-            navigate("danhsachcuahang");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
+
+        case "tl":
+          navigate("danhsachsanpham");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
+        case "6":
+          navigate("danhsachcuahang");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
       }
-    } 
+    }
     else if (role === "trainermanager") {
       switch (e.key) {
         case "1":
@@ -419,34 +405,43 @@ const MainLayout = () => {
           </div>
         )}
 
-        {!collapsed && (
-          <div style={{ height: "140px", marginLeft: 20 }} className="demo-logo-vertical">
+        <div
+          style={{
+            height: "140px",
+            marginLeft: collapsed ? 0 : 20,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            transition: "all 0.3s ease",
+          }}
+          className="demo-logo-vertical"
+        >
+          {collapsed ? (
             <img
+              src={logocoffee}
+              alt="Logo Coffee"
+              style={{
+                width: "50px",
+                height: "50px",
+                objectFit: "contain",
+                transition: "all 0.3s ease",
+              }}
+            />
+          ) : (
+            <img
+              src={kohicoffee}
+              alt="Kohi Coffee Logo"
               style={{
                 width: "250px",
                 height: "170px",
                 transform: "translateX(-10%)",
+                objectFit: "contain",
+                transition: "all 0.3s ease",
               }}
-              src={kohicoffee}
-              alt="Kohi Coffee Logo"
             />
-          </div>
-        )}
-        {collapsed && (
-          <div style={{ height: "140px" }} className="demo-logo-vertical">
-            <img
-              style={{
-                width: "250px",
-                height: "140px",
-                transform: "translateX(-18%)",
-                clipPath: "inset(0 48% 0 0)",
-              }}
-              src={kohicoffee}
-              alt="Kohi Coffee Logo"
-            />
-          </div>
-        )}
-
+          )}
+        </div>
+        
         <ConfigProvider
           theme={{
             components: {
@@ -512,14 +507,14 @@ const MainLayout = () => {
             }}
           >
             <p className="user-welcome" style={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'center', alignItems: 'center', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-              {/* {role ? (
+              {role ? (
                 <div className="user-info">
                   {role === 'trainer' && (<span className="role-container" style={{ backgroundColor: '#2ba510' }}>Trainer</span>)}
                   {role === 'admin' && (<span className="role-container" style={{ backgroundColor: '#ff4949' }}>Admin</span>)}
                   {role === 'deliverymanager' && (<span className="role-container" style={{ backgroundColor: '#1c00d2' }}>Delivery Manager</span>)}
                   {role === 'trainermanager' && (<span className="role-container" style={{ backgroundColor: '#009785' }}>Trainer Manager</span>)}
                   {role === 'FAMadmin' && (<span className="role-container" style={{ backgroundColor: '#cd7100' }}>FAMS Admin</span>)}
-                </div>) : (<></>)} */}
+                </div>) : (<></>)}
               Welcome, {username}
             </p>
             <Dropdown menu={{ items: menuProfile }} trigger={['click']}>
