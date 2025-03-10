@@ -136,18 +136,6 @@ const MainLayout = () => {
         icon: <ShopOutlined style={{ fontSize: "24px" }} />,
         label: "Quán",
       },
-
-      // {
-      //   key: "9",
-      //   icon: <UserOutlined style={{ fontSize: "24px" }} />,
-      //   label: "Khách Hàng",
-      //   children: [
-      //     { key: "cl", label: "Danh Sách Khách Hàng", },
-      //     { key: "ipc", label: "Nhóm Khách Hàng ", },
-      //     { key: "cp", label: "Thẻ Thành Viên ", },
-      //     { key: "str", label: "Schedule Tracker", },
-      //   ],
-      // },
     ],
     
   };
