@@ -161,7 +161,7 @@ const TechStaff = () => {
             </Form.Item>
             <Form.Item
               required
-              label="Nhân ViênViên"
+              label="Nhân Viên"
               name="mproduct"
               rules={[{ required: true, message: "Thêm sản phẩm của máy" }]}
             >
