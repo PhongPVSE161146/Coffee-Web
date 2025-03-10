@@ -70,6 +70,7 @@ import SchedulerManagement from "../pages/AdminPage/AdminPageComponent/FAMSSetti
 import ClassConfirmationTable from "../pages/TrainerPage/TrainerPageComponent/TrainerConfirmation/TrainerConfirmation";
 import ClassDetail from "../pages/TrainerPage/TrainerPageComponent/ClassDetails/ClassDetail";
 import ClassInfo from "../pages/TrainerPage/TrainerPageComponent/ClassDetails/ClassInfo/ClassInfo";
+import ManaStaff from "../pages/ManaStaff/ManaStaff";
 
 const AppRoutes = () => (
   <Routes>
@@ -81,6 +82,7 @@ const AppRoutes = () => (
         <Route path="Profile" element={<ProfilePage />}></Route>
         <Route path="trainerList" element={<TrainerList />} />
         <Route path="addTrainer" element={<AddTrainer />} />
+        <Route path="manastaff" element={<ManaStaff />} />
         <Route path="classManagement" element={<ClassMangement />} />
         <Route path="feedback-template/:templateId" element={<FeedbackTemplate />} />
         <Route path="traineeManagement" element={<TraineeManagement />}>

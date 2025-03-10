@@ -202,6 +202,15 @@ const MainLayout = () => {
             setCollapsed(!collapsed);
           }
           break;
+          case "me":
+          navigate("manastaff");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          sessionStorage.setItem("activeTag", " - General Data");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
         
       }
     } 

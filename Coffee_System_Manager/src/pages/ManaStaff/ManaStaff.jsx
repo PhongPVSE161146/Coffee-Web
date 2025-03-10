@@ -4,7 +4,7 @@ import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
 import { useForm } from "antd/es/form/Form";
 
-const ClassMangement = () => {
+const ManaStaff = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = useForm();
   const useStyle = createStyles(({ css }) => ({
@@ -103,7 +103,7 @@ const ClassMangement = () => {
           style={{ width: "90%", maxWidth: "1200px" }}
         />
         <Button type="primary" onClick={showModal}>
-          Tạo thông tin máy mới
+          Tạo thông tin nhân viên mới
         </Button>
         <Modal
           title="Thêm nhân viên"
