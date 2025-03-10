@@ -111,12 +111,6 @@ const MainLayout = () => {
   const menuItems = {
     admin: [
       {
-        key: "1",
-        icon: <HomeOutlined style={{ fontSize: "24px" }} />,
-        label: "Tổng Quan",
-
-      },
-      {
         key: "2",
         icon: <LineChartOutlined style={{ fontSize: "24px" }} />,
         label: "Báo Cáo",
@@ -124,43 +118,23 @@ const MainLayout = () => {
       {
         key: "3",
         icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
-        label: "Mặt Hàng",
-        children: [
-          { key: "tl", label: "Danh Sách Mặt Hàng", },
-          { key: "tf", label: "Thực Đơn", },
-
-        ],
+        label: "Danh Sách Mặt Hàng",
       },
       {
-        key: "4",
-        icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Nhân Viên",
-        children: [
-          { key: "me", label: "Danh Sách Nhân Viên", },
-          { key: "de", label: "Vai Trò Nhân Viên", },
-        ],
-      },
-      // {
-      //   key: "5",
-      //   icon: <TagOutlined style={{ fontSize: "24px" }} />,
-      //   label: "Khuyến Mãi",
-      //   // children: [
+        key: "1",
+        icon: <HomeOutlined style={{ fontSize: "24px" }} />,
+        label: "Máy",
 
-        //   { key: "aee", label: "Add Extension Efforts", },
-        //   { key: "ce", label: "Confirm Efforts", },
-        // ],
+      },
+      {
+        key: "me",
+        icon: <TeamOutlined style={{ fontSize: "24px" }} />,
+        label: "Danh Sách Nhân Viên",
+      },
       {
         key: "6",
         icon: <ShopOutlined style={{ fontSize: "24px" }} />,
         label: "Quán",
-      },
-      {
-        key: "7",
-        icon: <MoneyCollectOutlined style={{ fontSize: "24px" }} />,
-        label: "Thu Chi",
-        children: [
-          { key: "ed", label: "Danh Sách Phiếu", },
-        ],
       },
 
       // {
@@ -174,12 +148,6 @@ const MainLayout = () => {
       //     { key: "str", label: "Schedule Tracker", },
       //   ],
       // },
-
-      {
-        key: "logout",
-        icon: <SettingOutlined style={{ fontSize: "24px" }} />,
-        label: "Thiết Lập Quán",
-      },
     ],
     
   };
@@ -214,7 +182,7 @@ const MainLayout = () => {
               setCollapsed(!collapsed);
             }
             break;
-            case "tl":
+            case "3":
             navigate("danhsachsanpham");
             sessionStorage.setItem("activekey", key);
             sessionStorage.removeItem("activeTag");
