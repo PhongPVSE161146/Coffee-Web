@@ -124,7 +124,7 @@ const MainLayout = () => {
       {
         key: "me",
         icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Quản Lý Cửa Hàng",
+        label: "Danh Sách Quản Lý Store",
       },
       {
         key: "6",
