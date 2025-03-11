@@ -124,7 +124,7 @@ const MainLayout = () => {
       {
         key: "me",
         icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Quản Lý Cửa Hàng",
+        label: "Danh Sách Quản Lý Store",
       },
       {
         key: "ma",
@@ -204,8 +204,12 @@ const MainLayout = () => {
               setCollapsed(!collapsed);
             }
             break;
+      }
+    } 
 
-            case "ktv":
+    else if (role === "managerStore") {
+      switch (e.key) {
+        case "nv":
             navigate("manastaff");
             sessionStorage.setItem("activekey", key);
             sessionStorage.removeItem("activeTag");
@@ -213,12 +217,8 @@ const MainLayout = () => {
               setCollapsed(!collapsed);
             }
             break;
-      }
-    } 
 
-    else if (role === "managerStore") {
-      switch (e.key) {
-        case "nv":
+            case "ktv":
             navigate("manastaff");
             sessionStorage.setItem("activekey", key);
             sessionStorage.removeItem("activeTag");
