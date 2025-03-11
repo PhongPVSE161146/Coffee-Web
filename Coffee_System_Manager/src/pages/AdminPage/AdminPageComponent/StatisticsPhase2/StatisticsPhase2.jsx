@@ -22,7 +22,8 @@ const SatisticsPhase2 = () => {
 
   const navigate = useNavigate();
 
-  const tags = ["General Data", "Module Statistic", "Feedback", "GPA"];
+  // const tags = ["General Data", "Module Statistic", "Feedback", "GPA"];
+  const tags = ["Dashboard"];
 
   const updateVisibleTags = () => {
     const containerWidth =
@@ -81,46 +82,46 @@ const SatisticsPhase2 = () => {
         setModalContent(content);
         setIsModalVisible(true);
         break;
-      case "Module Statistic":
-        content = (
-          <div>
-            <h3>Select Options:</h3>
-            <Select style={{ width: "100%", marginBottom: "10px" }} placeholder="Select option 1">
-              <Option value="option1">Option 1</Option>
-              <Option value="option2">Option 2</Option>
-            </Select>
-            <Select style={{ width: "100%", marginBottom: "10px" }} placeholder="Select option 2">
-              <Option value="option1">Option 1</Option>
-              <Option value="option2">Option 2</Option>
-            </Select>
-            <Select style={{ width: "100%" }} placeholder="Select option 3">
-              <Option value="option1">Option 1</Option>
-              <Option value="option2">Option 2</Option>
-            </Select>
-          </div>
-        );
-        setModalContent(content);
-        setIsModalVisible(true);
-        break;
-      case "Feedback":
-        content = <div>This is the Feedback modal content.</div>;
-        break;
-      case "GPA":
-        content = (
-          <div>
-            <h3>Select GPA Details:</h3>
-            <Select style={{ width: "100%", marginBottom: "10px" }} placeholder="Select GPA category 1">
-              <Option value="gpa1">GPA Category 1</Option>
-              <Option value="gpa2">GPA Category 2</Option>
-            </Select>
-            <Select style={{ width: "100%", marginBottom: "10px" }} placeholder="Select GPA category 2">
-              <Option value="gpa1">GPA Category 1</Option>
-              <Option value="gpa2">GPA Category 2</Option>
-            </Select>
-            <h3>Select Date Range:</h3>
-            <RangePicker />
-          </div>
-        );
+      // case "Module Statistic":
+      //   content = (
+      //     <div>
+      //       <h3>Select Options:</h3>
+      //       <Select style={{ width: "100%", marginBottom: "10px" }} placeholder="Select option 1">
+      //         <Option value="option1">Option 1</Option>
+      //         <Option value="option2">Option 2</Option>
+      //       </Select>
+      //       <Select style={{ width: "100%", marginBottom: "10px" }} placeholder="Select option 2">
+      //         <Option value="option1">Option 1</Option>
+      //         <Option value="option2">Option 2</Option>
+      //       </Select>
+      //       <Select style={{ width: "100%" }} placeholder="Select option 3">
+      //         <Option value="option1">Option 1</Option>
+      //         <Option value="option2">Option 2</Option>
+      //       </Select>
+      //     </div>
+      //   );
+      //   setModalContent(content);
+      //   setIsModalVisible(true);
+      //   break;
+      // case "Feedback":
+      //   content = <div>This is the Feedback modal content.</div>;
+      //   break;
+      // case "GPA":
+      //   content = (
+      //     <div>
+      //       <h3>Select GPA Details:</h3>
+      //       <Select style={{ width: "100%", marginBottom: "10px" }} placeholder="Select GPA category 1">
+      //         <Option value="gpa1">GPA Category 1</Option>
+      //         <Option value="gpa2">GPA Category 2</Option>
+      //       </Select>
+      //       <Select style={{ width: "100%", marginBottom: "10px" }} placeholder="Select GPA category 2">
+      //         <Option value="gpa1">GPA Category 1</Option>
+      //         <Option value="gpa2">GPA Category 2</Option>
+      //       </Select>
+      //       <h3>Select Date Range:</h3>
+      //       <RangePicker />
+      //     </div>
+      //   );
         setModalContent(content);
         setIsModalVisible(true);
         break;
@@ -145,11 +146,11 @@ const SatisticsPhase2 = () => {
 
   return (
     <div className="trainer-management-content">
-      <div className="trainer-management-title">
+      {/* <div className="trainer-management-title">
         <h1 className="statitics-text">
           {username} {tag}
         </h1>
-      </div>
+      </div> */}
       <div className="trainer-management-category" style={{height: '44px'}}>
         <div className="trainer-management-category1">
           {visibleTags.map((tag) => (

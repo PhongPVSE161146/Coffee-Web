@@ -111,70 +111,53 @@ const MainLayout = () => {
 
 
   const menuItems = {
-    admin: [
+    admin: [      
+      {
+        key: "3",
+        icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
+        label: "Danh Sách Mặt Hàng",
+      },
       {
         key: "1",
         icon: <HomeOutlined style={{ fontSize: "24px" }} />,
-        label: "Tổng Quan",
+        label: "Danh Sách Máy",
 
       },
+      {
+        key: "me",
+        icon: <TeamOutlined style={{ fontSize: "24px" }} />,
+        label: "Danh Sách Quản Lý Store",
+      },
+      {
+        key: "ma",
+        icon: <TeamOutlined style={{ fontSize: "24px" }} />,
+        label: "Danh Sách Kỹ Thuật Viên",
+      },
+      {
+        key: "6",
+        icon: <ShopOutlined style={{ fontSize: "24px" }} />,
+        label: "Danh Sách Cửa Hàng",
+      },
+    ],
+    managerStore: [
+      {
+        key: "nv",
+        icon: <TeamOutlined style={{ fontSize: "24px" }} />,
+        label: "Danh Sách Nhân Viên",
+      },
+      {
+        key: "ktv",
+        icon: <TeamOutlined style={{ fontSize: "24px" }} />,
+        label: "Danh Sách Kỹ Thuật Viên",
+      },
+    ],
+    manager: [
       {
         key: "2",
         icon: <LineChartOutlined style={{ fontSize: "24px" }} />,
         label: "Báo Cáo",
       },
-      {
-        key: "3",
-        icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
-        label: "Mặt Hàng",
-        children: [
-          { key: "tl", label: "Danh Sách Mặt Hàng", },
-          { key: "tf", label: "Thực Đơn", },
-
-        ],
-      },
-      {
-        key: "4",
-        icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Nhân Viên",
-        children: [
-          { key: "me", label: "Danh Sách Nhân Viên", },
-          { key: "de", label: "Vai Trò Nhân Viên", },
-        ],
-      },
-      // {
-      //   key: "5",
-      //   icon: <TagOutlined style={{ fontSize: "24px" }} />,
-      //   label: "Khuyến Mãi",
-      //   // children: [
-
-      //   { key: "aee", label: "Add Extension Efforts", },
-      //   { key: "ce", label: "Confirm Efforts", },
-      // ],
-      {
-        key: "6",
-        icon: <ShopOutlined style={{ fontSize: "24px" }} />,
-        label: "Quán",
-      },
-      // {
-      //   key: "9",
-      //   icon: <UserOutlined style={{ fontSize: "24px" }} />,
-      //   label: "Khách Hàng",
-      //   children: [
-      //     { key: "cl", label: "Danh Sách Khách Hàng", },
-      //     { key: "ipc", label: "Nhóm Khách Hàng ", },
-      //     { key: "cp", label: "Thẻ Thành Viên ", },
-      //     { key: "str", label: "Schedule Tracker", },
-      //   ],
-      // },
-
-      {
-        key: "logout",
-        icon: <SettingOutlined style={{ fontSize: "24px" }} />,
-        label: "Thiết Lập Quán",
-      },
     ],
-
   };
 
   const handleMenuClick = (e) => {
@@ -190,28 +173,70 @@ const MainLayout = () => {
             setCollapsed(!collapsed);
           }
           break;
+          
+          case "me":
+            navigate("quanlinhanvien");
+            sessionStorage.setItem("activekey", key);
+            sessionStorage.removeItem("activeTag");
+            if (responsiveCollapsed) {
+              setCollapsed(!collapsed);
+            }
+            break;
+            case "ma":
+              navigate("kythuanvien");
+              sessionStorage.setItem("activekey", key);
+              sessionStorage.removeItem("activeTag");
+              if (responsiveCollapsed) {
+                setCollapsed(!collapsed);
+              }
+              break;
+            case "3":
+            navigate("danhsachsanpham");
+            sessionStorage.setItem("activekey", key);
+            sessionStorage.removeItem("activeTag");
+            if (responsiveCollapsed) {
+              setCollapsed(!collapsed);
+            }
+            break;
+            case "6":
+            navigate("danhsachcuahang");
+            sessionStorage.setItem("activekey", key);
+            sessionStorage.removeItem("activeTag");
+            if (responsiveCollapsed) {
+              setCollapsed(!collapsed);
+            }
+            break;
+      }
+    } 
+
+    else if (role === "managerStore") {
+      switch (e.key) {
+        case "nv":
+            navigate("manastaff");
+            sessionStorage.setItem("activekey", key);
+            sessionStorage.removeItem("activeTag");
+            if (responsiveCollapsed) {
+              setCollapsed(!collapsed);
+            }
+            break;
+
+            case "ktv":
+            navigate("manastaff");
+            sessionStorage.setItem("activekey", key);
+            sessionStorage.removeItem("activeTag");
+            if (responsiveCollapsed) {
+              setCollapsed(!collapsed);
+            }
+            break;
+      }
+    }
+    else if (role === "manager") {
+      switch (e.key) {
         case "2":
           navigate("statisticsPhase2/generaldata");
           sessionStorage.setItem("activekey", key);
           sessionStorage.removeItem("activeTag");
           sessionStorage.setItem("activeTag", " - General Data");
-          if (responsiveCollapsed) {
-            setCollapsed(!collapsed);
-          }
-          break;
-
-        case "tl":
-          navigate("danhsachsanpham");
-          sessionStorage.setItem("activekey", key);
-          sessionStorage.removeItem("activeTag");
-          if (responsiveCollapsed) {
-            setCollapsed(!collapsed);
-          }
-          break;
-        case "6":
-          navigate("danhsachcuahang");
-          sessionStorage.setItem("activekey", key);
-          sessionStorage.removeItem("activeTag");
           if (responsiveCollapsed) {
             setCollapsed(!collapsed);
           }

@@ -72,6 +72,8 @@ import SchedulerManagement from "../pages/AdminPage/AdminPageComponent/FAMSSetti
 import ClassConfirmationTable from "../pages/TrainerPage/TrainerPageComponent/TrainerConfirmation/TrainerConfirmation";
 import ClassDetail from "../pages/TrainerPage/TrainerPageComponent/ClassDetails/ClassDetail";
 import ClassInfo from "../pages/TrainerPage/TrainerPageComponent/ClassDetails/ClassInfo/ClassInfo";
+import ManaStaff from "../pages/ManaStaff/ManaStaff";
+import TechStaff from "../pages/Technician/TechStaff";
 
 const AppRoutes = () => (
   <Routes>
@@ -85,6 +87,8 @@ const AppRoutes = () => (
         <Route path="danhsachsanpham" element={<ProductList />} />
         <Route path="danhsachcuahang" element={<StoreList />} />
         <Route path="addTrainer" element={<AddTrainer />} />
+        <Route path="quanlinhanvien" element={<ManaStaff />} />
+        <Route path="kythuanvien" element={<TechStaff />} />
         <Route path="classManagement" element={<ClassMangement />} />
         <Route path="feedback-template/:templateId" element={<FeedbackTemplate />} />
         <Route path="traineeManagement" element={<TraineeManagement />}>
