@@ -109,12 +109,7 @@ const MainLayout = () => {
 
 
   const menuItems = {
-    admin: [
-      {
-        key: "2",
-        icon: <LineChartOutlined style={{ fontSize: "24px" }} />,
-        label: "Báo Cáo",
-      },
+    admin: [      
       {
         key: "3",
         icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
@@ -123,21 +118,39 @@ const MainLayout = () => {
       {
         key: "1",
         icon: <HomeOutlined style={{ fontSize: "24px" }} />,
-        label: "Máy",
+        label: "Danh Sách Máy",
 
       },
       {
         key: "me",
         icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Nhân Viên",
+        label: "Danh Sách Quản Lý Cửa Hàng",
       },
       {
         key: "6",
         icon: <ShopOutlined style={{ fontSize: "24px" }} />,
-        label: "Quán",
+        label: "Danh Sách Cửa Hàng",
       },
     ],
-    
+    managerStore: [
+      {
+        key: "nv",
+        icon: <TeamOutlined style={{ fontSize: "24px" }} />,
+        label: "Danh Sách Nhân Viên",
+      },
+      {
+        key: "ktv",
+        icon: <TeamOutlined style={{ fontSize: "24px" }} />,
+        label: "Danh Sách Kỹ Thuật Viên",
+      },
+    ],
+    manager: [
+      {
+        key: "2",
+        icon: <LineChartOutlined style={{ fontSize: "24px" }} />,
+        label: "Báo Cáo",
+      },
+    ],
   };
 
   const handleMenuClick = (e) => {
@@ -153,15 +166,7 @@ const MainLayout = () => {
             setCollapsed(!collapsed);
           }
           break;
-          case "2":
-          navigate("statisticsPhase2/generaldata");
-          sessionStorage.setItem("activekey", key);
-          sessionStorage.removeItem("activeTag");
-          sessionStorage.setItem("activeTag", " - General Data");
-          if (responsiveCollapsed) {
-            setCollapsed(!collapsed);
-          }
-          break;
+          
           case "me":
             navigate("manastaff");
             sessionStorage.setItem("activekey", key);
@@ -187,8 +192,43 @@ const MainLayout = () => {
               setCollapsed(!collapsed);
             }
             break;
+
+            case "ktv":
+            navigate("manastaff");
+            sessionStorage.setItem("activekey", key);
+            sessionStorage.removeItem("activeTag");
+            if (responsiveCollapsed) {
+              setCollapsed(!collapsed);
+            }
+            break;
       }
     } 
+
+    else if (role === "managerStore") {
+      switch (e.key) {
+        case "nv":
+            navigate("manastaff");
+            sessionStorage.setItem("activekey", key);
+            sessionStorage.removeItem("activeTag");
+            if (responsiveCollapsed) {
+              setCollapsed(!collapsed);
+            }
+            break;
+      }
+    }
+    else if (role === "manager") {
+      switch (e.key) {
+        case "2":
+          navigate("statisticsPhase2/generaldata");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          sessionStorage.setItem("activeTag", " - General Data");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
+      }
+    }
     else if (role === "trainermanager") {
       switch (e.key) {
         case "1":
