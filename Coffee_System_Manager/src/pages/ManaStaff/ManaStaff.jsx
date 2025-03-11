@@ -46,6 +46,11 @@ const ManaStaff = () => {
       dataIndex: 'name',
     },
     {
+      title: 'Gmail',
+      width: 100,
+      dataIndex: 'gmail',
+    },
+    {
       title: 'Ngày Thêm',
       dataIndex: 'adate',
       key: '1',
@@ -149,6 +154,19 @@ const ManaStaff = () => {
               <Input required />
             </Form.Item>
             <Form.Item
+              required
+              label="Gmail"
+              name="gmail"
+              rules={[
+                {
+                  required: true,
+                  message: "Hãy nhập gmail nhân viên",
+                },
+              ]}
+            >
+              <Input required />
+            </Form.Item>
+            <Form.Item
               name="doa"
               label="Ngày thêm"
               rules={[{ required: true, message: "Chọn ngày thêm nhân viên" }]}
@@ -167,7 +185,7 @@ const ManaStaff = () => {
             >
               <Select
                 mode="multiple"
-                placeholder="Chọn Nhân ViênViên"
+                placeholder="Chọn Nhân Viên"
                 onChange={(value) => {
                   // Loại bỏ giá trị bị trùng (nếu có)
                   const uniqueValues = [...new Set(value)];

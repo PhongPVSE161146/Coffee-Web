@@ -46,6 +46,11 @@ const TechStaff = () => {
       dataIndex: 'name',
     },
     {
+      title: 'Gmail',
+      width: 100,
+      dataIndex: 'gmail',
+    },
+    {
       title: 'Ngày Thêm',
       dataIndex: 'adate',
       key: '1',
@@ -147,6 +152,19 @@ const TechStaff = () => {
               ]}
             >
               <Input required />
+                </Form.Item>
+                  <Form.Item
+                    required
+                    label="Gmail"
+                              name="gmail"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "Hãy nhập gmail nhân viên",
+                                },
+                              ]}
+                          >
+              <Input required />
             </Form.Item>
             <Form.Item
               name="doa"
@@ -158,6 +176,7 @@ const TechStaff = () => {
                 style={{ width: "100%" }}
               // format={dateFormat}
               />
+
             </Form.Item>
             <Form.Item
               required
@@ -167,7 +186,7 @@ const TechStaff = () => {
             >
               <Select
                 mode="multiple"
-                placeholder="Chọn Nhân ViênViên"
+                placeholder="Chọn Nhân Viên"
                 onChange={(value) => {
                   // Loại bỏ giá trị bị trùng (nếu có)
                   const uniqueValues = [...new Set(value)];
