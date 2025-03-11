@@ -192,8 +192,12 @@ const MainLayout = () => {
               setCollapsed(!collapsed);
             }
             break;
+      }
+    } 
 
-            case "ktv":
+    else if (role === "managerStore") {
+      switch (e.key) {
+        case "nv":
             navigate("manastaff");
             sessionStorage.setItem("activekey", key);
             sessionStorage.removeItem("activeTag");
@@ -201,12 +205,8 @@ const MainLayout = () => {
               setCollapsed(!collapsed);
             }
             break;
-      }
-    } 
 
-    else if (role === "managerStore") {
-      switch (e.key) {
-        case "nv":
+            case "ktv":
             navigate("manastaff");
             sessionStorage.setItem("activekey", key);
             sessionStorage.removeItem("activeTag");
