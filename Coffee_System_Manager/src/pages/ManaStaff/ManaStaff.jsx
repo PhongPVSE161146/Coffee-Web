@@ -35,6 +35,11 @@ const ManaStaff = () => {
   }
   const columns = [
     {
+      title: 'Tên Cửa Hàng',
+      width: 100,
+      dataIndex: 'storeName',
+    },
+    {
       title: 'Mã Nhân Viên',
       width: 100,
       dataIndex: 'mid',
@@ -80,14 +85,18 @@ const ManaStaff = () => {
   const data = [
     {
       mid: '1',
+      storeName: 'Huỳnh Tấn Phát',
       name: 'Olivia',
+      gmail: 'olivia456',
       age: 32,
       address: 'New York Park',
       adate: '01/01/2025',
     },
     {
       mid: '2',
+      storeName: 'Hai Bà Trưng',
       name: 'Ethan',
+      gmail: 'ethan123',
       age: 40,
       address: 'London Park',
       adate: '01/01/2025',
@@ -139,6 +148,19 @@ const ManaStaff = () => {
               ]}
             >
               <Input required />
+                          </Form.Item>
+                          <Form.Item
+                            required
+                            label="Tên Cửa Hàng"
+                            name="storeName"
+                            rules={[
+                              {
+                                required: true,
+                                message: "Hãy nhập tên cửa hàng",
+                              },
+                            ]}
+                          >
+              <Input required />
             </Form.Item>
             <Form.Item
               required
@@ -177,7 +199,7 @@ const ManaStaff = () => {
               // format={dateFormat}
               />
             </Form.Item>
-            <Form.Item
+            {/* <Form.Item
               required
               label="Nhân Viên"
               name="mproduct"
@@ -227,7 +249,7 @@ const ManaStaff = () => {
                 <Option value="DELIVERY">Latte</Option>
                 <Option value="MANAGER">Mocha</Option>
               </Select>
-            </Form.Item>
+            </Form.Item> */}
 
 
             <Button onClick={hanldeClickSubmit} className="form-button ">
