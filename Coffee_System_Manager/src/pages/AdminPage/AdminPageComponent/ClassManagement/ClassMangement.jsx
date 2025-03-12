@@ -51,7 +51,7 @@ const ClassMangement = () => {
     fetchMachines();
   }
   const handleClickUpdateSubmit = () => {
-    // formUpdate.submit();
+    formUpdate.submit();
   };
 
 
@@ -338,11 +338,11 @@ const ClassMangement = () => {
         okText: "Đồng ý",
         cancelText: "Hủy",
         onOk: async () => {
-          await axiosInstance.delete(`machine/${machine.id}`); // API xóa theo ID máy
-          // toast.success("Xóa máy thành công");
+          await axiosInstance.delete(`Machine/${machine.id}`); // API xóa theo ID máy
+          toast.success("Xóa máy thành công");
 
           // Cập nhật lại state danh sách máy (giả sử state là machineList)
-          // setMachineList((prev) => prev.filter((item) => item.id !== machine.id));
+          setMachineList((prev) => prev.filter((item) => item.id !== machine.id));
 
           // Fetch lại danh sách máy (nếu cần)
           fetchMachines();
