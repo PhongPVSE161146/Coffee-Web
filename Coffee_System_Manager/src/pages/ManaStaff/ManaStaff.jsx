@@ -13,7 +13,7 @@ const ManaStaff = () => {
     const [manaStaffList, setManaStaffList] = useState("");
     const [selectedManaStaff, setSelectedManaStaff] = useState("");
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-  const [form] = useForm();
+    const [form] = useForm();
     const [formUpdate] = useForm();
   const useStyle = createStyles(({ css }) => ({
     centeredContainer: css`
@@ -26,10 +26,14 @@ const ManaStaff = () => {
     `,
   }));
 
-async function fetchManaStaff() {
-    const response = await axiosInstance.get("ManaStaff");
-    setManaStaffList(response.data);
-  }
+  async function fetchManaStaff() {
+    const response = await axiosInstance.get("Staff");
+
+    // Lọc danh sách nhân viên có role là "manaStaff"
+    const filteredManaStaff = response.data.filter((staff) => staff.role === "manaStaff");
+
+    setManaStaffList(filteredManaStaff);
+}
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -85,6 +89,11 @@ async function fetchManaStaff() {
   }  
 
   const columns = [
+    {
+      title: 'Tên Cửa Hàng',
+      width: 100,
+      dataIndex: 'storeName',
+    },
     {
       title: "Mã Nhân Viên",
       width: 100,
@@ -239,8 +248,9 @@ async function fetchManaStaff() {
                       className="label-form"
                       label="Vai Trò"
                       name="role"
-                      initialValue="Manage Store"
+                      initialValue="manageStore"
                     >
+                      <Input value="Quản lý Cửa Hàng" disabled />
                     </Form.Item>
                   </div>
                 </div>
