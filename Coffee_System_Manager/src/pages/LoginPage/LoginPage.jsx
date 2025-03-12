@@ -133,13 +133,28 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-// Xử lý đăng nhập bằng Google
-const handleGoogleLogin = async () => {
-  try {
-    console.log("Bắt đầu đăng nhập Google...");
-    const result = await signInWithPopup(auth, provider);
-    const user = sessionStorage.setItem("username", result.user.displayName)
-    console.log("Kết quả đăng nhập:", result);
+  // Xử lý đăng nhập bằng Google
+  const handleGoogleLogin = async () => {
+    try {
+      console.log("Bắt đầu đăng nhập Google...");
+      const result = await signInWithPopup(auth, provider);
+      const user = sessionStorage.setItem("username", result.user.displayName)
+      console.log("Kết quả đăng nhập:", result);
+  
+      setEmail(result.user.email);
+      localStorage.setItem("email", result.user.email);
+      if(result.user.email === "nguyentuananh200904@gmail.com"){
+        sessionStorage.setItem("selectedRole","admin");
+      }
+      else if (result.user.email === "hadntse171721@fpt.edu.vn"){
+        sessionStorage.setItem("selectedRole","manager");
+      }
+      else if (result.user.email === "quanvnmse160914@fpt.edu.vn"){
+        sessionStorage.setItem("selectedRole","managerStore");
+      }
+      else{
+        sessionStorage.setItem("selectedRole","user");
+
 
     setEmail(result.user.email);
     localStorage.setItem("email", result.user.email);
