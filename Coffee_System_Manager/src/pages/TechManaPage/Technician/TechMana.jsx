@@ -4,7 +4,7 @@ import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
 import { useForm } from "antd/es/form/Form";
 
-const ManaStaff = () => {
+const TechManaMana = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = useForm();
   const useStyle = createStyles(({ css }) => ({
@@ -147,19 +147,19 @@ const ManaStaff = () => {
                 },
               ]}
             >
-              <Input required />
-                          </Form.Item>
-                          <Form.Item
-                            required
-                            label="Tên Cửa Hàng"
-                            name="storeName"
-                            rules={[
-                              {
-                                required: true,
-                                message: "Hãy nhập tên cửa hàng",
-                              },
-                            ]}
-                          >
+                <Input required />
+            </Form.Item>
+            <Form.Item
+              required
+              label="Tên Cửa Hàng"
+              name="storeName"
+              rules={[
+                {
+                  required: true,
+                  message: "Hãy nhập tên cửa hàng",
+                },
+              ]}
+            >
               <Input required />
             </Form.Item>
             <Form.Item
@@ -174,18 +174,18 @@ const ManaStaff = () => {
               ]}
             >
               <Input required />
-            </Form.Item>
-            <Form.Item
-              required
-              label="Gmail"
-              name="gmail"
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập gmail nhân viên",
-                },
-              ]}
-            >
+                </Form.Item>
+                  <Form.Item
+                    required
+                    label="Gmail"
+                              name="gmail"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "Hãy nhập gmail nhân viên",
+                                },
+                              ]}
+                          >
               <Input required />
             </Form.Item>
             <Form.Item
@@ -198,6 +198,7 @@ const ManaStaff = () => {
                 style={{ width: "100%" }}
               // format={dateFormat}
               />
+
             </Form.Item>
             {/* <Form.Item
               required
@@ -263,4 +264,4 @@ const ManaStaff = () => {
   );
 };
 
-export default ManaStaff;
+export default TechMana;

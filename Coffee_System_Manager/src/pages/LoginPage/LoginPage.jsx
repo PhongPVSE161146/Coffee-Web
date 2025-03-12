@@ -143,7 +143,13 @@ const Login = () => {
   
       setEmail(result.user.email);
       localStorage.setItem("email", result.user.email);
-      sessionStorage.setItem("selectedRole","admin");
+      if(result.user.email === "nguyentuananh200904@gmail.com"){
+        sessionStorage.setItem("selectedRole","admin");
+      }
+      else{
+        sessionStorage.setItem("selectedRole","user");
+
+      }
 
       navigate("/adminPage"); 
     } catch (error) {

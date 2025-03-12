@@ -4,7 +4,7 @@ import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
 import { useForm } from "antd/es/form/Form";
 
-const ManaStaff = () => {
+const StaffMana = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = useForm();
   const useStyle = createStyles(({ css }) => ({
@@ -263,4 +263,4 @@ const ManaStaff = () => {
   );
 };
 
-export default ManaStaff;
+export default StaffMana;
