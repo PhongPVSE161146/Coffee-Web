@@ -28,7 +28,7 @@ const useStyle = createStyles(({ css }) => ({
 
 async function fetchStaffMana() {
   try {
-        const response = await axiosInstance.get("staffs");
+        const response = await axiosInstance.get("staff");
         console.log("API response:", response);
   
         const data = response?.data?.staffs;
