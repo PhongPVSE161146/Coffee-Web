@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Modal, Select, Table } from "antd";
 import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
@@ -11,7 +11,7 @@ const ProductList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = useForm();
   const [formUpdate] = useForm();
-  const [product, setProduct] = useState("");
+  const [productList, setProductList] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
   const [newData, setNewData] = useState("");
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
@@ -27,9 +27,31 @@ const ProductList = () => {
   }));
 
   async function fetchProduct() {
-    const response = await axiosInstance.get("Product");
-    setProduct(response.data);
+    try {
+      const response = await axiosInstance.get("product");
+      console.log("API response:", response);
+
+      const data = response?.data?.products;
+
+      if (Array.isArray(data)) {
+        setProductList(data);
+      } else {
+        console.warn("Dữ liệu không đúng dạng mảng:", data);
+        setProductList([]);
+      }
+
+    } catch (error) {
+      console.error("Lỗi fetch store:", error);
+      setProductList([]);
+    }
   }
+
+
+  useEffect (() => {
+    fetchProduct();
+  }, []);
+
+  
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -58,10 +80,9 @@ const ProductList = () => {
     try {
       // Xử lý dữ liệu từ form (values)
       const payload = {
-        code: values.firstname, // Mã máy
-        name: values.name,      // Tên máy
-        doa: values.doa.format("YYYY-MM-DD"), // Ngày thêm máy (format lại ngày tháng)
-        mproduct: values.mproduct, // Sản phẩm (danh sách sản phẩm đã chọn)
+        productId: values.productId, // Mã máy
+        productName: values.productName,      // Tên máy
+        price: values.price, // Sản phẩm (danh sách sản phẩm đã chọn)
       };
 
       // Nếu có hình ảnh thì bạn có thể thêm bước upload ảnh ở đây (giống AddDiamond)
@@ -97,7 +118,7 @@ const ProductList = () => {
       toast.success("Cập nhật máy thành công");
 
       // Cập nhật danh sách máy hiện tại
-      setProduct((prevList) =>
+      setProductList((prevList) =>
         prevList.map((item) =>
           item.id === product.id ? { ...item, ...updatedValues } : item
         )
@@ -125,7 +146,7 @@ const ProductList = () => {
           toast.success("Xóa sản phẩm thành công");
 
           // Cập nhật lại state danh sách máy (giả sử state là machineList)
-          setProduct((prev) => prev.filter((item) => item.id !== product.id));
+          setProductList((prev) => prev.filter((item) => item.id !== product.id));
 
           // Fetch lại danh sách máy (nếu cần)
           fetchProduct();
@@ -141,22 +162,22 @@ const ProductList = () => {
     {
       title: 'Mã sản phẩm',
       width: 100,
-      dataIndex: 'pid',
+      dataIndex: 'productId',
       fixed: 'left',
     },
     {
       title: 'Tên sản phẩm',
       width: 100,
-      dataIndex: 'name',
+      dataIndex: 'productName',
     },
     {
       title: 'Loại sản phẩm',
       width: 100,
-      dataIndex: 'type',
+      dataIndex: 'categoryId',
     },
     {
-      title: 'Ngày thêm sản phẩm',
-      dataIndex: 'adate',
+      title: 'Số lượng',
+      dataIndex: 'stockQuantity',
       key: '1',
       width: 100,
     },
@@ -214,7 +235,7 @@ const ProductList = () => {
                 <Form.Item
                   required
                   label="Mã sản phẩm"
-                  name="firstname"
+                  name="productId"
                   rules={[
                     {
                       required: true,
@@ -227,7 +248,7 @@ const ProductList = () => {
                 <Form.Item
                   required
                   label="Tên sản phẩm"
-                  name="name"
+                  name="productName"
                   rules={[
                     {
                       required: true,
@@ -318,7 +339,7 @@ const ProductList = () => {
         <Table
           bordered
           columns={columns}
-          dataSource={data}
+          dataSource={productList}
           scroll={{
             x: 'max-content',
           }}
@@ -348,7 +369,7 @@ const ProductList = () => {
             <Form.Item
               required
               label="Mã sản phẩm"
-              name="firstname"
+              name="productId"
               rules={[
                 {
                   required: true,

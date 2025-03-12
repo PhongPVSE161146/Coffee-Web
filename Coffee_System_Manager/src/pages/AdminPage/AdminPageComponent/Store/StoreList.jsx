@@ -9,7 +9,6 @@ import uploadFile from "../../../../utils/uploadFile";
 
 const StoreList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [area, setArea] = useState([]);
   const [formUpdate] = useForm();
   const [storeList, setStoreList] = useState("");
   const [selectedStore, setSelectedStore] = useState("");
@@ -52,29 +51,29 @@ const StoreList = () => {
     setIsModalOpen(false);
     // fetchAccount();
   }
-  async function fetchArea() {
+  async function fetchStore() {
     try {
-      const response = await axiosInstance.get("area");
+      const response = await axiosInstance.get("store");
       console.log("API response:", response);
 
-      const data = response?.data?.areas;
+      const data = response?.data?.stores;
 
       if (Array.isArray(data)) {
-        setArea(data);
+        setStoreList(data);
       } else {
         console.warn("Dữ liệu không đúng dạng mảng:", data);
-        setArea([]);
+        setStoreList([]);
       }
 
     } catch (error) {
-      console.error("Lỗi fetch area:", error);
-      setArea([]);
+      console.error("Lỗi fetch store:", error);
+      setStoreList([]);
     }
   }
 
 
   useEffect(() => {
-    fetchArea();
+    fetchStore();
   }, []);
 
   async function AddStore(values) {
@@ -150,7 +149,7 @@ const StoreList = () => {
           setStoreList((prev) => prev.filter((item) => item.id !== store.id));
 
           // Fetch lại danh sách máy (nếu cần)
-          // fetchStore();
+          fetchStore();
         },
       });
     } catch (error) {
@@ -162,17 +161,17 @@ const StoreList = () => {
     {
       title: 'Mã Cửa Hàng',
       width: 100,
-      dataIndex: 'areaId',
+      dataIndex: 'storeId',
       fixed: 'left',
     },
     {
       title: 'Tên Cửa Hàng',
       width: 100,
-      dataIndex: 'areaName',
+      dataIndex: 'storeName',
     },
     {
       title: 'Địa Chỉ',
-      dataIndex: 'adate',
+      dataIndex: 'storeLocation',
       key: '1',
       width: 100,
     },
@@ -311,7 +310,7 @@ const StoreList = () => {
         <Table
           bordered
           columns={columns}
-          dataSource={area}
+          dataSource={storeList}
           scroll={{
             x: 'max-content',
           }}
@@ -341,7 +340,7 @@ const StoreList = () => {
             <Form.Item
               required
               label="Mã Cửa Hàng"
-              name="firstname"
+              name="storeId"
               rules={[
                 {
                   required: true,
@@ -367,7 +366,7 @@ const StoreList = () => {
             <Form.Item
               required
               label="Địa Chỉ"
-              name="storeAddress"
+              name="storeLocation"
               rules={[
                 {
                   required: true,
