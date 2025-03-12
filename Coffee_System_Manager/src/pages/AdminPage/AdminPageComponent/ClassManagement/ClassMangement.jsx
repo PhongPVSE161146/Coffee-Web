@@ -50,7 +50,10 @@ const ClassMangement = () => {
   const handleClickUpdateSubmit = () => {
     // formUpdate.submit();
   };
-  
+  async function fetchMachines() {
+    const response = await axiosInstance.get("machines");
+    setMachineList(response.data);
+  }
 
   async function updateMachine(machine) {
     try {
@@ -73,7 +76,7 @@ const ClassMangement = () => {
       setIsModalOpen(false);
   
       // Nếu cần, fetch lại data chính xác từ server
-      // fetchMachines();
+      fetchMachines();
     } catch (error) {
       toast.error("Có lỗi khi cập nhật máy");
       console.log(error);
@@ -318,10 +321,9 @@ const ClassMangement = () => {
       // Xử lý sau khi thêm thành công
       toast.success("Thêm máy thành công");
 
-      // Fetch lại danh sách máy (nếu cần)
-      // fetchMachines(); // <--- hàm fetch dữ liệu danh sách máy (nếu có)
+      
+      fetchMachines(); 
 
-      // Reset form và đóng modal
       form.resetFields();
       setIsModalOpen(false); // Đóng modal tạo máy
     } catch (error) {
@@ -343,7 +345,7 @@ const ClassMangement = () => {
           // setMachineList((prev) => prev.filter((item) => item.id !== machine.id));
 
           // Fetch lại danh sách máy (nếu cần)
-          // fetchMachines();
+          fetchMachines();
         },
       });
     } catch (error) {
