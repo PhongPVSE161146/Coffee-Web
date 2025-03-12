@@ -7,4 +7,4 @@ const Checkpoint = () => {
     );
 };
 
-export default CheckPoint;
+export default CheckPoint1;

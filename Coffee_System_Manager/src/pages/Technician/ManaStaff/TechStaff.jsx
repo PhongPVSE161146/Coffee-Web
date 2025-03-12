@@ -7,14 +7,14 @@ import { toast } from "react-toastify";
 import { axiosInstance } from "../../../axios/Axios";
 import { UploadOutlined } from "@ant-design/icons";
 
-const TechMana = () => {
+const TechStaff = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newData, setNewData] = useState("");
-  const [techStaffList, setTechStaffList] = useState("");
-  const [selectedTechStaff, setSelectedTechStaff] = useState("");
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+    const [newData, setNewData] = useState("");
+    const [manaStaffList, setManaStaffList] = useState("");
+    const [selectedManaStaff, setSelectedManaStaff] = useState("");
+    const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [form] = useForm();
-  const [formUpdate] = useForm();
+    const [formUpdate] = useForm();
   const useStyle = createStyles(({ css }) => ({
     centeredContainer: css`
       display: flex;
@@ -26,15 +26,10 @@ const TechMana = () => {
     `,
   }));
 
-  async function fetchTechStaff() {
-    const response = await axiosInstance.get("Staff");
-
-    // Lọc danh sách nhân viên có role là "techStaff"
-    const filteredTechStaff = response.data.filter((staff) => staff.role === "techStaff");
-
-    setTechStaffList(filteredTechStaff);
-}
-
+async function fetchManaStaff() {
+    const response = await axiosInstance.get("ManaStaff");
+    setManaStaffList(response.data);
+  }
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -51,30 +46,30 @@ const TechMana = () => {
   const handleUpdateCancel = () => {
     setIsModalUpdateOpen(false);
   };
-  function handleClickSubmit() {
+  function hanldeClickSubmit() {
     form.submit();
     setIsModalOpen(false);
-    fetchTechStaff();
+    fetchManaStaff();
   }
 
   const handleClickUpdateSubmit = () => {
     formUpdate.submit();
   };
-
-  async function updateTechStaff(techStaff) {
+  
+  async function updateManaStaff(manaStaff) {
     try {
       const updatedValues = {
         ...newData,
       };
   
-      await axiosInstance.put(`techStaff/${techStaff.id}`, updatedValues);
+      await axiosInstance.put(`manaStaff/${manaStaff.id}`, updatedValues);
   
       toast.success("Cập nhật nhân viên thành công");
   
       // Cập nhật danh sách nhân viên hiện tại
-      setTechStaffList((prevList) =>
+      setManaStaffList((prevList) =>
         prevList.map((item) =>
-          item.id === techStaff.id ? { ...item, ...updatedValues } : item
+          item.id === manaStaff.id ? { ...item, ...updatedValues } : item
         )
       );
   
@@ -82,13 +77,12 @@ const TechMana = () => {
       setIsModalOpen(false);
   
       // Nếu cần, fetch lại data chính xác từ server
-      fetchTechStaff();
+      fetchManaStaff();
     } catch (error) {
       toast.error("Có lỗi khi cập nhật nhân viên");
       console.log(error);
     }
-  }
-  
+  }  
 
   const columns = [
     {
@@ -119,6 +113,7 @@ const TechMana = () => {
       dataIndex: "role",
       render: (role) => (role === "manageStore" ? "Quản Lý Cửa Hàng" : null),
     },
+    
     {
       title: "Chi Tiết",
       width: 90,
@@ -143,7 +138,7 @@ const TechMana = () => {
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
                 onClick={() => {
-                  setSelectedTechStaff(record); // Chọn nhân viên hiện tại
+                  setSelectedManaStaff(record); // Chọn nhân viên hiện tại
                   formUpdate.setFieldsValue(record); // Đổ data vào form
                   setIsModalOpen(true); // Mở modal chỉnh sửa
                 }}
@@ -162,13 +157,13 @@ const TechMana = () => {
               onCancel={handleUpdateCancel}
             >
               <Form
-                initialValues={selectedTechStaff}
+                initialValues={selectedManaStaff}
                 form={formUpdate}
                 onValuesChange={(changedValues, allValues) => {
                   setNewData(allValues);
                 }}
                 onFinish={() => {
-                  updateTechStaff(selectedTechStaff);
+                  updateManaStaff(selectedManaStaff);
                 }}
                 id="form-update-staff"
                 className="form-main"
@@ -244,9 +239,8 @@ const TechMana = () => {
                       className="label-form"
                       label="Vai Trò"
                       name="role"
-                      initialValue="TechStaff"
+                      initialValue="Manage Store"
                     >
-                      <Input value="Nhân viên Kỹ thuật" disabled />
                     </Form.Item>
                   </div>
                 </div>
@@ -267,10 +261,10 @@ const TechMana = () => {
   ];
   
 
-
   const data = [
     {
       mid: '1',
+      storeName: 'Huỳnh Tấn Phát',
       name: 'Olivia',
       gmail: 'olivia456',
       age: 32,
@@ -279,6 +273,7 @@ const TechMana = () => {
     },
     {
       mid: '2',
+      storeName: 'Hai Bà Trưng',
       name: 'Ethan',
       gmail: 'ethan123',
       age: 40,
@@ -288,7 +283,7 @@ const TechMana = () => {
   ];
   const { styles } = useStyle();
 
-  // Hàm thêm nhân viên mới
+// Hàm thêm nhân viên mới
 async function AddStaff(values) {
   try {
     // Chuẩn bị dữ liệu gửi lên server
@@ -297,7 +292,7 @@ async function AddStaff(values) {
       name: values.name, // Tên nhân viên
       gmail: values.gmail, // Gmail
       adate: values.adate.format("YYYY-MM-DD"), // Ngày thêm nhân viên (định dạng lại)
-      role: "techStaff", // Vai trò nhân viên
+      role: values.role, // Vai trò nhân viên
     };
 
     // Gửi yêu cầu tạo nhân viên lên API
@@ -307,7 +302,7 @@ async function AddStaff(values) {
     toast.success("Thêm nhân viên thành công");
 
     // Fetch lại danh sách nhân viên
-    fetchTechStaff();
+    fetchManaStaff();
 
     // Reset form và đóng modal
     form.resetFields();
@@ -330,17 +325,16 @@ async function deleteStaff(staff) {
         toast.success("Xóa nhân viên thành công");
 
         // Cập nhật lại danh sách nhân viên sau khi xóa
-        setTechStaffList((prev) => prev.filter((item) => item.id !== staff.id));
+        setManaStaffList((prev) => prev.filter((item) => item.id !== staff.id));
 
         // Fetch lại danh sách nhân viên nếu cần
-        fetchTechStaff();
+        fetchManaStaff();
       },
     });
   } catch (error) {
     console.log(error);
   }
 }
-
 
 return (
   <div>
@@ -423,11 +417,16 @@ return (
             />
           </Form.Item>
           <Form.Item
-            label="Vai Trò"
+            required
+            label="Vai trò"
             name="role"
-            initialValue="techStaff" // Đặt giá trị mặc định
+            rules={[{ required: true, message: "Chọn vai trò của nhân viên" }]}
           >
-            <Input value="Kỹ thuật viên" disabled /> {/* Chỉ hiển thị, không cho chọn */}
+            <Select placeholder="Chọn vai trò">
+              <Option value="SALES">Nhân viên bán hàng</Option>
+              <Option value="DELIVERY">Nhân viên giao hàng</Option>
+              <Option value="MANAGER">Quản lý</Option>
+            </Select>
           </Form.Item>
 
           <Button htmlType="submit" className="form-button">
@@ -441,4 +440,4 @@ return (
 
 };
 
-export default TechMana;
+export default TechStaff;
