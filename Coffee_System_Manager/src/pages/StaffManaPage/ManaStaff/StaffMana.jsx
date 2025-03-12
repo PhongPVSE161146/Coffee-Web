@@ -35,11 +35,6 @@ const StaffMana = () => {
   }
   const columns = [
     {
-      title: 'Tên Cửa Hàng',
-      width: 100,
-      dataIndex: 'storeName',
-    },
-    {
       title: 'Mã Nhân Viên',
       width: 100,
       dataIndex: 'mid',
@@ -85,7 +80,6 @@ const StaffMana = () => {
   const data = [
     {
       mid: '1',
-      storeName: 'Huỳnh Tấn Phát',
       name: 'Olivia',
       gmail: 'olivia456',
       age: 32,
@@ -94,7 +88,6 @@ const StaffMana = () => {
     },
     {
       mid: '2',
-      storeName: 'Hai Bà Trưng',
       name: 'Ethan',
       gmail: 'ethan123',
       age: 40,
@@ -147,7 +140,7 @@ const StaffMana = () => {
                 },
               ]}
             >
-              <Input required />
+              {/* <Input required />
                           </Form.Item>
                           <Form.Item
                             required
@@ -159,7 +152,7 @@ const StaffMana = () => {
                                 message: "Hãy nhập tên cửa hàng",
                               },
                             ]}
-                          >
+                          > */}
               <Input required />
             </Form.Item>
             <Form.Item

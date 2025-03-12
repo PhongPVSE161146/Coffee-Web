@@ -50,11 +50,11 @@ const TechStaff = () => {
       width: 100,
       dataIndex: 'name',
     },
-    {
-      title: 'Gmail',
-      width: 100,
-      dataIndex: 'gmail',
-    },
+    // {
+    //   title: 'Gmail',
+    //   width: 100,
+    //   dataIndex: 'gmail',
+    // },
     {
       title: 'Ngày Thêm',
       dataIndex: 'adate',
@@ -85,9 +85,9 @@ const TechStaff = () => {
   const data = [
     {
       mid: '1',
-      storeName: 'Huỳnh Tấn Phát',
+      storeName: 'Tôn Đản',
       name: 'Olivia',
-      gmail: 'olivia456',
+      gmail: 'olivia123',
       age: 32,
       address: 'New York Park',
       adate: '01/01/2025',
@@ -136,31 +136,35 @@ const TechStaff = () => {
             id="form"
             className=""
           >
-            <Form.Item
-              required
-              label="Mã Nhân Viên"
-              name="firstname"
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập mã nhân viên",
-                },
-              ]}
-            >
-                <Input required />
-            </Form.Item>
-            <Form.Item
-              required
-              label="Tên Cửa Hàng"
-              name="storeName"
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập tên cửa hàng",
-                },
-              ]}
-            >
-              <Input required />
+           
+              <Form.Item
+                         required
+                         label="Mã Nhân Viên"
+                         name="firstname"
+                         rules={[
+                           {
+                             required: true,
+                             message: "Hãy nhập mã nhân viên",
+                           },
+                         ]}
+                       >
+                           <Input required />
+              
+            
+              {/* <Input required />
+                          </Form.Item>
+                          <Form.Item
+                            required
+                            label="Tên Cửa Hàng"
+                            name="storeName"
+                            rules={[
+                              {
+                                required: true,
+                                message: "Hãy nhập tên cửa hàng",
+                              },
+                            ]}
+                          >
+              <Input required /> */}
             </Form.Item>
             <Form.Item
               required
@@ -174,18 +178,18 @@ const TechStaff = () => {
               ]}
             >
               <Input required />
-                </Form.Item>
-                  <Form.Item
-                    required
-                    label="Gmail"
-                              name="gmail"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Hãy nhập gmail nhân viên",
-                                },
-                              ]}
-                          >
+            </Form.Item>
+            <Form.Item
+              required
+              label="Gmail"
+              name="gmail"
+              rules={[
+                {
+                  required: true,
+                  message: "Hãy nhập gmail nhân viên",
+                },
+              ]}
+            >
               <Input required />
             </Form.Item>
             <Form.Item
@@ -198,59 +202,29 @@ const TechStaff = () => {
                 style={{ width: "100%" }}
               // format={dateFormat}
               />
-
             </Form.Item>
-            {/* <Form.Item
-              required
-              label="Nhân Viên"
-              name="mproduct"
-              rules={[{ required: true, message: "Thêm sản phẩm của máy" }]}
-            >
-              <Select
-                mode="multiple"
-                placeholder="Chọn Nhân Viên"
-                onChange={(value) => {
-                  // Loại bỏ giá trị bị trùng (nếu có)
-                  const uniqueValues = [...new Set(value)];
-                  form.setFieldsValue({ mproduct: uniqueValues });
-                }}
-                tagRender={(props) => {
-                  const { label, closable, onClose } = props;
-                  return (
-                    <span
-                      style={{
-                        fontWeight: "bold", // Làm đậm chữ
-                        padding: "4px 8px",
-                        borderRadius: "4px",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        margin: "2px",
-                        border: "1px solid #d9d9d9", // Giữ viền mặc định của Antd
-                        background: "#f5f5f5", // Màu nền nhẹ
-                      }}
-                    >
-                      {label}
-                      {closable && (
-                        <span
-                          onClick={onClose}
-                          style={{
-                            marginLeft: "8px",
-                            cursor: "pointer",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          ✖
-                        </span>
-                      )}
-                    </span>
-                  );
-                }}
-              >
-                <Option value="SALES">Cappuchino</Option>
-                <Option value="DELIVERY">Latte</Option>
-                <Option value="MANAGER">Mocha</Option>
-              </Select>
-            </Form.Item> */}
+            <Form.Item
+                  className="label-form"
+                  label="Tên Cửa Hàng"
+                  name="storeName"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Chọn Cửa Hàng",
+                    },
+                  ]}
+                >
+                  <Select
+                    className="select-input"
+                    placeholder="chọn tên cừa hàng"
+                  >
+                    <Select.Option value="ROUND">Hai Bà Trưng</Select.Option>
+                    <Select.Option value="OVAL">Phan Xích Long</Select.Option>
+                    <Select.Option value="CUSHION">Tôn Đản</Select.Option>
+                    <Select.Option value="PEAR">Lâm Văn Bền</Select.Option>
+                  </Select>
+                </Form.Item>
+          
 
 
             <Button onClick={hanldeClickSubmit} className="form-button ">
@@ -264,4 +238,4 @@ const TechStaff = () => {
   );
 };
 
-export default TechStaff;
+export default TechTechStaff;

@@ -4,7 +4,7 @@ import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
 import { useForm } from "antd/es/form/Form";
 
-const TechManaMana = () => {
+const TechMana = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = useForm();
   const useStyle = createStyles(({ css }) => ({
@@ -34,11 +34,11 @@ const TechManaMana = () => {
     // fetchAccount();
   }
   const columns = [
-    {
-      title: 'Tên Cửa Hàng',
-      width: 100,
-      dataIndex: 'storeName',
-    },
+    // {
+    //   title: 'Tên Cửa Hàng',
+    //   width: 100,
+    //   dataIndex: 'storeName',
+    // },
     {
       title: 'Mã Nhân Viên',
       width: 100,
@@ -85,7 +85,6 @@ const TechManaMana = () => {
   const data = [
     {
       mid: '1',
-      storeName: 'Huỳnh Tấn Phát',
       name: 'Olivia',
       gmail: 'olivia456',
       age: 32,
@@ -94,7 +93,6 @@ const TechManaMana = () => {
     },
     {
       mid: '2',
-      storeName: 'Hai Bà Trưng',
       name: 'Ethan',
       gmail: 'ethan123',
       age: 40,
@@ -147,19 +145,7 @@ const TechManaMana = () => {
                 },
               ]}
             >
-                <Input required />
-            </Form.Item>
-            <Form.Item
-              required
-              label="Tên Cửa Hàng"
-              name="storeName"
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập tên cửa hàng",
-                },
-              ]}
-            >
+           
               <Input required />
             </Form.Item>
             <Form.Item

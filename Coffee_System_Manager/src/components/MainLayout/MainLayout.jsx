@@ -197,7 +197,7 @@ const MainLayout = () => {
     else if (role === "managerStore") {
       switch (e.key) {
         case "nv":
-            navigate("manastaff");
+            navigate("quanlistorenhanvien");
             sessionStorage.setItem("activekey", key);
             sessionStorage.removeItem("activeTag");
             if (responsiveCollapsed) {
@@ -206,7 +206,7 @@ const MainLayout = () => {
             break;
 
             case "ktv":
-            navigate("manastaff");
+            navigate("quanlikythuatvien");
             sessionStorage.setItem("activekey", key);
             sessionStorage.removeItem("activeTag");
             if (responsiveCollapsed) {
