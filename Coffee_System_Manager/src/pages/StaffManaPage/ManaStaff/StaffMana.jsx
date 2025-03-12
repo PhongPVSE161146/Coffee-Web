@@ -321,7 +321,7 @@ const columns = [
        <Table
          bordered
          columns={columns}
-         dataSource={data}
+         dataSource={staffs}
          scroll={{
            x: "max-content",
          }}
