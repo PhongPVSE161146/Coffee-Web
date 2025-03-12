@@ -3,6 +3,7 @@ import { Dropdown, Menu, Tooltip, Modal, Button, DatePicker, Select } from "antd
 import { useNavigate, Outlet } from "react-router-dom";
 import { MoreVert } from "@mui/icons-material";
 import "./StatisticsPhase2.css";
+import { axiosInstance } from "../../../../axios/Axios";
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -19,11 +20,17 @@ const SatisticsPhase2 = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const username = sessionStorage.getItem("username");
+  const [orderList, setOrderList] = useState("");
 
   const navigate = useNavigate();
 
   // const tags = ["General Data", "Module Statistic", "Feedback", "GPA"];
   const tags = ["Dashboard"];
+  
+  async function fetchMachines() {
+      const response = await axiosInstance.get("orders");
+      setOrderList(response.data);
+    }
 
   const updateVisibleTags = () => {
     const containerWidth =
