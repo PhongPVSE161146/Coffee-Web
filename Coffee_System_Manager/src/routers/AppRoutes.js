@@ -73,9 +73,9 @@ import ClassConfirmationTable from "../pages/TrainerPage/TrainerPageComponent/Tr
 import ClassDetail from "../pages/TrainerPage/TrainerPageComponent/ClassDetails/ClassDetail";
 import ClassInfo from "../pages/TrainerPage/TrainerPageComponent/ClassDetails/ClassInfo/ClassInfo";
 import ManaStaff from "../pages/ManaStaff/ManaStaff";
-import TechStaff from "../pages/Technician/TechStaff";
 import StaffMana from "../pages/StaffManaPage/ManaStaff/StaffMana";
 import TechMana from "../pages/TechManaPage/Technician/TechMana";
+import TechStaff from "../pages/Technician/ManaStaff/TechStaff";
 
 const AppRoutes = () => (
   <Routes>
