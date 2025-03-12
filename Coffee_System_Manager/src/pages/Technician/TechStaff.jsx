@@ -238,4 +238,4 @@ const TechStaff = () => {
   );
 };
 
-export default TechTechStaff;
+export default TechStaff;
