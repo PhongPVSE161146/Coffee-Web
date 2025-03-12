@@ -53,7 +53,7 @@ const ClassMangement = () => {
   const handleClickUpdateSubmit = () => {
     formUpdate.submit();
   };
-  
+
 
   async function updateMachine(machine) {
     try {
@@ -321,10 +321,9 @@ const ClassMangement = () => {
       // Xử lý sau khi thêm thành công
       toast.success("Thêm máy thành công");
 
-      // Fetch lại danh sách máy (nếu cần)
-      // fetchMachines(); // <--- hàm fetch dữ liệu danh sách máy (nếu có)
 
-      // Reset form và đóng modal
+      fetchMachines();
+
       form.resetFields();
       setIsModalOpen(false); // Đóng modal tạo máy
     } catch (error) {
