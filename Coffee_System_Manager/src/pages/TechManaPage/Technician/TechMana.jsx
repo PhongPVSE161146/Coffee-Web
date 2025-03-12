@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Modal, Select, Table } from "antd";
 import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
@@ -27,14 +27,28 @@ const TechMana = () => {
   }));
 
   async function fetchTechStaff() {
-    const response = await axiosInstance.get("Staff");
-
-    // Lọc danh sách nhân viên có role là "techStaff"
-    const filteredTechStaff = response.data.filter((staff) => staff.role === "techStaff");
-
-    setTechStaffList(filteredTechStaff);
+    try {
+          const response = await axiosInstance.get("technician");
+          console.log("API response:", response);
+    
+          const data = response?.data?.technicians;
+    
+          if (Array.isArray(data)) {
+            setTechStaffList(data);
+          } else {
+            console.warn("Dữ liệu không đúng dạng mảng:", data);
+            setTechStaffList([]);
+          }
+    
+        } catch (error) {
+          console.error("Lỗi fetch store:", error);
+          setTechStaffList([]);
+        }
 }
 
+useEffect (() => {
+    fetchTechStaff();
+  }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -83,6 +97,7 @@ const TechMana = () => {
   
       // Nếu cần, fetch lại data chính xác từ server
       fetchTechStaff();
+
     } catch (error) {
       toast.error("Có lỗi khi cập nhật nhân viên");
       console.log(error);
@@ -94,30 +109,18 @@ const TechMana = () => {
     {
       title: "Mã Nhân Viên",
       width: 100,
-      dataIndex: "mid",
+      dataIndex: "technicianId",
       fixed: "left",
     },
     {
       title: "Tên Nhân Viên",
       width: 100,
-      dataIndex: "name",
+      dataIndex: "firstName" ,
     },
     {
       title: "Gmail",
       width: 100,
-      dataIndex: "gmail",
-    },
-    {
-      title: "Ngày Thêm Nhân Viên",
-      dataIndex: "adate",
-      key: "1",
-      width: 100,
-    },
-    {
-      title: "Vai Trò",
-      width: 100,
-      dataIndex: "role",
-      render: (role) => (role === "manageStore" ? "Quản Lý Cửa Hàng" : null),
+      dataIndex: "email",
     },
     {
       title: "Chi Tiết",
@@ -179,7 +182,7 @@ const TechMana = () => {
                     <Form.Item
                       className="label-form"
                       label="Mã Nhân Viên"
-                      name="mid"
+                      name="technicianId"
                       rules={[
                         {
                           required: true,
@@ -194,7 +197,7 @@ const TechMana = () => {
                     <Form.Item
                       className="label-form"
                       label="Tên Nhân Viên"
-                      name="name"
+                      name="firstName"
                       rules={[
                         {
                           required: true,
@@ -209,7 +212,7 @@ const TechMana = () => {
                     <Form.Item
                       className="label-form"
                       label="Gmail"
-                      name="gmail"
+                      name="email"
                       rules={[
                         {
                           required: true,
@@ -222,7 +225,7 @@ const TechMana = () => {
                     </Form.Item>
   
                     {/* Ngày thêm nhân viên */}
-                    <Form.Item
+                    {/* <Form.Item
                       className="label-form"
                       label="Ngày Thêm"
                       name="adate"
@@ -237,17 +240,17 @@ const TechMana = () => {
                         style={{ width: "100%" }}
                         placeholder="Ngày Thêm"
                       />
-                    </Form.Item>
+                    </Form.Item> */}
   
                     {/* Vai trò */}
-                    <Form.Item
+                    {/* <Form.Item
                       className="label-form"
                       label="Vai Trò"
                       name="role"
                       initialValue="TechStaff"
                     >
                       <Input value="Nhân viên Kỹ thuật" disabled />
-                    </Form.Item>
+                    </Form.Item> */}
                   </div>
                 </div>
   
@@ -348,7 +351,7 @@ return (
       <Table
         bordered
         columns={columns}
-        dataSource={data}
+        dataSource={techStaffList}
         scroll={{
           x: "max-content",
         }}
