@@ -292,7 +292,7 @@ async function AddStaff(values) {
       name: values.name, // Tên nhân viên
       gmail: values.gmail, // Gmail
       adate: values.adate.format("YYYY-MM-DD"), // Ngày thêm nhân viên (định dạng lại)
-      role: values.role, // Vai trò nhân viên
+      role: "manageStore", // Vai trò nhân viên
     };
 
     // Gửi yêu cầu tạo nhân viên lên API
@@ -417,17 +417,13 @@ return (
             />
           </Form.Item>
           <Form.Item
-            required
-            label="Vai trò"
+            label="Vai Trò"
             name="role"
-            rules={[{ required: true, message: "Chọn vai trò của nhân viên" }]}
+            initialValue="manageStore" // Đặt giá trị mặc định
           >
-            <Select placeholder="Chọn vai trò">
-              <Option value="SALES">Nhân viên bán hàng</Option>
-              <Option value="DELIVERY">Nhân viên giao hàng</Option>
-              <Option value="MANAGER">Quản lý</Option>
-            </Select>
+            <Input value="Quản lý Cửa Hàng" disabled /> {/* Chỉ hiển thị, không cho chọn */}
           </Form.Item>
+
 
           <Button htmlType="submit" className="form-button">
             Thêm nhân viên mới
