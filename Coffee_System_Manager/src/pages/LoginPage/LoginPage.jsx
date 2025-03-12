@@ -145,6 +145,7 @@ const Login = () => {
       localStorage.setItem("email", result.user.email);
       if(result.user.email === "nguyentuananh200904@gmail.com"){
         sessionStorage.setItem("selectedRole","admin");
+
       }
       else if (result.user.email === "hadntse171721@fpt.edu.vn"){
         sessionStorage.setItem("selectedRole","manager");
@@ -156,8 +157,8 @@ const Login = () => {
         sessionStorage.setItem("selectedRole","user");
 
       }
-
       navigate("/adminPage"); 
+      
     } catch (error) {
       console.error("Lỗi đăng nhập Google:", error.code, error.message);
     }

@@ -51,7 +51,7 @@ const ProductList = () => {
     fetchProduct();
   }, []);
 
-  
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -142,15 +142,19 @@ const ProductList = () => {
         okText: "Đồng ý",
         cancelText: "Hủy",
         onOk: async () => {
-          await axiosInstance.delete(`Product/${product.id}`); // API xóa theo ID máy
+          console.log("Đang xóa product có id:", product.productId);
+        
+          if (!product.productId) {
+            toast.error("ID sản phẩm không tồn tại");
+            return;
+          }
+        
+          await axiosInstance.delete(`/product/${product.productId}`);
           toast.success("Xóa sản phẩm thành công");
-
-          // Cập nhật lại state danh sách máy (giả sử state là machineList)
-          setProductList((prev) => prev.filter((item) => item.id !== product.id));
-
-          // Fetch lại danh sách máy (nếu cần)
+          setProductList((prev) => prev.filter((item) => item.id !== product.productId));
           fetchProduct();
         },
+        
       });
     } catch (error) {
       // toast.error("Đã có lỗi trong lúc xóa máy");
