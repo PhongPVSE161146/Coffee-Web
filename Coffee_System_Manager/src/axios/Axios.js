@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Tạo một instance axios với base URL
 export const axiosInstance = axios.create({
-    baseURL: 'http://fams-api.ap-northeast-1.elasticbeanstalk.com/api/v11111111111',
+    baseURL: 'http://localhost:5161/api',
     headers: {
         'Content-Type': 'application/json',
         accept: '*/*'

@@ -26,7 +26,10 @@ const ClassMangement = () => {
     `,
   }));
 
-
+  async function fetchMachines() {
+    const response = await axiosInstance.get("Machine");
+    setMachineList(response.data);
+  }
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -45,43 +48,43 @@ const ClassMangement = () => {
   function hanldeClickSubmit() {
     form.submit();
     setIsModalOpen(false);
-    // fetchAccount();
+    fetchMachines();
   }
   const handleClickUpdateSubmit = () => {
-    // formUpdate.submit();
+    formUpdate.submit();
   };
-  
+
 
   async function updateMachine(machine) {
     try {
       const updatedValues = {
-        ...newData, 
+        ...newData,
       };
-  
+
       await axiosInstance.put(`machine/${machine.id}`, updatedValues);
-  
+
       toast.success("Cập nhật máy thành công");
-  
+
       // Cập nhật danh sách máy hiện tại
       setMachineList((prevList) =>
         prevList.map((item) =>
           item.id === machine.id ? { ...item, ...updatedValues } : item
         )
       );
-  
+
       // Đóng modal sau khi cập nhật thành công
       setIsModalOpen(false);
-  
+
       // Nếu cần, fetch lại data chính xác từ server
-      // fetchMachines();
+      fetchMachines();
     } catch (error) {
       toast.error("Có lỗi khi cập nhật máy");
       console.log(error);
     }
   }
-  
-  
-  
+
+
+
   const columns = [
     {
       title: 'Mã máy',
@@ -118,7 +121,7 @@ const ClassMangement = () => {
               >
                 Xóa
               </Button>
-    
+
               {/* Nút Chỉnh sửa */}
               <Button
                 icon={<UploadOutlined />}
@@ -132,7 +135,7 @@ const ClassMangement = () => {
                 Chỉnh sửa
               </Button>
             </div>
-    
+
             {/* Modal chỉnh sửa máy */}
             <Modal
               className="modal-add-form"
@@ -156,7 +159,7 @@ const ClassMangement = () => {
               >
                 <div className="form-content-main">
                   <div className="form-content">
-    
+
                     {/* Mã máy */}
                     <Form.Item
                       className="label-form"
@@ -171,7 +174,7 @@ const ClassMangement = () => {
                     >
                       <Input type="text" required />
                     </Form.Item>
-    
+
                     {/* Tên máy */}
                     <Form.Item
                       className="label-form"
@@ -186,7 +189,7 @@ const ClassMangement = () => {
                     >
                       <Input type="text" required />
                     </Form.Item>
-    
+
                     {/* Ngày thêm máy */}
                     <Form.Item
                       className="label-form"
@@ -204,7 +207,7 @@ const ClassMangement = () => {
                         placeholder="Ngày Thêm Máy"
                       />
                     </Form.Item>
-    
+
                     {/* Sản phẩm */}
                     <Form.Item
                       className="label-form"
@@ -261,10 +264,10 @@ const ClassMangement = () => {
                         <Select.Option value="MANAGER">Mocha</Select.Option>
                       </Select>
                     </Form.Item>
-    
+
                   </div>
                 </div>
-    
+
                 {/* Nút xác nhận chỉnh sửa */}
                 <Button
                   onClick={() => handleClickUpdateSubmit()}
@@ -318,10 +321,9 @@ const ClassMangement = () => {
       // Xử lý sau khi thêm thành công
       toast.success("Thêm máy thành công");
 
-      // Fetch lại danh sách máy (nếu cần)
-      // fetchMachines(); // <--- hàm fetch dữ liệu danh sách máy (nếu có)
 
-      // Reset form và đóng modal
+      fetchMachines();
+
       form.resetFields();
       setIsModalOpen(false); // Đóng modal tạo máy
     } catch (error) {
@@ -336,14 +338,14 @@ const ClassMangement = () => {
         okText: "Đồng ý",
         cancelText: "Hủy",
         onOk: async () => {
-          await axiosInstance.delete(`machine/${machine.id}`); // API xóa theo ID máy
-          // toast.success("Xóa máy thành công");
+          await axiosInstance.delete(`Machine/${machine.id}`); // API xóa theo ID máy
+          toast.success("Xóa máy thành công");
 
           // Cập nhật lại state danh sách máy (giả sử state là machineList)
-          // setMachineList((prev) => prev.filter((item) => item.id !== machine.id));
+          setMachineList((prev) => prev.filter((item) => item.id !== machine.id));
 
           // Fetch lại danh sách máy (nếu cần)
-          // fetchMachines();
+          fetchMachines();
         },
       });
     } catch (error) {
