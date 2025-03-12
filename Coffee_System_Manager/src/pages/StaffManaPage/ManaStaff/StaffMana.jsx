@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Modal, Select, Table } from "antd";
 import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
@@ -27,8 +27,23 @@ const useStyle = createStyles(({ css }) => ({
 }));
 
 async function fetchStaffMana() {
-  const response = await axiosInstance.get("StaffMana");
-  setStaffManaList(response.data);
+  try {
+        const response = await axiosInstance.get("staffs");
+        console.log("API response:", response);
+  
+        const data = response?.data?.staffs;
+  
+        if (Array.isArray(data)) {
+          setStaffManaList(data);
+        } else {
+          console.warn("Dữ liệu không đúng dạng mảng:", data);
+          setStaffManaList([]);
+        }
+  
+      } catch (error) {
+        console.error("Lỗi fetch store:", error);
+        setStaffManaList([]);
+      }
 }
 
 const showModal = () => {
@@ -56,28 +71,30 @@ const handleClickUpdateSubmit = () => {
   formUpdate.submit();
 };
 
-async function updateStaffMana(staffMana) {
+useEffect(() => {
+  fetchStaffMana();
+  }, []);
+
+async function updateStaffMana(staff) {
   try {
     const updatedValues = {
       ...newData,
     };
 
-    await axiosInstance.put(`staffMana/${staffMana.id}`, updatedValues);
+    await axiosInstance.put(`staffMana/${staff.id}`, updatedValues);
 
     toast.success("Cập nhật nhân viên thành công");
 
     // Cập nhật danh sách nhân viên hiện tại
     setStaffManaList((prevList) =>
       prevList.map((item) =>
-        item.id === staffMana.id ? { ...item, ...updatedValues } : item
+        item.id === staff.id ? { ...item, ...updatedValues } : item
       )
     );
 
     // Đóng modal sau khi cập nhật thành công
     setIsModalOpen(false);    
     // fetchAccount();
-  
-
 
     // Nếu cần, fetch lại data chính xác từ server
     fetchStaffMana();
@@ -87,36 +104,24 @@ async function updateStaffMana(staffMana) {
   }
 }  
   
+
 const columns = [
   {
     title: "Mã Nhân Viên",
     width: 100,
-    dataIndex: "mid",
+    dataIndex: "staffId",
     fixed: "left",
   },
   {
     title: "Tên Nhân Viên",
     width: 100,
-    dataIndex: "name",
+    dataIndex: "firstName"+" "+"lastName",
   },
   {
     title: "Gmail",
     width: 100,
-    dataIndex: "gmail",
-  },
-  {
-    title: "Ngày Thêm Nhân Viên",
-    dataIndex: "adate",
-    key: "1",
-    width: 100,
-  },
-  {
-    title: "Vai Trò",
-    width: 100,
-    dataIndex: "role",
-    render: (role) => (role === "manageStore" ? "Quản Lý Cửa Hàng" : null),
-  },
-    
+    dataIndex: "email",
+  },    
     {
       title: "Chi Tiết",
       width: 90,
@@ -177,7 +182,7 @@ const columns = [
                     <Form.Item
                       className="label-form"
                       label="Mã Nhân Viên"
-                      name="mid"
+                      name="staffId"
                       rules={[
                         {
                           required: true,
@@ -207,7 +212,7 @@ const columns = [
                     <Form.Item
                       className="label-form"
                       label="Gmail"
-                      name="gmail"
+                      name="email"
                       rules={[
                         {
                           required: true,
@@ -218,33 +223,7 @@ const columns = [
                     >
                       <Input type="email" required />
                     </Form.Item>
-  
-                    {/* Ngày thêm nhân viên */}
-                    <Form.Item
-                      className="label-form"
-                      label="Ngày Thêm"
-                      name="adate"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Chọn ngày thêm nhân viên",
-                        },
-                      ]}
-                    >
-                      <DatePicker
-                        style={{ width: "100%" }}
-                        placeholder="Ngày Thêm"
-                      />
-                    </Form.Item>
-  
-                    {/* Vai trò */}
-                    <Form.Item
-                      className="label-form"
-                      label="Vai Trò"
-                      name="role"
-                      initialValue="Manage Store"
-                    >
-                    </Form.Item>
+    
                   </div>
                 </div>
   
