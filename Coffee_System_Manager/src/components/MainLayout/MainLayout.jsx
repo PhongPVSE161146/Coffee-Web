@@ -129,11 +129,6 @@ const MainLayout = () => {
         label: "Danh Sách Quản Lý Store",
       },
       {
-        key: "ma",
-        icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Kỹ Thuật Viên",
-      },
-      {
         key: "6",
         icon: <ShopOutlined style={{ fontSize: "24px" }} />,
         label: "Danh Sách Cửa Hàng",
@@ -182,15 +177,7 @@ const MainLayout = () => {
               setCollapsed(!collapsed);
             }
             break;
-            case "ma":
-              navigate("kythuanvien");
-              sessionStorage.setItem("activekey", key);
-              sessionStorage.removeItem("activeTag");
-              if (responsiveCollapsed) {
-                setCollapsed(!collapsed);
-              }
-              break;
-            case "3":
+          case "3":
             navigate("danhsachsanpham");
             sessionStorage.setItem("activekey", key);
             sessionStorage.removeItem("activeTag");
