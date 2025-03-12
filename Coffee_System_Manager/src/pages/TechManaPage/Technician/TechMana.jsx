@@ -92,11 +92,6 @@ const TechMana = () => {
 
   const columns = [
     {
-      title: 'Tên Cửa Hàng',
-      width: 100,
-      dataIndex: 'storeName',
-    },
-    {
       title: "Mã Nhân Viên",
       width: 100,
       dataIndex: "mid",
@@ -276,7 +271,6 @@ const TechMana = () => {
   const data = [
     {
       mid: '1',
-      storeName: 'Huỳnh Tấn Phát',
       name: 'Olivia',
       gmail: 'olivia456',
       age: 32,
@@ -285,7 +279,6 @@ const TechMana = () => {
     },
     {
       mid: '2',
-      storeName: 'Hai Bà Trưng',
       name: 'Ethan',
       gmail: 'ethan123',
       age: 40,
