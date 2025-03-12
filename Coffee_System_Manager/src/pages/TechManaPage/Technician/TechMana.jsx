@@ -434,7 +434,7 @@ return (
             name="role"
             initialValue="techStaff" // Đặt giá trị mặc định
           >
-            <Input value="Kỹ thuật viênviên" disabled /> {/* Chỉ hiển thị, không cho chọn */}
+            <Input value="Kỹ thuật viên" disabled /> {/* Chỉ hiển thị, không cho chọn */}
           </Form.Item>
 
           <Button htmlType="submit" className="form-button">
