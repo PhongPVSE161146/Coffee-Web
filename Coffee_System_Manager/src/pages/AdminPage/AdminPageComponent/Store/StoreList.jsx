@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Form, Input, Modal, Select, Table } from "antd";
+import { Button, Form, Input, Modal, Table, Upload } from "antd";
 import { createStyles } from 'antd-style';
-import { Option } from "antd/es/mentions";
 import { useForm } from "antd/es/form/Form";
 import { axiosInstance } from "../../../../axios/Axios";
 import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
+import uploadFile from "../../../../utils/uploadFile";
 
 const StoreList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [area, setArea] = useState([]);
   const [formUpdate] = useForm();
   const [storeList, setStoreList] = useState("");
   const [selectedStore, setSelectedStore] = useState("");
   const [newData, setNewData] = useState("");
+  const [img, setImg] = useState(null);
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [form] = useForm();
   const useStyle = createStyles(({ css }) => ({
@@ -51,96 +51,127 @@ const StoreList = () => {
     setIsModalOpen(false);
     // fetchAccount();
   }
-  async function fetchArea() {
+  async function fetchStore() {
     try {
-      const response = await axiosInstance.get("area");
+      const response = await axiosInstance.get("store");
       console.log("API response:", response);
 
-      const data = response?.data?.areas;
+      const data = response?.data?.stores;
 
       if (Array.isArray(data)) {
-        setArea(data);
+        setStoreList(data);
       } else {
         console.warn("Dữ liệu không đúng dạng mảng:", data);
-        setArea([]);
+        setStoreList([]);
       }
 
     } catch (error) {
-      console.error("Lỗi fetch area:", error);
-      setArea([]);
+      console.error("Lỗi fetch store:", error);
+      setStoreList([]);
     }
   }
 
 
   useEffect(() => {
-    fetchArea();
+    fetchStore();
   }, []);
 
+  async function AddStore(values) {
+    try {
+      console.log("Dữ liệu từ form gửi lên:", values);
+      const payload = {
+        storeId: values.storeId,
+        storeName: values.storeName,
+        address: values.address,
+      };
+
+      if (!img) {
+        toast.error("Vui lòng chọn ảnh trước khi thêm cửa hàng");
+        return;
+      }
+
+      const imgURL = await uploadFile(img);
+      payload.imgURL = imgURL;
+
+      await axiosInstance.post("Store", payload);
+
+      toast.success("Thêm máy thành công");
+
+      // fetchStore();
+      form.resetFields();
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error("Đã có lỗi khi thêm máy");
+      console.log(error);
+    }
+  }
+
+
   async function updateStore(store) {
-      try {
-        const updatedValues = {
-          ...newData,
-        };
-  
-        await axiosInstance.put(`Store/${store.id}`, updatedValues);
-  
-        toast.success("Cập nhật máy thành công");
-  
-        // Cập nhật danh sách máy hiện tại
-        setStoreList((prevList) =>
-          prevList.map((item) =>
-            item.id === store.id ? { ...item, ...updatedValues } : item
-          )
-        );
-  
-        // Đóng modal sau khi cập nhật thành công
-        setIsModalOpen(false);
-  
-        // Nếu cần, fetch lại data chính xác từ server
-        // fetchStore();
-      } catch (error) {
-        toast.error("Có lỗi khi cập nhật máy");
-        console.log(error);
-      }
+    try {
+      const updatedValues = {
+        ...newData,
+      };
+
+      await axiosInstance.put(`Store/${store.id}`, updatedValues);
+
+      toast.success("Cập nhật máy thành công");
+
+      // Cập nhật danh sách máy hiện tại
+      setStoreList((prevList) =>
+        prevList.map((item) =>
+          item.id === store.id ? { ...item, ...updatedValues } : item
+        )
+      );
+
+      // Đóng modal sau khi cập nhật thành công
+      setIsModalOpen(false);
+
+      // Nếu cần, fetch lại data chính xác từ server
+      // fetchStore();
+    } catch (error) {
+      toast.error("Có lỗi khi cập nhật máy");
+      console.log(error);
     }
-  
-    async function deleteStore(store) {
-      try {
-        Modal.confirm({
-          title: "Bạn có chắc muốn xóa sản phẩm này?",
-          okText: "Đồng ý",
-          cancelText: "Hủy",
-          onOk: async () => {
-            await axiosInstance.delete(`Store/${store.id}`); // API xóa theo ID máy
-            toast.success("Xóa sản phẩm thành công");
-  
-            // Cập nhật lại state danh sách máy (giả sử state là machineList)
-            setStoreList((prev) => prev.filter((item) => item.id !== store.id));
-  
-            // Fetch lại danh sách máy (nếu cần)
-            // fetchStore();
-          },
-        });
-      } catch (error) {
-        // toast.error("Đã có lỗi trong lúc xóa máy");
-        console.log(error);
-      }
+  }
+
+  async function deleteStore(store) {
+    try {
+      Modal.confirm({
+        title: "Bạn có chắc muốn xóa sản phẩm này?",
+        okText: "Đồng ý",
+        cancelText: "Hủy",
+        onOk: async () => {
+          await axiosInstance.delete(`Store/${store.id}`); // API xóa theo ID máy
+          toast.success("Xóa sản phẩm thành công");
+
+          // Cập nhật lại state danh sách máy (giả sử state là machineList)
+          setStoreList((prev) => prev.filter((item) => item.id !== store.id));
+
+          // Fetch lại danh sách máy (nếu cần)
+          fetchStore();
+        },
+      });
+    } catch (error) {
+      // toast.error("Đã có lỗi trong lúc xóa máy");
+      console.log(error);
     }
+  }
   const columns = [
     {
       title: 'Mã Cửa Hàng',
       width: 100,
-      dataIndex: 'areaId',
+      dataIndex: 'storeId',
       fixed: 'left',
     },
     {
       title: 'Tên Cửa Hàng',
       width: 100,
-      dataIndex: 'areaName',
+      dataIndex: 'storeName',
     },
     {
       title: 'Địa Chỉ',
-      dataIndex: 'adate',
+      dataIndex: 'storeLocation',
       key: '1',
       width: 100,
     },
@@ -279,7 +310,7 @@ const StoreList = () => {
         <Table
           bordered
           columns={columns}
-          dataSource={area}
+          dataSource={storeList}
           scroll={{
             x: 'max-content',
           }}
@@ -302,14 +333,14 @@ const StoreList = () => {
             wrapperCol={{ span: 20 }}
             style={{ width: "100%" }}
             form={form}
-            // onFinish={RegisterAccount}
+            onFinish={AddStore}
             id="form"
             className=""
           >
             <Form.Item
               required
               label="Mã Cửa Hàng"
-              name="firstname"
+              name="storeId"
               rules={[
                 {
                   required: true,
@@ -335,7 +366,7 @@ const StoreList = () => {
             <Form.Item
               required
               label="Địa Chỉ"
-              name="storeAddress"
+              name="storeLocation"
               rules={[
                 {
                   required: true,
@@ -344,6 +375,18 @@ const StoreList = () => {
               ]}
             >
               <Input required />
+            </Form.Item>
+            <Form.Item className="label-form" label="Hình Ảnh " name="imgURL">
+              <Upload
+                fileList={img ? [img] : []}
+                beforeUpload={(file) => {
+                  setImg(file);
+                  return false;
+                }}
+                onRemove={() => setImg(null)}
+              >
+                <Button icon={<UploadOutlined />}>Tải Hình Ảnh</Button>
+              </Upload>{" "}
             </Form.Item>
             <Button onClick={hanldeClickSubmit} className="form-button ">
               Thêm Cửa Hàng Mới

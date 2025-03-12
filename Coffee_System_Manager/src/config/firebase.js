@@ -2,6 +2,8 @@
 
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getStorage } from "firebase/storage";
+
 
 
 const firebaseConfig = {
@@ -24,3 +26,4 @@ console.log("Google Auth Provider:", provider);
 
 
 export { auth, provider };
+export const storage = getStorage();
