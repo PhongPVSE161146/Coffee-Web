@@ -147,7 +147,7 @@ const Login = () => {
         sessionStorage.setItem("selectedRole","admin");
         navigate("/adminPage"); 
       }
-      else if (result.user.email === "hadntse171721@fpt.edu.vn"){
+      else if (result.user.email === "quanvnmse160914@fpt.edu.vn"){
         sessionStorage.setItem("selectedRole","manager");
         navigate("/managerPage");
       }
