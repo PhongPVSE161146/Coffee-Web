@@ -113,35 +113,35 @@ const MainLayout = () => {
       {
         key: "3",
         icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Mặt Hàng",
+        label: "Sản phẩm",
       },
       {
         key: "1",
         icon: <HomeOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Máy",
+        label: "Máy",
 
       },
       {
         key: "me",
         icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Quản Lý Store",
+        label: "Quản lý",
       },
       {
         key: "6",
         icon: <ShopOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Cửa Hàng",
+        label: "Cửa Hàng",
       },
     ],
     managerStore: [
       {
         key: "nv",
         icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Nhân Viên",
+        label: "Nhân Viên",
       },
       {
         key: "ktv",
         icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Kỹ Thuật Viên",
+        label: "Kỹ Thuật Viên",
       },
     ],
     manager: [
