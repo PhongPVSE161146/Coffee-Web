@@ -150,6 +150,11 @@ const MainLayout = () => {
         icon: <LineChartOutlined style={{ fontSize: "24px" }} />,
         label: "Báo Cáo",
       },
+      {
+        key: "3",
+        icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
+        label: "Danh Sách Đơn Hàng",
+      },
     ],
   };
 
@@ -219,6 +224,16 @@ const MainLayout = () => {
       switch (e.key) {
         case "2":
           navigate("dashboard");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          sessionStorage.setItem("activeTag", " - General Data");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
+
+          case "3":
+          navigate("danhsachdonhang");
           sessionStorage.setItem("activekey", key);
           sessionStorage.removeItem("activeTag");
           sessionStorage.setItem("activeTag", " - General Data");

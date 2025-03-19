@@ -76,6 +76,8 @@ import ManaStaff from "../pages/ManaStaff/ManaStaff";
 import StaffMana from "../pages/StaffManaPage/ManaStaff/StaffMana";
 import TechMana from "../pages/TechManaPage/Technician/TechMana";
 import TechStaff from "../pages/Technician/ManaStaff/TechStaff";
+import OrderList from "../pages/OrderList/orderList";
+
 
 const AppRoutes = () => (
   <Routes>
@@ -96,6 +98,7 @@ const AppRoutes = () => (
     <Route index element={<MainPage />} />
       <Route element={<MainPage />}>
       <Route path="dashboard" element={<GeneralData />} />
+      <Route path="danhsachdonhang" element={<OrderList />}/>
       </Route>
     </Route>
     {/* admin role */}
