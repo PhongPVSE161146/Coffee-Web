@@ -218,7 +218,7 @@ const MainLayout = () => {
     else if (role === "manager") {
       switch (e.key) {
         case "2":
-          navigate("statisticsPhase2/generaldata");
+          navigate("dashboard");
           sessionStorage.setItem("activekey", key);
           sessionStorage.removeItem("activeTag");
           sessionStorage.setItem("activeTag", " - General Data");

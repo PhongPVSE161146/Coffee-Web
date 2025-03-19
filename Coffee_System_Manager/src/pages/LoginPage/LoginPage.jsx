@@ -145,19 +145,20 @@ const Login = () => {
       localStorage.setItem("email", result.user.email);
       if(result.user.email === "nguyentuananh200904@gmail.com"){
         sessionStorage.setItem("selectedRole","admin");
+        navigate("/adminPage");
       }
       else if (result.user.email === "hadntse171721@fpt.edu.vn"){
         sessionStorage.setItem("selectedRole","manager");
+        navigate("/managerPage");
       }
       else if (result.user.email === "quanvnmse160914@fpt.edu.vn"){
         sessionStorage.setItem("selectedRole","managerStore");
+        navigate("/managerStorePage");
       }
       else{
         sessionStorage.setItem("selectedRole","user");
 
-      }
-
-      navigate("/adminPage"); 
+      } 
     } catch (error) {
       console.error("Lỗi đăng nhập Google:", error.code, error.message);
     }

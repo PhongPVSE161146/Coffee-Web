@@ -81,18 +81,33 @@ const AppRoutes = () => (
   <Routes>
     <Route path="/unauthorized" element={<Unauthorized />}></Route>
     <Route path="/" element={<LoginPage />} />
+
+    {/* managerStore role */}
+    <Route path="/managerStorePage" element={<PrivateRoutes requiredRole="managerStore" />}>
+    <Route index element={<MainPage />} />
+      <Route element={<MainPage />}>
+      {/* <Route path="kythuanvien" element={<TechStaff />} /> */}
+      <Route path="quanlikythuatvien" element={<TechMana />}/>
+      <Route path="quanlistorenhanvien" element={<StaffMana/>}/>
+      </Route>
+    </Route>
+
+    <Route path="/managerPage" element={<PrivateRoutes requiredRole="manager" />}>
+    <Route index element={<MainPage />} />
+      <Route element={<MainPage />}>
+      <Route path="dashboard" element={<GeneralData />} />
+      </Route>
+    </Route>
+    {/* admin role */}
     <Route path="/adminPage" element={<PrivateRoutes requiredRole="admin" />}>
       <Route index element={<MainPage />} />
       <Route element={<MainPage />}>
         <Route path="Profile" element={<ProfilePage />}/>
-        <Route path="quanlistorenhanvien" element={<StaffMana/>}/>
-        <Route path="quanlikythuatvien" element={<TechMana />}/>
         <Route path="trainerList" element={<TrainerList />} />
         <Route path="danhsachsanpham" element={<ProductList />} />
         <Route path="danhsachcuahang" element={<StoreList />} />
         <Route path="addTrainer" element={<AddTrainer />} />
         <Route path="quanlinhanvien" element={<ManaStaff />} />
-        <Route path="kythuanvien" element={<TechStaff />} />
         <Route path="classManagement" element={<ClassMangement />} />
         <Route path="feedback-template/:templateId" element={<FeedbackTemplate />} />
         <Route path="traineeManagement" element={<TraineeManagement />}>
@@ -110,12 +125,12 @@ const AppRoutes = () => (
           element={<AdminTrainerModuleDetail />}
         />
 
-        <Route path="statisticsPhase2" element={<StatisticsPhase2 />}>
+        {/* <Route path="statisticsPhase2" element={<StatisticsPhase2 />}>
           <Route path="feedback" element={<FeedbackPhase2 />} />
           <Route path="generaldata" element={<GeneralData />} />
           <Route path="modulestatistic" element={<MouduleStatistic />} />
           <Route path="gpa" element={<StatisticGPA />} />
-        </Route>
+        </Route> */}
         <Route path="Exportdate" element={<Exportdate />} />
         <Route path="Topic" element={<Topic />} />
         <Route path="TrainingProgram" element={<TrainingProgram />} />
