@@ -6,6 +6,7 @@ import { useForm } from "antd/es/form/Form";
 import { axiosInstance } from "../../axios/Axios";
 import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 
 const OrderList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -164,34 +165,37 @@ const OrderList = () => {
 
   const columns = [
     {
-      title: 'Mã đơn hàng',
-      dataIndex: 'orderId',
-      fixed: 'left',
+      title: "Mã đơn hàng",
+      dataIndex: "productId",
+      fixed: "left",
+      sorter: (a, b) => a.productId.localeCompare(b.productId),
     },
     {
-      title: 'Tên đơn hàng',
-      dataIndex: 'orderDescription',
+      title: "Tên đơn hàng",
+      dataIndex: "productName",
+      sorter: (a, b) => a.productName.localeCompare(b.productName),
     },
     {
-      title: 'Mã khách hàng',
-      dataIndex: 'customerId',
-      fixed: 'left',
+      title: "Mã khách hàng",
+      dataIndex: "CustomerId",
+      fixed: "left",
       sorter: (a, b) => a.CustomerId.localeCompare(b.CustomerId),
     },
     {
-      title: 'Loại sản phẩm',
-      dataIndex: 'categoryId',
+      title: "Loại sản phẩm",
+      dataIndex: "categoryId",
       sorter: (a, b) => a.categoryId.localeCompare(b.categoryId),
     },
     {
-      title: 'Giá sản phẩm',
-      dataIndex: 'price',
-      sorter: (a, b) => a.price - b.price, // Sắp xếp theo số
+      title: "Giá sản phẩm",
+      dataIndex: "price",
+      sorter: (a, b) => a.price - b.price,
     },
     {
-      title: 'Ngày đặt hàng',
-      dataIndex: 'orderDate',
-      sorter: (a, b) => new Date(a.orderDate) - new Date(b.orderDate),
+      title: "Ngày đặt hàng",
+      dataIndex: "orderDate",
+      render: (text) => dayjs(text).format("DD/MM/YYYY"), // Chuyển đổi thành dạng ngày/tháng/năm
+      sorter: (a, b) => new Date(a.orderDate) - new Date(b.orderDate), // Sắp xếp theo ngày
     },
   ];
   
