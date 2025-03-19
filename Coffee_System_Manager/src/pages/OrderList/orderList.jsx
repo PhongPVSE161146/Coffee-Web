@@ -86,15 +86,15 @@ const OrderList = () => {
   ];
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
       <Input
         placeholder="Tìm kiếm theo tên sản phẩm..."
         prefix={<SearchOutlined />}
         value={searchText}
         onChange={(e) => handleSearch(e.target.value)}
-        style={{ width: 300, marginBottom: 16 }}
+        style={{ width: 300, marginBottom: 16, textAlign: "center" }}
       />
-
+  
       <Table
         bordered
         columns={columns}
@@ -105,6 +105,7 @@ const OrderList = () => {
       />
     </div>
   );
+  
 };
 
 export default OrderList;
