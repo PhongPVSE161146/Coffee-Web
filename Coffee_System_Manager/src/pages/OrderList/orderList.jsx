@@ -201,7 +201,31 @@ const OrderList = () => {
   
 
 
+  const [sortType, setSortType] = useState("default");
 
+  const handleSortChange = (value) => {
+    setSortType(value);
+    let sortedData = [...orderList];
+  
+    if (value === "category") {
+      sortedData.sort((a, b) => a.categoryId.localeCompare(b.categoryId));
+    } else if (value === "date") {
+      sortedData.sort((a, b) => new Date(a.orderDate) - new Date(b.orderDate));
+    } else if (value === "month") {
+      sortedData.sort((a, b) => 
+        dayjs(a.orderDate).month() - dayjs(b.orderDate).month()
+      );
+    }
+  
+    setOrderList(sortedData);
+  };
+  
+<Select defaultValue="default" onChange={handleSortChange} style={{ width: 200, marginBottom: 10 }}>
+  <Select.Option value="default">Mặc định</Select.Option>
+  <Select.Option value="category">Sắp xếp theo loại</Select.Option>
+  <Select.Option value="date">Sắp xếp theo ngày</Select.Option>
+  <Select.Option value="month">Sắp xếp theo tháng</Select.Option>
+</Select>
 
   const data = [
     {
