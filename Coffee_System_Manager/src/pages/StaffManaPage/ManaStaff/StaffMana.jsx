@@ -115,7 +115,7 @@ const columns = [
   {
     title: "Tên Nhân Viên",
     width: 100,
-    dataIndex: "firstName"+" "+"lastName",
+    dataIndex: "firstName",
   },
   {
     title: "Gmail",
