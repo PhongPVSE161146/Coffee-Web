@@ -24,6 +24,7 @@ import {
 } from "@ant-design/icons";
 
 import kohicoffee from "../../assets/kohicoffee.png";
+import kohicoffeemini from "../../assets/logocoffee.png";
 import { Button, Layout, Menu, theme, Badge, ConfigProvider, Dropdown } from "antd";
 import { useNavigate, Outlet } from "react-router-dom";
 import { FaBell, FaRegUserCircle } from "react-icons/fa";
@@ -270,33 +271,28 @@ const MainLayout = () => {
           </div>
         )}
 
-        {!collapsed && (
-          <div style={{ height: "140px", marginLeft: 20 }} className="demo-logo-vertical">
-            <img
-              style={{
-                width: "250px",
-                height: "170px",
-                transform: "translateX(-10%)",
-              }}
-              src={kohicoffee}
-              alt="Kohi Coffee Logo"
-            />
-          </div>
-        )}
-        {collapsed && (
-          <div style={{ height: "140px" }} className="demo-logo-vertical">
-            <img
-              style={{
-                width: "250px",
-                height: "140px",
-                transform: "translateX(-18%)",
-                clipPath: "inset(0 48% 0 0)",
-              }}
-              src={kohicoffee}
-              alt="Kohi Coffee Logo"
-            />
-          </div>
-        )}
+<div
+  style={{
+    height: "140px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    transition: "all 0.3s ease-in-out",
+  }}
+  className="demo-logo-vertical"
+>
+  <img
+    style={{
+      width: collapsed ? "50px" : "250px",
+      height: collapsed ? "50px" : "170px",
+      objectFit: "contain",
+      transition: "all 0.3s ease-in-out",
+    }}
+    src={collapsed ? kohicoffeemini : kohicoffee}
+    alt="Kohi Coffee Logo"
+  />
+</div>
+
 
         <ConfigProvider
           theme={{
@@ -363,14 +359,12 @@ const MainLayout = () => {
             }}
           >
             <p className="user-welcome" style={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'center', alignItems: 'center', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-              {/* {role ? (
+              {role ? (
                 <div className="user-info">
-                  {role === 'trainer' && (<span className="role-container" style={{ backgroundColor: '#2ba510' }}>Trainer</span>)}
                   {role === 'admin' && (<span className="role-container" style={{ backgroundColor: '#ff4949' }}>Admin</span>)}
-                  {role === 'deliverymanager' && (<span className="role-container" style={{ backgroundColor: '#1c00d2' }}>Delivery Manager</span>)}
-                  {role === 'trainermanager' && (<span className="role-container" style={{ backgroundColor: '#009785' }}>Trainer Manager</span>)}
-                  {role === 'FAMadmin' && (<span className="role-container" style={{ backgroundColor: '#cd7100' }}>FAMS Admin</span>)}
-                </div>) : (<></>)} */}
+                  {role === 'manager' && (<span className="role-container" style={{ backgroundColor: '#ff4949' }}>Manager</span>)}
+                  {role === 'managerStore' && (<span className="role-container" style={{ backgroundColor: '#ff4949' }}>Manager Store</span>)}
+                </div>) : (<></>)}
               Welcome, {username}
             </p>
             <Dropdown menu={{ items: menuProfile }} trigger={['click']}>
