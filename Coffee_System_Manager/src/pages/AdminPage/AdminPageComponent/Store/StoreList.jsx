@@ -4,398 +4,124 @@ import { createStyles } from 'antd-style';
 import { useForm } from "antd/es/form/Form";
 import { axiosInstance } from "../../../../axios/Axios";
 import { toast } from "react-toastify";
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined, SearchOutlined } from "@ant-design/icons";
 import uploadFile from "../../../../utils/uploadFile";
 
 const StoreList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formUpdate] = useForm();
-  const [storeList, setStoreList] = useState("");
-  const [selectedStore, setSelectedStore] = useState("");
-  const [newData, setNewData] = useState("");
+  const [storeList, setStoreList] = useState([]);
+  const [selectedStore, setSelectedStore] = useState(null);
+  const [newData, setNewData] = useState(null);
   const [img, setImg] = useState(null);
+  const [searchText, setSearchText] = useState("");
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [form] = useForm();
-  const useStyle = createStyles(({ css }) => ({
-    centeredContainer: css`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh; // Chiều cao toàn màn hình
-      width: 85w; // Chiều rộng toàn màn hình
-      flex-direction: column;
-    `,
-  }));
 
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-  const handleUpdateOk = () => {
-    setIsModalUpdateOpen(false);
-  };
-  const handleUpdateCancel = () => {
-    setIsModalUpdateOpen(false);
-  };
-  const handleClickUpdateSubmit = () => {
-    formUpdate.submit();
-  };
-  function hanldeClickSubmit() {
-    form.submit();
-    setIsModalOpen(false);
-    // fetchAccount();
-  }
   async function fetchStore() {
     try {
       const response = await axiosInstance.get("store");
-      console.log("API response:", response);
-
       const data = response?.data?.stores;
-
-      if (Array.isArray(data)) {
-        setStoreList(data);
-      } else {
-        console.warn("Dữ liệu không đúng dạng mảng:", data);
-        setStoreList([]);
-      }
-
+      setStoreList(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Lỗi fetch store:", error);
       setStoreList([]);
     }
   }
 
-
   useEffect(() => {
     fetchStore();
   }, []);
 
-  async function AddStore(values) {
-    try {
-      console.log("Dữ liệu từ form gửi lên:", values);
-      const payload = {
-        storeId: values.storeId,
-        storeName: values.storeName,
-        address: values.address,
-      };
+  const handleSearch = (value) => {
+    setSearchText(value);
+  };
 
-      if (!img) {
-        toast.error("Vui lòng chọn ảnh trước khi thêm cửa hàng");
-        return;
-      }
+  const filteredData = storeList.filter((store) =>
+    store.storeName.toLowerCase().includes(searchText.toLowerCase())
+  );
 
-      const imgURL = await uploadFile(img);
-      payload.imgURL = imgURL;
-
-      await axiosInstance.post("Store", payload);
-
-      toast.success("Thêm máy thành công");
-
-      // fetchStore();
-      form.resetFields();
-      setIsModalOpen(false);
-    } catch (error) {
-      toast.error("Đã có lỗi khi thêm máy");
-      console.log(error);
-    }
-  }
-
-
-  async function updateStore(store) {
-    try {
-      const updatedValues = {
-        ...newData,
-      };
-
-      await axiosInstance.put(`Store/${store.id}`, updatedValues);
-
-      toast.success("Cập nhật máy thành công");
-
-      // Cập nhật danh sách máy hiện tại
-      setStoreList((prevList) =>
-        prevList.map((item) =>
-          item.id === store.id ? { ...item, ...updatedValues } : item
-        )
-      );
-
-      // Đóng modal sau khi cập nhật thành công
-      setIsModalOpen(false);
-
-      // Nếu cần, fetch lại data chính xác từ server
-      // fetchStore();
-    } catch (error) {
-      toast.error("Có lỗi khi cập nhật máy");
-      console.log(error);
-    }
-  }
-
-  async function deleteStore(store) {
-    try {
-      Modal.confirm({
-        title: "Bạn có chắc muốn xóa sản phẩm này?",
-        okText: "Đồng ý",
-        cancelText: "Hủy",
-        onOk: async () => {
-          await axiosInstance.delete(`Store/${store.id}`); // API xóa theo ID máy
-          toast.success("Xóa sản phẩm thành công");
-
-          // Cập nhật lại state danh sách máy (giả sử state là machineList)
-          setStoreList((prev) => prev.filter((item) => item.id !== store.id));
-
-          // Fetch lại danh sách máy (nếu cần)
-          fetchStore();
-        },
-      });
-    } catch (error) {
-      // toast.error("Đã có lỗi trong lúc xóa máy");
-      console.log(error);
-    }
-  }
   const columns = [
-    {
-      title: 'Mã Cửa Hàng',
-      width: 100,
-      dataIndex: 'storeId',
-      fixed: 'left',
+    { 
+      title: "Mã Cửa Hàng", 
+      dataIndex: "storeId", 
+      sorter: (a, b) => a.storeId.localeCompare(b.storeId) 
     },
-    {
-      title: 'Tên Cửa Hàng',
-      width: 100,
-      dataIndex: 'storeName',
+    { 
+      title: "Tên Cửa Hàng", 
+      dataIndex: "storeName", 
+      sorter: (a, b) => a.storeName.localeCompare(b.storeName) 
     },
-    {
-      title: 'Địa Chỉ',
-      dataIndex: 'storeLocation',
-      key: '1',
-      width: 100,
+    { 
+      title: "Địa Chỉ", 
+      dataIndex: "storeLocation" 
     },
     {
       title: "Hành Động",
-      render: (record) => {
-        return (
-          <>
-            <div className="action-button">
-              {/* Nút Xóa */}
-              <Button
-                onClick={() => deleteStore(record)}
-                className="delete-button"
-              >
-                Xóa
-              </Button>
+      render: (record) => (
+        <>
+          <Button onClick={() => deleteStore(record)}>Xóa</Button>
+          <Button onClick={() => {
+            setSelectedStore(record);
+            formUpdate.setFieldsValue(record);
+            setIsModalUpdateOpen(true);
+          }}>Chỉnh sửa</Button>
+        </>
+      ),
+    },
+  ];
 
-              {/* Nút Chỉnh sửa */}
-              <Button
-                icon={<UploadOutlined />}
-                className="admin-upload-button update-button"
-                onClick={() => {
-                  setSelectedStore(record); // Chọn máy hiện tại
-                  formUpdate.setFieldsValue(record); // Đổ data vào form
-                  setIsModalOpen(true); // Mở modal chỉnh sửa
-                }}
-              >
-                Chỉnh sửa
-              </Button>
-            </div>
-
-            {/* Modal chỉnh sửa máy */}
-            <Modal
-              className="modal-add-form"
-              footer={false}
-              title="Chỉnh Sửa Máy"
-              open={isModalUpdateOpen}
-              onOk={handleUpdateOk}
-              onCancel={handleUpdateCancel}
-            >
-              <Form
-                initialValues={selectedStore}
-                form={formUpdate}
-                onValuesChange={(changedValues, allValues) => {
-                  setNewData(allValues);
-                }}
-                onFinish={() => {
-                  updateStore(selectedStore);
-                }}
-                id="form-update-machine"
-                className="form-main"
-              >
-                <div className="form-content-main">
-                  <div className="form-content">
-
-                    {/* Mã máy */}
-                    <Form.Item
-                      className="label-form"
-                      label="Mã Máy"
-                      name="firstname"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập mã cửa hàng",
-                        },
-                      ]}
-                    >
-                      <Input type="text" required />
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
-                      label="Tên Cửa Hàng"
-                      name="storeName"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập tên cửa hàng",
-                        },
-                      ]}
-                    >
-                      <Input type="text" required />
-                    </Form.Item>
-                    <Form.Item
-                      className="label-form"
-                      label="Địa chỉ"
-                      name="storeAddress"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập địa chỉ cửa hàng",
-                        },
-                      ]}
-                    >
-                      <Input type="text" required />
-                    </Form.Item>
-
-
-                  </div>
-                </div>
-
-                {/* Nút xác nhận chỉnh sửa */}
-                <Button
-                  onClick={() => handleClickUpdateSubmit()}
-                  className="form-button"
-                >
-                  Cập Nhật Máy
-                </Button>
-              </Form>
-            </Modal>
-          </>
-        );
+  async function deleteStore(store) {
+    Modal.confirm({
+      title: "Bạn có chắc muốn xóa cửa hàng này?",
+      okText: "Đồng ý",
+      cancelText: "Hủy",
+      onOk: async () => {
+        await axiosInstance.delete(`Store/${store.id}`);
+        toast.success("Xóa cửa hàng thành công");
+        fetchStore();
       },
-    },
-  ];
+    });
+  }
 
-  const data = [
-    {
-      pid: '1',
-      name: 'Olivia',
-      price: 32,
-      address: 'New York Park',
-      adate: '01/01/2025',
-    },
-    {
-      pid: '2',
-      name: 'Ethan',
-      price: 40,
-      address: 'London Park',
-      adate: '01/01/2025',
-    },
-  ];
-  const { styles } = useStyle();
+  async function AddStore(values) {
+    try {
+      const payload = { ...values };
+      if (img) {
+        const imgURL = await uploadFile(img);
+        payload.imgURL = imgURL;
+      }
+      await axiosInstance.post("store", payload);
+      toast.success("Thêm cửa hàng thành công");
+      fetchStore();
+      form.resetFields();
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra");
+    }
+  }
+
   return (
-    <div>
-      <div className={styles.centeredContainer}>
-        <Table
-          bordered
-          columns={columns}
-          dataSource={storeList}
-          scroll={{
-            x: 'max-content',
-          }}
-          pagination={{ pageSize: 5 }}
-          style={{ width: "90%", maxWidth: "1200px" }}
-        />
-        <Button type="primary" onClick={showModal}>
-          Tạo thông tin cửa hàng mới
-        </Button>
-        <Modal
-          title="Tạo Thông Tin Cửa Hàng"
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={null}
-        >
-          <Form
-            layout="horizontal"
-            labelCol={{ span: 7 }}
-            wrapperCol={{ span: 20 }}
-            style={{ width: "100%" }}
-            form={form}
-            onFinish={AddStore}
-            id="form"
-            className=""
-          >
-            <Form.Item
-              required
-              label="Mã Cửa Hàng"
-              name="storeId"
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập mã cửa hàng",
-                },
-              ]}
-            >
-              <Input required />
-            </Form.Item>
-            <Form.Item
-              required
-              label="Tên Cửa Hàng"
-              name="storeName"
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập tên cửa hàng",
-                },
-              ]}
-            >
-              <Input required />
-            </Form.Item>
-            <Form.Item
-              required
-              label="Địa Chỉ"
-              name="storeLocation"
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập địa chỉ cửa hàng",
-                },
-              ]}
-            >
-              <Input required />
-            </Form.Item>
-            <Form.Item className="label-form" label="Hình Ảnh " name="imgURL">
-              <Upload
-                fileList={img ? [img] : []}
-                beforeUpload={(file) => {
-                  setImg(file);
-                  return false;
-                }}
-                onRemove={() => setImg(null)}
-              >
-                <Button icon={<UploadOutlined />}>Tải Hình Ảnh</Button>
-              </Upload>{" "}
-            </Form.Item>
-            <Button onClick={hanldeClickSubmit} className="form-button ">
-              Thêm Cửa Hàng Mới
-            </Button>
-          </Form>
-        </Modal>
-      </div>
+    <div style={{ padding: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <Input
+        placeholder="Tìm kiếm cửa hàng..."
+        prefix={<SearchOutlined />}
+        value={searchText}
+        onChange={(e) => handleSearch(e.target.value)}
+        style={{ width: 300, marginBottom: 16 }}
+      />
+      <Table bordered columns={columns} dataSource={filteredData} pagination={{ pageSize: 5 }} style={{ width: "90%", maxWidth: "1200px" }} />
+      <Button type="primary" onClick={() => setIsModalOpen(true)}>Thêm Cửa Hàng</Button>
+      <Modal title="Tạo Cửa Hàng" open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
+        <Form form={form} onFinish={AddStore}>
+          <Form.Item label="Mã Cửa Hàng" name="storeId" rules={[{ required: true, message: "Nhập mã cửa hàng" }]}> <Input /> </Form.Item>
+          <Form.Item label="Tên Cửa Hàng" name="storeName" rules={[{ required: true, message: "Nhập tên cửa hàng" }]}> <Input /> </Form.Item>
+          <Form.Item label="Địa Chỉ" name="storeLocation" rules={[{ required: true, message: "Nhập địa chỉ" }]}> <Input /> </Form.Item>
+          <Form.Item label="Hình Ảnh" name="imgURL"> <Upload beforeUpload={(file) => { setImg(file); return false; }} onRemove={() => setImg(null)}> <Button icon={<UploadOutlined />}>Tải Hình Ảnh</Button> </Upload> </Form.Item>
+          <Button htmlType="submit">Thêm Cửa Hàng</Button>
+        </Form>
+      </Modal>
     </div>
-
   );
 };
 

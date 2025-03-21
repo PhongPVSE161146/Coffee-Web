@@ -61,7 +61,6 @@ const ProductList = () => {
     {
       title: "Số lượng",
       dataIndex: "stockQuantity",
-      sorter: (a, b) => a.stockQuantity - b.stockQuantity,
     },
     {
       title: "Giá sản phẩm",
