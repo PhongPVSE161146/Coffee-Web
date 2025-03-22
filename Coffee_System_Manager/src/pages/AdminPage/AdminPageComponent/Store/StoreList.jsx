@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, Modal, Table, Upload } from "antd";
+import { Button, Form, Image, Input, Modal, Table, Upload } from "antd";
 import { createStyles } from 'antd-style';
 import { useForm } from "antd/es/form/Form";
 import { axiosInstance } from "../../../../axios/Axios";
@@ -93,7 +93,7 @@ const StoreList = () => {
       const imgURL = await uploadFile(img);
       payload.imgURL = imgURL;
 
-      await axiosInstance.post("Store", payload);
+      await axiosInstance.post("store", payload);
 
       toast.success("Thêm máy thành công");
 
@@ -112,28 +112,29 @@ const StoreList = () => {
       const updatedValues = {
         ...newData,
       };
-
-      await axiosInstance.put(`Store/${store.id}`, updatedValues);
-
+  
+      if (img) {
+        const imgURL = await uploadFile(img);
+        updatedValues.imgURL = imgURL;
+      }
+  
+      await axiosInstance.put(`store/${store.id}`, updatedValues);
+  
       toast.success("Cập nhật máy thành công");
-
-      // Cập nhật danh sách máy hiện tại
+  
       setStoreList((prevList) =>
         prevList.map((item) =>
           item.id === store.id ? { ...item, ...updatedValues } : item
         )
       );
-
-      // Đóng modal sau khi cập nhật thành công
-      setIsModalOpen(false);
-
-      // Nếu cần, fetch lại data chính xác từ server
-      // fetchStore();
+  
+      setIsModalUpdateOpen(false); // nên dùng update modal
     } catch (error) {
       toast.error("Có lỗi khi cập nhật máy");
       console.log(error);
     }
   }
+  
 
   async function deleteStore(store) {
     try {
@@ -142,7 +143,7 @@ const StoreList = () => {
         okText: "Đồng ý",
         cancelText: "Hủy",
         onOk: async () => {
-          await axiosInstance.delete(`Store/${store.id}`); // API xóa theo ID máy
+          await axiosInstance.delete(`store/${store.id}`); // API xóa theo ID máy
           toast.success("Xóa sản phẩm thành công");
 
           // Cập nhật lại state danh sách máy (giả sử state là machineList)
@@ -174,6 +175,12 @@ const StoreList = () => {
       dataIndex: 'storeLocation',
       key: '1',
       width: 100,
+    },
+    {
+      title: "Hình Ảnh ",
+      dataIndex: "imgURL",
+      key: "imgURL",
+      render: (value) => <Image src={value} style={{ width: 80 }} />,
     },
     {
       title: "Hành Động",
@@ -226,21 +233,6 @@ const StoreList = () => {
               >
                 <div className="form-content-main">
                   <div className="form-content">
-
-                    {/* Mã máy */}
-                    <Form.Item
-                      className="label-form"
-                      label="Mã Máy"
-                      name="firstname"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập mã cửa hàng",
-                        },
-                      ]}
-                    >
-                      <Input type="text" required />
-                    </Form.Item>
                     <Form.Item
                       className="label-form"
                       label="Tên Cửa Hàng"

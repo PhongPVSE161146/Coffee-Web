@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Form, Input, Modal, Select, Table } from "antd";
+import { Button, DatePicker, Form, Image, Input, Modal, Select, Table, Upload } from "antd";
 import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
 import { useForm } from "antd/es/form/Form";
 import { axiosInstance } from "../../../../axios/Axios";
 import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
+import uploadFile from "../../../../utils/uploadFile";
 
 const ProductList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,6 +15,7 @@ const ProductList = () => {
   const [productList, setProductList] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
   const [newData, setNewData] = useState("");
+  const [img, setImg] = useState(null);
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const useStyle = createStyles(({ css }) => ({
     centeredContainer: css`
@@ -47,7 +49,7 @@ const ProductList = () => {
   }
 
 
-  useEffect (() => {
+  useEffect(() => {
     fetchProduct();
   }, []);
 
@@ -86,8 +88,8 @@ const ProductList = () => {
       };
 
       // Nếu có hình ảnh thì bạn có thể thêm bước upload ảnh ở đây (giống AddDiamond)
-      // const imgURL = await uploadFile(img);
-      // payload.imgURL = imgURL;
+      const imgURL = await uploadFile(img);
+      payload.imgURL = imgURL;
 
       // Gửi dữ liệu lên API
       await axiosInstance.post("Product", payload);
@@ -143,18 +145,18 @@ const ProductList = () => {
         cancelText: "Hủy",
         onOk: async () => {
           console.log("Đang xóa product có id:", product.productId);
-        
+
           if (!product.productId) {
             toast.error("ID sản phẩm không tồn tại");
             return;
           }
-        
+
           await axiosInstance.delete(`/product/${product.productId}`);
           toast.success("Xóa sản phẩm thành công");
           setProductList((prev) => prev.filter((item) => item.id !== product.productId));
           fetchProduct();
         },
-        
+
       });
     } catch (error) {
       // toast.error("Đã có lỗi trong lúc xóa máy");
@@ -189,6 +191,12 @@ const ProductList = () => {
       title: 'Giá sản phẩm',
       width: 100,
       dataIndex: 'price',
+    },
+    {
+      title: "Hình Ảnh ",
+      dataIndex: "imgURL",
+      key: "imgURL",
+      render: (value) => <Image src={value} style={{ width: 80 }} />,
     },
     {
       title: "Hành Động",
@@ -418,17 +426,6 @@ const ProductList = () => {
               </Select>
             </Form.Item>
             <Form.Item
-              name="doap"
-              label="Ngày thêm sản phẩm"
-              rules={[{ required: true, message: "Chọn ngày thêm sản phẩm" }]}
-            >
-              <DatePicker
-                placeholder="Ngày Thêm Sản Phẩm"
-                style={{ width: "100%" }}
-              // format={dateFormat}
-              />
-            </Form.Item>
-            <Form.Item
               required
               label="Giá sản phẩm"
               name="price"
@@ -441,7 +438,18 @@ const ProductList = () => {
             >
               <Input required />
             </Form.Item>
-
+            <Form.Item className="label-form" label="Hình Ảnh " name="imgURL">
+              <Upload
+                fileList={img ? [img] : []}
+                beforeUpload={(file) => {
+                  setImg(file);
+                  return false;
+                }}
+                onRemove={() => setImg(null)}
+              >
+                <Button icon={<UploadOutlined />}>Tải Hình Ảnh</Button>
+              </Upload>{" "}
+            </Form.Item>
 
 
             <Button onClick={hanldeClickSubmit} className="form-button ">

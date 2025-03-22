@@ -24,6 +24,7 @@ import {
 } from "@ant-design/icons";
 
 import kohicoffee from "../../assets/kohicoffee.png";
+import coffeelogo from "../../assets/logocoffee.png";
 import { Button, Layout, Menu, theme, Badge, ConfigProvider, Dropdown } from "antd";
 import { useNavigate, Outlet } from "react-router-dom";
 import { FaBell, FaRegUserCircle } from "react-icons/fa";
@@ -109,7 +110,7 @@ const MainLayout = () => {
 
 
   const menuItems = {
-    admin: [      
+    admin: [
       {
         key: "3",
         icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
@@ -166,53 +167,53 @@ const MainLayout = () => {
             setCollapsed(!collapsed);
           }
           break;
-          
-          case "me":
-            navigate("quanlinhanvien");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
-          case "3":
-            navigate("danhsachsanpham");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
-            case "6":
-            navigate("danhsachcuahang");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
+
+        case "me":
+          navigate("quanlinhanvien");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
+        case "3":
+          navigate("danhsachsanpham");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
+        case "6":
+          navigate("danhsachcuahang");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
       }
-    } 
+    }
 
     else if (role === "managerStore") {
       switch (e.key) {
         case "nv":
-            navigate("quanlistorenhanvien");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
+          navigate("quanlistorenhanvien");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
 
-            case "ktv":
-            navigate("quanlikythuatvien");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
+        case "ktv":
+          navigate("quanlikythuatvien");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
       }
     }
     else if (role === "manager") {
@@ -255,33 +256,30 @@ const MainLayout = () => {
           </div>
         )}
 
-        {!collapsed && (
-          <div style={{ height: "140px", marginLeft: 20 }} className="demo-logo-vertical">
-            <img
-              style={{
-                width: "250px",
-                height: "170px",
-                transform: "translateX(-10%)",
-              }}
-              src={kohicoffee}
-              alt="Kohi Coffee Logo"
-            />
-          </div>
-        )}
-        {collapsed && (
-          <div style={{ height: "140px" }} className="demo-logo-vertical">
-            <img
-              style={{
-                width: "250px",
-                height: "140px",
-                transform: "translateX(-18%)",
-                clipPath: "inset(0 48% 0 0)",
-              }}
-              src={kohicoffee}
-              alt="Kohi Coffee Logo"
-            />
-          </div>
-        )}
+        <div
+          style={{
+            height: "140px",
+            marginLeft: collapsed ? 0 : 20,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: collapsed ? "center" : "flex-start", // Căn giữa hoặc bên trái
+            transition: "all 0.3s ease",
+          }}
+          className="demo-logo-vertical"
+        >
+          <img
+            style={{
+              width: collapsed ? "120px" : "250px",
+              height: collapsed ? "70px" : "170px",
+              transition: "all 0.3s ease",
+              transform: "scale(1)", // Không cần translateX nữa
+            }}
+            src={collapsed ? coffeelogo : kohicoffee}
+            alt="Kohi Coffee Logo"
+          />
+        </div>
+
+
 
         <ConfigProvider
           theme={{
@@ -348,14 +346,14 @@ const MainLayout = () => {
             }}
           >
             <p className="user-welcome" style={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'center', alignItems: 'center', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-              {/* {role ? (
+              {role ? (
                 <div className="user-info">
                   {role === 'trainer' && (<span className="role-container" style={{ backgroundColor: '#2ba510' }}>Trainer</span>)}
                   {role === 'admin' && (<span className="role-container" style={{ backgroundColor: '#ff4949' }}>Admin</span>)}
                   {role === 'deliverymanager' && (<span className="role-container" style={{ backgroundColor: '#1c00d2' }}>Delivery Manager</span>)}
                   {role === 'trainermanager' && (<span className="role-container" style={{ backgroundColor: '#009785' }}>Trainer Manager</span>)}
                   {role === 'FAMadmin' && (<span className="role-container" style={{ backgroundColor: '#cd7100' }}>FAMS Admin</span>)}
-                </div>) : (<></>)} */}
+                </div>) : (<></>)}
               Welcome, {username}
             </p>
             <Dropdown menu={{ items: menuProfile }} trigger={['click']}>
