@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import MainLayout from "../../components/MainLayout/MainLayout";
-// import { showSuccessNotification } from "../../components/Notifications/Notifications";
+import { showSuccessNotification } from "../../components/Notifications/Notifications";
 
 const MainPage = () => {
 
@@ -19,29 +19,36 @@ const MainPage = () => {
     }
   };
   
-  // const role = sessionStorage.getItem("selectedRole");
+  const role = sessionStorage.getItem("selectedRole");
 
-  // useEffect(() => {
-  //   // Check if notification was already shown
-  //   const notificationShown = sessionStorage.getItem("notificationShown");
+  useEffect(() => {
+    // Check if notification was already shown
+    const notificationShown = sessionStorage.getItem("notificationShown");
 
-  //   if (!notificationShown) {
-  //     if (role === "admin") {
-  //       showSuccessNotification("Login success with role Admin");
-  //     } else if (role === "trainer") {
-  //       showSuccessNotification("Login success with role Trainer");
-  //     } else if (role === "deliverymanager") {
-  //       showSuccessNotification("Login success with role Delivery Manager");
-  //     } else if (role === "trainermanager") {
-  //       showSuccessNotification("Login success with role Trainer Manager");
-  //     } else if (role === "FAMadmin") {
-  //       showSuccessNotification("Login success with role FAM Admin");
-  //     }
+    if (!notificationShown) {
+      if (role === "admin") {
+        showSuccessNotification("Login success with role Admin");
+      }
+      if (role === "managerStore") {
+        showSuccessNotification("Login success with role managerStore");
+      } 
+      if (role === "manager") {
+        showSuccessNotification("Login success with role manager");
+      } 
+      // else if (role === "trainer") {
+      //   showSuccessNotification("Login success with role Trainer");
+      // } else if (role === "deliverymanager") {
+      //   showSuccessNotification("Login success with role Delivery Manager");
+      // } else if (role === "trainermanager") {
+      //   showSuccessNotification("Login success with role Trainer Manager");
+      // } else if (role === "FAMadmin") {
+      //   showSuccessNotification("Login success with role FAM Admin");
+      // }
 
-  //     // Set flag to prevent notification from showing again
-  //     sessionStorage.setItem("notificationShown", "true");
-  //   }
-  // }, [role]);
+      // Set flag to prevent notification from showing again
+      sessionStorage.setItem("notificationShown", "true");
+    }
+  }, [role]);
 
   return (
     <div>

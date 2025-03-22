@@ -24,7 +24,7 @@ import {
 } from "@ant-design/icons";
 
 import kohicoffee from "../../assets/kohicoffee.png";
-import coffeelogo from "../../assets/logocoffee.png";
+import kohicoffeemini from "../../assets/logocoffee.png";
 import { Button, Layout, Menu, theme, Badge, ConfigProvider, Dropdown } from "antd";
 import { useNavigate, Outlet } from "react-router-dom";
 import { FaBell, FaRegUserCircle } from "react-icons/fa";
@@ -114,35 +114,35 @@ const MainLayout = () => {
       {
         key: "3",
         icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Mặt Hàng",
+        label: "Sản phẩm",
       },
       {
         key: "1",
         icon: <HomeOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Máy",
+        label: "Máy",
 
       },
       {
         key: "me",
         icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Quản Lý Store",
+        label: "Quản lý",
       },
       {
         key: "6",
         icon: <ShopOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Cửa Hàng",
+        label: "Cửa Hàng",
       },
     ],
     managerStore: [
       {
         key: "nv",
         icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Nhân Viên",
+        label: "Nhân Viên",
       },
       {
         key: "ktv",
         icon: <TeamOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Kỹ Thuật Viên",
+        label: "Kỹ Thuật Viên",
       },
     ],
     manager: [
@@ -150,6 +150,11 @@ const MainLayout = () => {
         key: "2",
         icon: <LineChartOutlined style={{ fontSize: "24px" }} />,
         label: "Báo Cáo",
+      },
+      {
+        key: "3",
+        icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
+        label: "Danh Sách Đơn Hàng",
       },
     ],
   };
@@ -219,7 +224,17 @@ const MainLayout = () => {
     else if (role === "manager") {
       switch (e.key) {
         case "2":
-          navigate("statisticsPhase2/generaldata");
+          navigate("dashboard");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          sessionStorage.setItem("activeTag", " - General Data");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
+
+          case "3":
+          navigate("danhsachdonhang");
           sessionStorage.setItem("activekey", key);
           sessionStorage.removeItem("activeTag");
           sessionStorage.setItem("activeTag", " - General Data");
@@ -274,7 +289,7 @@ const MainLayout = () => {
               transition: "all 0.3s ease",
               transform: "scale(1)", // Không cần translateX nữa
             }}
-            src={collapsed ? coffeelogo : kohicoffee}
+            src={collapsed ? kohicoffeemini : kohicoffee}
             alt="Kohi Coffee Logo"
           />
         </div>
@@ -348,11 +363,9 @@ const MainLayout = () => {
             <p className="user-welcome" style={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'center', alignItems: 'center', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
               {role ? (
                 <div className="user-info">
-                  {role === 'trainer' && (<span className="role-container" style={{ backgroundColor: '#2ba510' }}>Trainer</span>)}
                   {role === 'admin' && (<span className="role-container" style={{ backgroundColor: '#ff4949' }}>Admin</span>)}
-                  {role === 'deliverymanager' && (<span className="role-container" style={{ backgroundColor: '#1c00d2' }}>Delivery Manager</span>)}
-                  {role === 'trainermanager' && (<span className="role-container" style={{ backgroundColor: '#009785' }}>Trainer Manager</span>)}
-                  {role === 'FAMadmin' && (<span className="role-container" style={{ backgroundColor: '#cd7100' }}>FAMS Admin</span>)}
+                  {role === 'manager' && (<span className="role-container" style={{ backgroundColor: '#ff4949' }}>Manager</span>)}
+                  {role === 'managerStore' && (<span className="role-container" style={{ backgroundColor: '#ff4949' }}>Manager Store</span>)}
                 </div>) : (<></>)}
               Welcome, {username}
             </p>
