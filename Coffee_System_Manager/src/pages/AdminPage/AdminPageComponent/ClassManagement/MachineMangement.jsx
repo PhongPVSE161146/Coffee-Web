@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { axiosInstance } from "../../../../axios/Axios";
 import { UploadOutlined } from "@ant-design/icons";
 
-const ClassMangement = () => {
+const MachineMangement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newData, setNewData] = useState("");
   const [machineList, setMachineList] = useState("");
@@ -360,7 +360,7 @@ const ClassMangement = () => {
         <Table
           bordered
           columns={columns}
-          dataSource={data}
+          dataSource={machineList}
           scroll={{
             x: 'max-content',
           }}
@@ -489,4 +489,4 @@ const ClassMangement = () => {
   );
 };
 
-export default ClassMangement;
+export default MachineMangement;

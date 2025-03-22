@@ -164,7 +164,7 @@ const MainLayout = () => {
     if (role === "admin") {
       switch (e.key) {
         case "1":
-          navigate("classManagement");
+          navigate("danhsachmay");
           sessionStorage.setItem("activekey", key);
           sessionStorage.removeItem("activeTag");
           sessionStorage.removeItem("trainerData");
