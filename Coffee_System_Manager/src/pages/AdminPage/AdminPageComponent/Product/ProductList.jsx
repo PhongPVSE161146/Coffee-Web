@@ -115,7 +115,7 @@ const ProductList = () => {
         ...newData,
       };
 
-      await axiosInstance.put(`Produc/${product.id}`, updatedValues);
+      await axiosInstance.put(`product/${product.id}`, updatedValues);
 
       toast.success("Cập nhật máy thành công");
 

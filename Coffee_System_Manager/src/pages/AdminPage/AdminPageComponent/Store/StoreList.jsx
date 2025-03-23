@@ -53,23 +53,25 @@ const StoreList = () => {
   }
   async function fetchStore() {
     try {
-      const response = await axiosInstance.get("store");
-      console.log("API response:", response);
-
-      const data = response?.data?.stores;
-
-      if (Array.isArray(data)) {
-        setStoreList(data);
+      const response = await axiosInstance.get('/store');
+      console.log(response);
+      const stores = response.data?.stores;
+  
+  
+      if (Array.isArray(stores)) {
+        setStoreList(stores);
       } else {
-        console.warn("Dữ liệu không đúng dạng mảng:", data);
-        setStoreList([]);
+        console.warn('❗ Không nhận được danh sách store hợp lệ:', stores);
+        setStoreList([]); // reset danh sách nếu không đúng định dạng
       }
-
+  
     } catch (error) {
-      console.error("Lỗi fetch store:", error);
-      setStoreList([]);
+      console.error('❌ Lỗi khi gọi API /store:', error);
     }
   }
+  
+  
+  
 
 
   useEffect(() => {
@@ -97,7 +99,7 @@ const StoreList = () => {
 
       toast.success("Thêm máy thành công");
 
-      // fetchStore();
+      fetchStore();
       form.resetFields();
       setIsModalOpen(false);
     } catch (error) {
@@ -175,12 +177,6 @@ const StoreList = () => {
       dataIndex: 'storeLocation',
       key: '1',
       width: 100,
-    },
-    {
-      title: "Hình Ảnh ",
-      dataIndex: "imgURL",
-      key: "imgURL",
-      render: (value) => <Image src={value} style={{ width: 80 }} />,
     },
     {
       title: "Hành Động",
