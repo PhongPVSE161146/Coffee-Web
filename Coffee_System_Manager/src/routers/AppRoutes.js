@@ -100,6 +100,7 @@ const AppRoutes = () => (
       <Route path="dashboard" element={<GeneralData />} />
       <Route path="danhsachdonhang" element={<OrderList />}/>
       </Route>
+      
     </Route>
     {/* admin role */}
     <Route path="/adminPage" element={<PrivateRoutes requiredRole="admin" />}>

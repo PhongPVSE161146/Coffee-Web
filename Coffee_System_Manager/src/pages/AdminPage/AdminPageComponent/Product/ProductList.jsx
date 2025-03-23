@@ -195,22 +195,26 @@ const ProductList = () => {
       width: 100,
       dataIndex: 'productId',
       fixed: 'left',
+      sorter: (a, b) => a.productId.localeCompare(b.productId)
     },
     {
       title: 'Tên sản phẩm',
       width: 100,
       dataIndex: 'productName',
+      sorter: (a, b) => a.productName.localeCompare(b.productName) 
     },
     {
       title: 'Loại sản phẩm',
       width: 100,
       dataIndex: 'categoryId',
       align: "center",
+      sorter: (a, b) => a.categoryId.localeCompare(b.categoryId) 
     },
     {
       title: 'Giá sản phẩm',
       width: 100,
       dataIndex: 'price',
+      sorter: (a, b) => a.price - b.price,
     },
     {
       title: "Hành Động",
