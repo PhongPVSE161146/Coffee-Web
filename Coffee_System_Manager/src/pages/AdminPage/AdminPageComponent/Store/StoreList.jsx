@@ -163,13 +163,13 @@ const StoreList = () => {
   const columns = [
     {
       title: 'Mã Cửa Hàng',
-      width: 100,
+      width: 120,
       dataIndex: 'storeId',
       fixed: 'left',
     },
     {
       title: 'Tên Cửa Hàng',
-      width: 100,
+      width: 130,
       dataIndex: 'storeName',
     },
     {

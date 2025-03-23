@@ -91,18 +91,18 @@ const ManaStaff = () => {
   const columns = [
     {
       title: 'Tên Cửa Hàng',
-      width: 100,
+      width: 130,
       dataIndex: 'storeName',
     },
     {
       title: "Mã Nhân Viên",
-      width: 100,
+      width: 130,
       dataIndex: "mid",
       fixed: "left",
     },
     {
       title: "Tên Nhân Viên",
-      width: 100,
+      width: 130,
       dataIndex: "name",
     },
     {

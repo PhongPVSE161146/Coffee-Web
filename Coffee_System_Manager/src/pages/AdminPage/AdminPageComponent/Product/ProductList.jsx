@@ -167,29 +167,23 @@ const ProductList = () => {
   const columns = [
     {
       title: 'Mã sản phẩm',
-      width: 100,
+      width: 120,
       dataIndex: 'productId',
       fixed: 'left',
     },
     {
       title: 'Tên sản phẩm',
-      width: 100,
+      width: 130,
       dataIndex: 'productName',
     },
     {
       title: 'Loại sản phẩm',
-      width: 100,
+      width: 130,
       dataIndex: 'categoryId',
-    },
-    {
-      title: 'Số lượng',
-      dataIndex: 'stockQuantity',
-      key: '1',
-      width: 100,
-    },
+    },  
     {
       title: 'Giá sản phẩm',
-      width: 100,
+      width: 130,
       dataIndex: 'price',
     },
     {

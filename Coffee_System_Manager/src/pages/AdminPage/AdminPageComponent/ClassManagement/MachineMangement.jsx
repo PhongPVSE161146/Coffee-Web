@@ -96,21 +96,21 @@ const MachineMangement = () => {
       id: 1,
       mid: 'M001',
       name: 'Máy Pha Cà Phê Espresso',
-      adate: '2025-01-01',
+      installationDate: '2025-01-01',
       mproduct: ['Cappuchino', 'Latte'],
     },
     {
       id: 2,
       mid: 'M002',
       name: 'Máy Xay Sinh Tố Công Nghiệp',
-      adate: '2025-02-15',
+      installationDate: '2025-02-15',
       mproduct: ['Mocha'],
     },
     {
       id: 3,
       mid: 'M003',
       name: 'Máy Đun Nước Tự Động',
-      adate: '2025-03-10',
+      installationDate: '2025-03-10',
       mproduct: ['Cappuchino', 'Latte', 'Mocha'],
     },
   ];
@@ -124,24 +124,25 @@ const MachineMangement = () => {
     },
     {
       title: 'Tên máy',
-      width: 100,
+      width: 150,
       dataIndex: 'name',
     },
     {
       title: 'Ngày thêm máy',
-      dataIndex: 'adate',
+      dataIndex: 'installationDate',
       key: '1',
-      width: 100,
+      width: 150,
     },
     {
       title: 'Sản phẩm',
-      width: 90,
+      width: 110,
       render: (record) => (
         <a onClick={() => handleViewProducts(record.mproduct)}>Xem thêm</a>
       ),
     },
     {
       title: "Hành Động",
+      width: 110,
       render: (record) => {
         return (
           <>
