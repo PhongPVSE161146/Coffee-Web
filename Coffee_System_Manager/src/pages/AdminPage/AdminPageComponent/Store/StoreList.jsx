@@ -292,22 +292,38 @@ const StoreList = () => {
     },
   ];
 
-  const data = [
+  const dataSource = [
     {
-      pid: '1',
-      name: 'Olivia',
-      price: 32,
-      address: 'New York Park',
-      adate: '01/01/2025',
+      key: "1",
+      storeId: "CH001",
+      storeName: "Cửa Hàng A",
+      storeLocation: "123 Đường ABC, Quận 1, TP.HCM",
+      imgURL: "https://via.placeholder.com/80",
     },
     {
-      pid: '2',
-      name: 'Ethan',
-      price: 40,
-      address: 'London Park',
-      adate: '01/01/2025',
+      key: "2",
+      storeId: "CH002",
+      storeName: "Cửa Hàng B",
+      storeLocation: "456 Đường XYZ, Quận 2, TP.HCM",
+      imgURL: "https://via.placeholder.com/80",
+    },
+    {
+      key: "3",
+      storeId: "CH003",
+      storeName: "Cửa Hàng C",
+      storeLocation: "789 Đường DEF, Quận 3, TP.HCM",
+      imgURL: "https://via.placeholder.com/80",
+    },
+    {
+      key: "4",
+      storeId: "CH004",
+      storeName: "Cửa Hàng D",
+      storeLocation: "101 Đường GHI, Quận 4, TP.HCM",
+      imgURL: "https://via.placeholder.com/80",
     },
   ];
+  
+
   const { styles } = useStyle();
   return (
     <div style={{ padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
@@ -339,7 +355,7 @@ const StoreList = () => {
       <Table
         bordered
         columns={columns}
-        dataSource={filteredList}
+        dataSource={dataSource}
         scroll={{
           x: 'max-content',
         }}

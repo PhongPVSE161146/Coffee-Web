@@ -346,20 +346,42 @@ const ProductList = () => {
 
 
 
-  const data = [
+  const dataSource = [
     {
-      pid: '1',
-      name: 'Olivia',
-      price: 32,
-      type: 'New York Park',
-      adate: '01/01/2025',
+      key: "1",
+      imgURL: "https://via.placeholder.com/80",
+      productId: "SP001",
+      productName: "Cappuccino",
+      categoryId: "Coffee",
+      price: 50000,
+      doap: "2024-03-20",
     },
     {
-      pid: '2',
-      name: 'Ethan',
-      price: 40,
-      type: 'London Park',
-      adate: '01/01/2025',
+      key: "2",
+      imgURL: "https://via.placeholder.com/80",
+      productId: "SP002",
+      productName: "Mocha",
+      categoryId: "Coffee",
+      price: 55000,
+      doap: "2024-03-18",
+    },
+    {
+      key: "3",
+      imgURL: "https://via.placeholder.com/80",
+      productId: "SP003",
+      productName: "Latte",
+      categoryId: "Coffee",
+      price: 52000,
+      doap: "2024-03-15",
+    },
+    {
+      key: "4",
+      imgURL: "https://via.placeholder.com/80",
+      productId: "SP004",
+      productName: "Americano",
+      categoryId: "Coffee",
+      price: 45000,
+      doap: "2024-03-10",
     },
   ];
   const { styles } = useStyle();
@@ -393,7 +415,7 @@ const ProductList = () => {
         <Table
           bordered
           columns={columns}
-          dataSource={filteredList}
+          dataSource={dataSource}
           scroll={{
             x: 'max-content',
           }}

@@ -52,11 +52,13 @@ useEffect (() => {
     fetchTechStaff();
   }, []);
 
- useEffect(() => {
-    const filteredData = techStaffList.filter((staff) =>
-      staff.staffId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      staff.firstName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  useEffect(() => {
+    const filteredData = techStaffList.filter((techStaff) => {
+      const technicianId = techStaff.technicianId ? String(techStaff.technicianId).toLowerCase() : "";
+      const firstName = techStaff.firstName ? techStaff.firstName.toLowerCase() : "";
+      return technicianId.includes(searchTerm.toLowerCase()) || firstName.includes(searchTerm.toLowerCase());
+    });
+  
     setFilteredTechList(filteredData);
   }, [searchTerm, techStaffList]);
 
@@ -119,7 +121,7 @@ useEffect (() => {
     {
       title: "Mã Nhân Viên",
       dataIndex: "technicianId",
-      sorter: (a, b) => a.technicianId.localeCompare(b.technicianId),
+      
     },
     {
       title: "Tên Nhân Viên",

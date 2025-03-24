@@ -15,7 +15,7 @@ const StaffMana = () => {
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // Giá trị tìm kiếm
   const [filteredStaffList, setFilteredStaffList] = useState([]); // Danh sách sau khi lọc
-
+  
 const [form] = useForm();
   const [formUpdate] = useForm();
 const useStyle = createStyles(({ css }) => ({
@@ -78,18 +78,26 @@ useEffect(() => {
   fetchStaffMana();
   }, []);
   useEffect(() => {
-    const filteredData = staffManaList.filter((staff) =>
-      staff.staffId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      staff.firstName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredData = staffManaList.filter((staff) => {
+      const staffId = staff.staffId ? String(staff.staffId).toLowerCase() : "";
+      const firstName = staff.firstName ? staff.firstName.toLowerCase() : "";
+      return staffId.includes(searchTerm.toLowerCase()) || firstName.includes(searchTerm.toLowerCase());
+    });
+  
     setFilteredStaffList(filteredData);
   }, [searchTerm, staffManaList]);
-  
+
+
+
+
+
 async function updateStaffMana(staff) {
   try {
     const updatedValues = {
       ...newData,
+      
     };
+    
 
     await axiosInstance.put(`staffMana/${staff.id}`, updatedValues);
 
@@ -120,7 +128,7 @@ const columns = [
     { 
       title: "Mã Nhân Viên", 
       dataIndex: "staffId", 
-      sorter: (a, b) => a.staffId.localeCompare(b.staffId) 
+     
     },
     { 
       title: "Tên Nhân Viên", 
