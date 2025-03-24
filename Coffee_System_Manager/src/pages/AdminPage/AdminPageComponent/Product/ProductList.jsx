@@ -85,15 +85,19 @@ const ProductList = () => {
     setSearchText(value);
     const lowerValue = value.toLowerCase();
   
-    const filteredData = productList.filter((product) =>
-      product.productName.toLowerCase().includes(lowerValue) ||
-      product.productId.toLowerCase().includes(lowerValue) ||
-      product.categoryId.toLowerCase().includes(lowerValue) ||
-      product.price.toString().includes(lowerValue)  // Chuyển price thành chuỗi để so sánh
-    );
+    const filteredData = productList.filter((product) => {
+      const productName = product?.productName ? product.productName.toLowerCase() : "";
+      const productId = product?.productId ? product.productId.toString().toLowerCase() : "";
+  
+      return productName.includes(lowerValue) || productId.includes(lowerValue);
+    });
   
     setFilteredList(filteredData);
   };
+  
+  
+  
+  
   
 
   async function AddProduct(values) {
@@ -401,27 +405,24 @@ const ProductList = () => {
           boxShadow: "0px 1px 3px rgba(0,0,0,0.05)", 
         }}
       >
-        <Input
-          placeholder="Tìm kiếm theo tên sản phẩm..."
-          prefix={<SearchOutlined />}
-          value={searchText}
-          onChange={(e) => handleSearch(e.target.value)}
-          style={{ width: "50%", minWidth: "300px", marginBottom: 16 }}
-        />
-      </div>
+       <Input
+  placeholder="Tìm kiếm theo tên hoặc mã sản phẩm..."
+  prefix={<SearchOutlined />}
+  value={searchText}
+  onChange={(e) => handleSearch(e.target.value)}
+  style={{ width: "50%", minWidth: "300px", marginBottom: 16 }}
+/>
+
 
       {/* Nội dung bảng */}
-      <div className={styles.centeredContainer}>
-        <Table
-          bordered
-          columns={columns}
-          dataSource={dataSource}
-          scroll={{
-            x: 'max-content',
-          }}
-          pagination={{ pageSize: 5 }}
-          style={{ width: "100%", maxWidth: "1200px", marginBottom: "20px" }}
-        />
+      <Table
+  bordered
+  columns={columns}
+  dataSource={searchText ? filteredList : productList} // Dùng dữ liệu đã lọc nếu có tìm kiếm
+  scroll={{ x: "max-content" }}
+  pagination={{ pageSize: 5 }}
+  style={{ width: "100%", maxWidth: "1200px", marginBottom: "20px" }}
+/>
       
         <Button type="primary" onClick={showModal}>
           Thêm sản phẩm mới
