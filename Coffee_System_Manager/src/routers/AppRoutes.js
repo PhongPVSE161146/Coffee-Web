@@ -7,9 +7,9 @@ import LoginPage from "../pages/LoginPage/LoginPage";
 
 //AdminRoutes
 import MainPage from "../pages/AdminPage/MainPage";
+import MachineMangement from "../pages/AdminPage/AdminPageComponent/ClassManagement/MachineMangement";
 import TrainerList from "../pages/AdminPage/AdminPageComponent/TrainerList/TrainerList";
 import AddTrainer from "../pages/AdminPage/AdminPageComponent/AddTrainer/AddTrainer";
-import ClassMangement from "../pages/AdminPage/AdminPageComponent/ClassManagement/ClassMangement";
 import TraineeManagement from "../pages/AdminPage/AdminPageComponent/TraineeManagement/TraineeManagement";
 import TrainerManagement from "../pages/AdminPage/AdminPageComponent/TrainerManagement/TrainerManagement";
 import TrainerInformation from "../pages/AdminPage/AdminPageComponent/TrainerManagement/TrainerInformation/TrainerInformation";
@@ -105,13 +105,12 @@ const AppRoutes = () => (
     <Route path="/adminPage" element={<PrivateRoutes requiredRole="admin" />}>
       <Route index element={<MainPage />} />
       <Route element={<MainPage />}>
-        <Route path="Profile" element={<ProfilePage />}/>
         <Route path="trainerList" element={<TrainerList />} />
         <Route path="danhsachsanpham" element={<ProductList />} />
         <Route path="danhsachcuahang" element={<StoreList />} />
         <Route path="addTrainer" element={<AddTrainer />} />
         <Route path="quanlinhanvien" element={<ManaStaff />} />
-        <Route path="classManagement" element={<ClassMangement />} />
+        <Route path="danhsachmay" element={<MachineMangement />} />
         <Route path="feedback-template/:templateId" element={<FeedbackTemplate />} />
         <Route path="traineeManagement" element={<TraineeManagement />}>
           <Route path="traineeFeedback" element={<TraineeFeedback />} />
@@ -245,7 +244,6 @@ const AppRoutes = () => (
         <Route path="ConfigSlotTime" element={<ConfigSlotTime />} />
         <Route path="ConfigHoliday" element={<ConfigHoliday />} />
         <Route path="traineelist" element={<TraineeList />} />
-        <Route path="classManagement" element={<ClassMangement />} />
         <Route path="NewClassList" element={<NewClasslistHomePage />} />
         <Route path="inProgressClass" element={<InProgressClass />} />
         <Route path="CheckPoint" element={<Checkpoint />} />

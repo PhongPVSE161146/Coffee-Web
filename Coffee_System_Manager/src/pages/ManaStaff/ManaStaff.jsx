@@ -91,30 +91,24 @@ const ManaStaff = () => {
   const columns = [
     {
       title: 'Tên Cửa Hàng',
-      width: 100,
+      width: 130,
       dataIndex: 'storeName',
     },
     {
       title: "Mã Nhân Viên",
-      width: 100,
+      width: 130,
       dataIndex: "mid",
       fixed: "left",
     },
     {
       title: "Tên Nhân Viên",
-      width: 100,
+      width: 130,
       dataIndex: "name",
     },
     {
       title: "Gmail",
       width: 100,
       dataIndex: "gmail",
-    },
-    {
-      title: "Ngày Thêm Nhân Viên",
-      dataIndex: "adate",
-      key: "1",
-      width: 100,
     },
     {
       title: "Vai Trò",
@@ -352,7 +346,7 @@ return (
       <Table
         bordered
         columns={columns}
-        dataSource={data}
+        dataSource={manaStaffList}
         scroll={{
           x: "max-content",
         }}
@@ -415,16 +409,6 @@ return (
             ]}
           >
             <Input required />
-          </Form.Item>
-          <Form.Item
-            name="adate"
-            label="Ngày thêm nhân viên"
-            rules={[{ required: true, message: "Chọn ngày thêm nhân viên" }]}
-          >
-            <DatePicker
-              placeholder="Ngày Thêm Nhân Viên"
-              style={{ width: "100%" }}
-            />
           </Form.Item>
           <Form.Item
             label="Vai Trò"

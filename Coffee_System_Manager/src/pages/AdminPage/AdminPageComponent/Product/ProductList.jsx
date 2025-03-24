@@ -7,7 +7,6 @@ import { axiosInstance } from "../../../../axios/Axios";
 import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
 import uploadFile from "../../../../utils/uploadFile";
-import { SearchOutlined } from "@ant-design/icons";
 
 const ProductList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,8 +17,6 @@ const ProductList = () => {
   const [newData, setNewData] = useState("");
   const [img, setImg] = useState(null);
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
-  const [filteredList, setFilteredList] = useState([]);
   const useStyle = createStyles(({ css }) => ({
     centeredContainer: css`
       display: flex;
@@ -81,29 +78,13 @@ const ProductList = () => {
     formUpdate.submit();
   };
 
-  const handleSearch = (value) => {
-    setSearchText(value);
-    const lowerValue = value.toLowerCase();
-  
-    const filteredData = productList.filter((product) =>
-      product.productName.toLowerCase().includes(lowerValue) ||
-      product.productId.toLowerCase().includes(lowerValue) ||
-      product.categoryId.toLowerCase().includes(lowerValue) ||
-      product.price.toString().includes(lowerValue)  // Chuyển price thành chuỗi để so sánh
-    );
-  
-    setFilteredList(filteredData);
-  };
-  
-
   async function AddProduct(values) {
     try {
       // Xử lý dữ liệu từ form (values)
       const payload = {
-        productId: values.productId, // Mã sản phẩm
-        productName: values.productName,      // Tên sản phẩm
+        productId: values.productId, // Mã máy
+        productName: values.productName,      // Tên máy
         price: values.price, // Sản phẩm (danh sách sản phẩm đã chọn)
-        categoryId: values.categoryId,
       };
 
       // Nếu có hình ảnh thì bạn có thể thêm bước upload ảnh ở đây (giống AddDiamond)
@@ -114,15 +95,15 @@ const ProductList = () => {
       await axiosInstance.post("Product", payload);
 
       // Xử lý sau khi thêm thành công
-      toast.success("Thêm sản phẩm thành công");
+      toast.success("Thêm máy thành công");
 
 
       fetchProduct();
 
       form.resetFields();
-      setIsModalOpen(false); // Đóng modal ThêmThêm sản phẩm
+      setIsModalOpen(false); // Đóng modal tạo máy
     } catch (error) {
-      toast.error("Đã có lỗi khi thêm sản phẩm");
+      toast.error("Đã có lỗi khi thêm máy");
       console.log(error);
     }
   }
@@ -134,11 +115,11 @@ const ProductList = () => {
         ...newData,
       };
 
-      await axiosInstance.put(`Produc/${product.id}`, updatedValues);
+      await axiosInstance.put(`product/${product.id}`, updatedValues);
 
-      toast.success("Cập nhật sản phẩm thành công");
+      toast.success("Cập nhật máy thành công");
 
-      // Cập nhật danh sách sản phẩm hiện tại
+      // Cập nhật danh sách máy hiện tại
       setProductList((prevList) =>
         prevList.map((item) =>
           item.id === product.id ? { ...item, ...updatedValues } : item
@@ -151,7 +132,7 @@ const ProductList = () => {
       // Nếu cần, fetch lại data chính xác từ server
       fetchProduct();
     } catch (error) {
-      toast.error("Có lỗi khi cập nhật sản phẩm");
+      toast.error("Có lỗi khi cập nhật máy");
       console.log(error);
     }
   }
@@ -178,39 +159,38 @@ const ProductList = () => {
 
       });
     } catch (error) {
-      // toast.error("Đã có lỗi trong lúc xóa sản phẩm");
+      // toast.error("Đã có lỗi trong lúc xóa máy");
       console.log(error);
     }
   }
 
   const columns = [
     {
-      title: "Hình Ảnh ",
-      dataIndex: "imgURL",
-      key: "imgURL",
-      render: (value) => <Image src={value} style={{ width: 80 }} />,
-    },
-    {
       title: 'Mã sản phẩm',
-      width: 100,
+      width: 120,
       dataIndex: 'productId',
       fixed: 'left',
     },
     {
       title: 'Tên sản phẩm',
-      width: 100,
+      width: 130,
       dataIndex: 'productName',
     },
     {
       title: 'Loại sản phẩm',
-      width: 100,
+      width: 130,
       dataIndex: 'categoryId',
-      align: "center",
-    },
+    },  
     {
       title: 'Giá sản phẩm',
-      width: 100,
+      width: 130,
       dataIndex: 'price',
+    },
+    {
+      title: "Hình Ảnh ",
+      dataIndex: "imgURL",
+      key: "imgURL",
+      render: (value) => <Image src={value} style={{ width: 80 }} />,
     },
     {
       title: "Hành Động",
@@ -231,7 +211,7 @@ const ProductList = () => {
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
                 onClick={() => {
-                  setSelectedProduct(record); // Chọn sản phẩm hiện tại
+                  setSelectedProduct(record); // Chọn máy hiện tại
                   formUpdate.setFieldsValue(record); // Đổ data vào form
                   setIsModalOpen(true); // Mở modal chỉnh sửa
                 }}
@@ -240,7 +220,7 @@ const ProductList = () => {
               </Button>
             </div>
 
-            {/* Modal chỉnh sửa sản phẩm */}
+            {/* Modal chỉnh sửa máy */}
             <Modal
               title="Chỉnh sửa sản phẩm"
               open={isModalUpdateOpen}
@@ -360,49 +340,23 @@ const ProductList = () => {
   ];
   const { styles } = useStyle();
   return (
-    <div style={{ padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
-      
-      {/* Thanh tìm kiếm cố định NGAY DƯỚI HEADER */}
-      <div 
-        style={{
-          position: "sticky",
-          top: "60px", // Thay đổi nếu Header cao hơn 60px
-          zIndex: 998, // Header nên có z-index > 998
-          backgroundColor: "white",
-          padding: "10px 0",
-          width: "100%",
-          textAlign: "center",
-          boxShadow: "0px 1px 3px rgba(0,0,0,0.05)", 
-        }}
-      >
-        <Input
-          placeholder="Tìm kiếm theo tên sản phẩm..."
-          prefix={<SearchOutlined />}
-          value={searchText}
-          onChange={(e) => handleSearch(e.target.value)}
-          style={{ width: "50%", minWidth: "300px", marginBottom: 16 }}
-        />
-      </div>
-
-      {/* Nội dung bảng */}
+    <div>
       <div className={styles.centeredContainer}>
         <Table
           bordered
           columns={columns}
-          dataSource={filteredList}
+          dataSource={productList}
           scroll={{
             x: 'max-content',
           }}
           pagination={{ pageSize: 5 }}
-          style={{ width: "100%", maxWidth: "1200px", marginBottom: "20px" }}
+          style={{ width: "90%", maxWidth: "1200px" }}
         />
-      
         <Button type="primary" onClick={showModal}>
-          Thêm sản phẩm mới
+          Tạo thông tin sản phẩm mới
         </Button>
-
         <Modal
-          title="Thêm sản phẩm"
+          title="Tạo máy"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
