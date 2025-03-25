@@ -333,7 +333,7 @@ const MachineMangement = () => {
         <Table
           bordered
           columns={columns}
-          dataSource={data}
+          dataSource={machineList}
           onViewProducts={handleViewProducts}
           scroll={{ x: 'max-content' }}
           pagination={{ pageSize: 5 }}
