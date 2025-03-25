@@ -7,19 +7,17 @@ import { axiosInstance } from "../../../../axios/Axios";
 import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
 import uploadFile from "../../../../utils/uploadFile";
-import { SearchOutlined } from "@ant-design/icons";
 
 const ProductList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = useForm();
   const [formUpdate] = useForm();
-  const [productList, setProductList] = useState("");
+  const [productList, setProductList] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [newData, setNewData] = useState("");
   const [img, setImg] = useState(null);
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
-  const [filteredList, setFilteredList] = useState([]);
   const useStyle = createStyles(({ css }) => ({
     centeredContainer: css`
       display: flex;
@@ -50,10 +48,29 @@ const ProductList = () => {
       setProductList([]);
     }
   }
+  async function fetchCategory() {
+    try {
+      const response = await axiosInstance.get("category");
+      console.log("API response:", response);
 
+      const data = response?.data?.categories;
+
+      if (Array.isArray(data)) {
+        setCategories(data);
+      } else {
+        console.warn("Dữ liệu không đúng dạng mảng:", data);
+        setCategories([]);
+      }
+
+    } catch (error) {
+      console.error("Lỗi fetch category:", error);
+      setCategories([]);
+    }
+  }
 
   useEffect(() => {
     fetchProduct();
+    fetchCategory();
   }, []);
 
 
@@ -81,52 +98,32 @@ const ProductList = () => {
     formUpdate.submit();
   };
 
-  const handleSearch = (value) => {
-    setSearchText(value);
-    const lowerValue = value.toLowerCase();
-  
-    const filteredData = productList.filter((product) => {
-      const productName = product?.productName ? product.productName.toLowerCase() : "";
-      const productId = product?.productId ? product.productId.toString().toLowerCase() : "";
-  
-      return productName.includes(lowerValue) || productId.includes(lowerValue);
-    });
-  
-    setFilteredList(filteredData);
-  };
-  
-  
-  
-  
-  
-
   async function AddProduct(values) {
     try {
       // Xử lý dữ liệu từ form (values)
       const payload = {
-        productId: values.productId, // Mã sản phẩm
-        productName: values.productName,      // Tên sản phẩm
+        productId: values.productId, // Mã máy
+        productName: values.productName,      // Tên máy
         price: values.price, // Sản phẩm (danh sách sản phẩm đã chọn)
-        categoryId: values.categoryId,
       };
 
       // Nếu có hình ảnh thì bạn có thể thêm bước upload ảnh ở đây (giống AddDiamond)
-      const imgURL = await uploadFile(img);
-      payload.imgURL = imgURL;
+      // const imgURL = await uploadFile(img);
+      // payload.imgURL = imgURL;
 
       // Gửi dữ liệu lên API
-      await axiosInstance.post("Product", payload);
+      await axiosInstance.post("product", payload);
 
       // Xử lý sau khi thêm thành công
-      toast.success("Thêm sản phẩm thành công");
+      toast.success("Thêm máy thành công");
 
 
       fetchProduct();
 
       form.resetFields();
-      setIsModalOpen(false); // Đóng modal ThêmThêm sản phẩm
+      setIsModalOpen(false); // Đóng modal tạo máy
     } catch (error) {
-      toast.error("Đã có lỗi khi thêm sản phẩm");
+      toast.error("Đã có lỗi khi thêm máy");
       console.log(error);
     }
   }
@@ -138,11 +135,11 @@ const ProductList = () => {
         ...newData,
       };
 
-      await axiosInstance.put(`Produc/${product.id}`, updatedValues);
+      await axiosInstance.put(`product/${product.id}`, updatedValues);
 
-      toast.success("Cập nhật sản phẩm thành công");
+      toast.success("Cập nhật máy thành công");
 
-      // Cập nhật danh sách sản phẩm hiện tại
+      // Cập nhật danh sách máy hiện tại
       setProductList((prevList) =>
         prevList.map((item) =>
           item.id === product.id ? { ...item, ...updatedValues } : item
@@ -155,7 +152,7 @@ const ProductList = () => {
       // Nếu cần, fetch lại data chính xác từ server
       fetchProduct();
     } catch (error) {
-      toast.error("Có lỗi khi cập nhật sản phẩm");
+      toast.error("Có lỗi khi cập nhật máy");
       console.log(error);
     }
   }
@@ -182,12 +179,18 @@ const ProductList = () => {
 
       });
     } catch (error) {
-      // toast.error("Đã có lỗi trong lúc xóa sản phẩm");
+      // toast.error("Đã có lỗi trong lúc xóa máy");
       console.log(error);
     }
   }
 
   const columns = [
+    {
+      title: 'Mã sản phẩm',
+      width: 120,
+      dataIndex: 'productId',
+      fixed: 'left',
+    },
     {
       title: "Hình Ảnh ",
       dataIndex: "imgURL",
@@ -195,31 +198,21 @@ const ProductList = () => {
       render: (value) => <Image src={value} style={{ width: 80 }} />,
     },
     {
-      title: 'Mã sản phẩm',
-      width: 100,
-      dataIndex: 'productId',
-      fixed: 'left',
-      sorter: (a, b) => a.productId.localeCompare(b.productId)
-    },
-    {
       title: 'Tên sản phẩm',
-      width: 100,
+      width: 130,
       dataIndex: 'productName',
-      sorter: (a, b) => a.productName.localeCompare(b.productName) 
     },
     {
       title: 'Loại sản phẩm',
-      width: 100,
+      width: 130,
       dataIndex: 'categoryId',
-      align: "center",
-      sorter: (a, b) => a.categoryId.localeCompare(b.categoryId) 
     },
     {
       title: 'Giá sản phẩm',
-      width: 100,
+      width: 130,
       dataIndex: 'price',
-      sorter: (a, b) => a.price - b.price,
     },
+
     {
       title: "Hành Động",
       render: (record) => {
@@ -239,16 +232,16 @@ const ProductList = () => {
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
                 onClick={() => {
-                  setSelectedProduct(record); // Chọn sản phẩm hiện tại
-                  formUpdate.setFieldsValue(record); // Đổ data vào form
-                  setIsModalOpen(true); // Mở modal chỉnh sửa
+                  setSelectedProduct(record);
+                  formUpdate.setFieldsValue(record);
+                  setIsModalUpdateOpen(true); 
                 }}
               >
                 Chỉnh sửa
               </Button>
             </div>
 
-            {/* Modal chỉnh sửa sản phẩm */}
+            {/* Modal chỉnh sửa máy */}
             <Modal
               title="Chỉnh sửa sản phẩm"
               open={isModalUpdateOpen}
@@ -295,7 +288,7 @@ const ProductList = () => {
                 <Form.Item
                   className="label-form"
                   label="Loại Sản Phẩm"
-                  name="type"
+                  name="categoryId" // nên là id để dễ xử lý backend
                   rules={[
                     {
                       required: true,
@@ -305,25 +298,19 @@ const ProductList = () => {
                 >
                   <Select
                     className="select-input"
-                    placeholder="chọn Loại Sản Phẩm"
+                    placeholder="Chọn Loại Sản Phẩm"
                   >
-                    <Select.Option value="ROUND">Cappuchino</Select.Option>
-                    <Select.Option value="OVAL">Mocha</Select.Option>
-                    <Select.Option value="CUSHION">Latte</Select.Option>
-                    <Select.Option value="PEAR">Americano</Select.Option>
+                    {categories.map((category) => (
+                      <Select.Option
+                        key={category.categoryId} // unique key
+                        value={category.categoryId} // backend nhận id
+                      >
+                        {category.categoryName}
+                      </Select.Option>
+                    ))}
                   </Select>
                 </Form.Item>
-                <Form.Item
-                  name="doap"
-                  label="Ngày thêm sản phẩm"
-                  rules={[{ required: true, message: "Chọn ngày thêm sản phẩm" }]}
-                >
-                  <DatePicker
-                    placeholder="Ngày Thêm Sản Phẩm"
-                    style={{ width: "100%" }}
-                  // format={dateFormat}
-                  />
-                </Form.Item>
+
                 <Form.Item
                   required
                   label="Giá sản phẩm"
@@ -350,86 +337,26 @@ const ProductList = () => {
 
 
 
-  const dataSource = [
-    {
-      key: "1",
-      imgURL: "https://via.placeholder.com/80",
-      productId: "SP001",
-      productName: "Cappuccino",
-      categoryId: "Coffee",
-      price: 50000,
-      doap: "2024-03-20",
-    },
-    {
-      key: "2",
-      imgURL: "https://via.placeholder.com/80",
-      productId: "SP002",
-      productName: "Mocha",
-      categoryId: "Coffee",
-      price: 55000,
-      doap: "2024-03-18",
-    },
-    {
-      key: "3",
-      imgURL: "https://via.placeholder.com/80",
-      productId: "SP003",
-      productName: "Latte",
-      categoryId: "Coffee",
-      price: 52000,
-      doap: "2024-03-15",
-    },
-    {
-      key: "4",
-      imgURL: "https://via.placeholder.com/80",
-      productId: "SP004",
-      productName: "Americano",
-      categoryId: "Coffee",
-      price: 45000,
-      doap: "2024-03-10",
-    },
-  ];
+
   const { styles } = useStyle();
   return (
-    <div style={{ padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
-      
-      {/* Thanh tìm kiếm cố định NGAY DƯỚI HEADER */}
-      <div 
-        style={{
-          position: "sticky",
-          top: "60px", // Thay đổi nếu Header cao hơn 60px
-          zIndex: 998, // Header nên có z-index > 998
-          backgroundColor: "white",
-          padding: "10px 0",
-          width: "100%",
-          textAlign: "center",
-          boxShadow: "0px 1px 3px rgba(0,0,0,0.05)", 
-        }}
-      >
-       <Input
-  placeholder="Tìm kiếm theo tên hoặc mã sản phẩm..."
-  prefix={<SearchOutlined />}
-  value={searchText}
-  onChange={(e) => handleSearch(e.target.value)}
-  style={{ width: "50%", minWidth: "300px", marginBottom: 16 }}
-/>
-
-
-      {/* Nội dung bảng */}
-      <Table
-  bordered
-  columns={columns}
-  dataSource={searchText ? filteredList : productList} // Dùng dữ liệu đã lọc nếu có tìm kiếm
-  scroll={{ x: "max-content" }}
-  pagination={{ pageSize: 5 }}
-  style={{ width: "100%", maxWidth: "1200px", marginBottom: "20px" }}
-/>
-      
+    <div>
+      <div className={styles.centeredContainer}>
+        <Table
+          bordered
+          columns={columns}
+          dataSource={productList}
+          scroll={{
+            x: 'max-content',
+          }}
+          pagination={{ pageSize: 5 }}
+          style={{ width: "90%", maxWidth: "1200px" }}
+        />
         <Button type="primary" onClick={showModal}>
-          Thêm sản phẩm mới
+          Tạo thông tin sản phẩm mới
         </Button>
-
         <Modal
-          title="Thêm sản phẩm"
+          title="Tạo máy"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
@@ -441,23 +368,10 @@ const ProductList = () => {
             wrapperCol={{ span: 20 }}
             style={{ width: "100%" }}
             form={form}
-            // onFinish={RegisterAccount}
+            onFinish={AddProduct}
             id="form"
             className=""
           >
-            <Form.Item
-              required
-              label="Mã sản phẩm"
-              name="productId"
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập mã sản phẩm",
-                },
-              ]}
-            >
-              <Input required />
-            </Form.Item>
             <Form.Item
               required
               label="Tên sản phẩm"
@@ -474,7 +388,7 @@ const ProductList = () => {
             <Form.Item
               className="label-form"
               label="Loại Sản Phẩm"
-              name="type"
+              name="categoryId" // nên là id để dễ xử lý backend
               rules={[
                 {
                   required: true,
@@ -484,14 +398,19 @@ const ProductList = () => {
             >
               <Select
                 className="select-input"
-                placeholder="chọn Loại Sản Phẩm"
+                placeholder="Chọn Loại Sản Phẩm"
               >
-                <Select.Option value="ROUND">Cappuchino</Select.Option>
-                <Select.Option value="OVAL">Mocha</Select.Option>
-                <Select.Option value="CUSHION">Latte</Select.Option>
-                <Select.Option value="PEAR">Americano</Select.Option>
+                {categories.map((category) => (
+                  <Select.Option
+                    key={category.categoryId} // unique key
+                    value={category.categoryId} // backend nhận id
+                  >
+                    {category.categoryName}
+                  </Select.Option>
+                ))}
               </Select>
             </Form.Item>
+
             <Form.Item
               required
               label="Giá sản phẩm"
@@ -505,7 +424,7 @@ const ProductList = () => {
             >
               <Input required />
             </Form.Item>
-            <Form.Item className="label-form" label="Hình Ảnh " name="imgURL">
+            {/* <Form.Item className="label-form" label="Hình Ảnh " name="imgURL">
               <Upload
                 fileList={img ? [img] : []}
                 beforeUpload={(file) => {
@@ -516,7 +435,7 @@ const ProductList = () => {
               >
                 <Button icon={<UploadOutlined />}>Tải Hình Ảnh</Button>
               </Upload>{" "}
-            </Form.Item>
+            </Form.Item> */}
 
 
             <Button onClick={hanldeClickSubmit} className="form-button ">
