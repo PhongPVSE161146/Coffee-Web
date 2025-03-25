@@ -108,11 +108,11 @@ const ProductList = () => {
       };
 
       // Nếu có hình ảnh thì bạn có thể thêm bước upload ảnh ở đây (giống AddDiamond)
-      const imgURL = await uploadFile(img);
-      payload.imgURL = imgURL;
+      // const imgURL = await uploadFile(img);
+      // payload.imgURL = imgURL;
 
       // Gửi dữ liệu lên API
-      await axiosInstance.post("Product", payload);
+      await axiosInstance.post("product", payload);
 
       // Xử lý sau khi thêm thành công
       toast.success("Thêm máy thành công");
@@ -368,7 +368,7 @@ const ProductList = () => {
             wrapperCol={{ span: 20 }}
             style={{ width: "100%" }}
             form={form}
-            // onFinish={RegisterAccount}
+            onFinish={AddProduct}
             id="form"
             className=""
           >
@@ -424,7 +424,7 @@ const ProductList = () => {
             >
               <Input required />
             </Form.Item>
-            <Form.Item className="label-form" label="Hình Ảnh " name="imgURL">
+            {/* <Form.Item className="label-form" label="Hình Ảnh " name="imgURL">
               <Upload
                 fileList={img ? [img] : []}
                 beforeUpload={(file) => {
@@ -435,7 +435,7 @@ const ProductList = () => {
               >
                 <Button icon={<UploadOutlined />}>Tải Hình Ảnh</Button>
               </Upload>{" "}
-            </Form.Item>
+            </Form.Item> */}
 
 
             <Button onClick={hanldeClickSubmit} className="form-button ">
