@@ -12,7 +12,8 @@ const ProductList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = useForm();
   const [formUpdate] = useForm();
-  const [productList, setProductList] = useState("");
+  const [productList, setProductList] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [newData, setNewData] = useState("");
   const [img, setImg] = useState(null);
@@ -47,10 +48,29 @@ const ProductList = () => {
       setProductList([]);
     }
   }
+  async function fetchCategory() {
+    try {
+      const response = await axiosInstance.get("category");
+      console.log("API response:", response);
 
+      const data = response?.data?.categories;
+
+      if (Array.isArray(data)) {
+        setCategories(data);
+      } else {
+        console.warn("Dữ liệu không đúng dạng mảng:", data);
+        setCategories([]);
+      }
+
+    } catch (error) {
+      console.error("Lỗi fetch category:", error);
+      setCategories([]);
+    }
+  }
 
   useEffect(() => {
     fetchProduct();
+    fetchCategory();
   }, []);
 
 
@@ -88,11 +108,11 @@ const ProductList = () => {
       };
 
       // Nếu có hình ảnh thì bạn có thể thêm bước upload ảnh ở đây (giống AddDiamond)
-      const imgURL = await uploadFile(img);
-      payload.imgURL = imgURL;
+      // const imgURL = await uploadFile(img);
+      // payload.imgURL = imgURL;
 
       // Gửi dữ liệu lên API
-      await axiosInstance.post("Product", payload);
+      await axiosInstance.post("product", payload);
 
       // Xử lý sau khi thêm thành công
       toast.success("Thêm máy thành công");
@@ -172,6 +192,12 @@ const ProductList = () => {
       fixed: 'left',
     },
     {
+      title: "Hình Ảnh ",
+      dataIndex: "imgURL",
+      key: "imgURL",
+      render: (value) => <Image src={value} style={{ width: 80 }} />,
+    },
+    {
       title: 'Tên sản phẩm',
       width: 130,
       dataIndex: 'productName',
@@ -180,18 +206,13 @@ const ProductList = () => {
       title: 'Loại sản phẩm',
       width: 130,
       dataIndex: 'categoryId',
-    },  
+    },
     {
       title: 'Giá sản phẩm',
       width: 130,
       dataIndex: 'price',
     },
-    {
-      title: "Hình Ảnh ",
-      dataIndex: "imgURL",
-      key: "imgURL",
-      render: (value) => <Image src={value} style={{ width: 80 }} />,
-    },
+
     {
       title: "Hành Động",
       render: (record) => {
@@ -211,9 +232,9 @@ const ProductList = () => {
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
                 onClick={() => {
-                  setSelectedProduct(record); // Chọn máy hiện tại
-                  formUpdate.setFieldsValue(record); // Đổ data vào form
-                  setIsModalOpen(true); // Mở modal chỉnh sửa
+                  setSelectedProduct(record);
+                  formUpdate.setFieldsValue(record);
+                  setIsModalUpdateOpen(true); 
                 }}
               >
                 Chỉnh sửa
@@ -267,7 +288,7 @@ const ProductList = () => {
                 <Form.Item
                   className="label-form"
                   label="Loại Sản Phẩm"
-                  name="type"
+                  name="categoryId" // nên là id để dễ xử lý backend
                   rules={[
                     {
                       required: true,
@@ -277,25 +298,19 @@ const ProductList = () => {
                 >
                   <Select
                     className="select-input"
-                    placeholder="chọn Loại Sản Phẩm"
+                    placeholder="Chọn Loại Sản Phẩm"
                   >
-                    <Select.Option value="ROUND">Cappuchino</Select.Option>
-                    <Select.Option value="OVAL">Mocha</Select.Option>
-                    <Select.Option value="CUSHION">Latte</Select.Option>
-                    <Select.Option value="PEAR">Americano</Select.Option>
+                    {categories.map((category) => (
+                      <Select.Option
+                        key={category.categoryId} // unique key
+                        value={category.categoryId} // backend nhận id
+                      >
+                        {category.categoryName}
+                      </Select.Option>
+                    ))}
                   </Select>
                 </Form.Item>
-                <Form.Item
-                  name="doap"
-                  label="Ngày thêm sản phẩm"
-                  rules={[{ required: true, message: "Chọn ngày thêm sản phẩm" }]}
-                >
-                  <DatePicker
-                    placeholder="Ngày Thêm Sản Phẩm"
-                    style={{ width: "100%" }}
-                  // format={dateFormat}
-                  />
-                </Form.Item>
+
                 <Form.Item
                   required
                   label="Giá sản phẩm"
@@ -322,22 +337,7 @@ const ProductList = () => {
 
 
 
-  const data = [
-    {
-      pid: '1',
-      name: 'Olivia',
-      price: 32,
-      type: 'New York Park',
-      adate: '01/01/2025',
-    },
-    {
-      pid: '2',
-      name: 'Ethan',
-      price: 40,
-      type: 'London Park',
-      adate: '01/01/2025',
-    },
-  ];
+
   const { styles } = useStyle();
   return (
     <div>
@@ -368,23 +368,10 @@ const ProductList = () => {
             wrapperCol={{ span: 20 }}
             style={{ width: "100%" }}
             form={form}
-            // onFinish={RegisterAccount}
+            onFinish={AddProduct}
             id="form"
             className=""
           >
-            <Form.Item
-              required
-              label="Mã sản phẩm"
-              name="productId"
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập mã sản phẩm",
-                },
-              ]}
-            >
-              <Input required />
-            </Form.Item>
             <Form.Item
               required
               label="Tên sản phẩm"
@@ -401,7 +388,7 @@ const ProductList = () => {
             <Form.Item
               className="label-form"
               label="Loại Sản Phẩm"
-              name="type"
+              name="categoryId" // nên là id để dễ xử lý backend
               rules={[
                 {
                   required: true,
@@ -411,14 +398,19 @@ const ProductList = () => {
             >
               <Select
                 className="select-input"
-                placeholder="chọn Loại Sản Phẩm"
+                placeholder="Chọn Loại Sản Phẩm"
               >
-                <Select.Option value="ROUND">Cappuchino</Select.Option>
-                <Select.Option value="OVAL">Mocha</Select.Option>
-                <Select.Option value="CUSHION">Latte</Select.Option>
-                <Select.Option value="PEAR">Americano</Select.Option>
+                {categories.map((category) => (
+                  <Select.Option
+                    key={category.categoryId} // unique key
+                    value={category.categoryId} // backend nhận id
+                  >
+                    {category.categoryName}
+                  </Select.Option>
+                ))}
               </Select>
             </Form.Item>
+
             <Form.Item
               required
               label="Giá sản phẩm"
@@ -432,7 +424,7 @@ const ProductList = () => {
             >
               <Input required />
             </Form.Item>
-            <Form.Item className="label-form" label="Hình Ảnh " name="imgURL">
+            {/* <Form.Item className="label-form" label="Hình Ảnh " name="imgURL">
               <Upload
                 fileList={img ? [img] : []}
                 beforeUpload={(file) => {
@@ -443,7 +435,7 @@ const ProductList = () => {
               >
                 <Button icon={<UploadOutlined />}>Tải Hình Ảnh</Button>
               </Upload>{" "}
-            </Form.Item>
+            </Form.Item> */}
 
 
             <Button onClick={hanldeClickSubmit} className="form-button ">

@@ -111,18 +111,6 @@ const ManaStaff = () => {
       dataIndex: "gmail",
     },
     {
-      title: "Vai Trò",
-      width: 100,
-      dataIndex: "role",
-      render: (role) => (role === "manageStore" ? "Quản Lý Cửa Hàng" : null),
-    },
-    
-    {
-      title: "Chi Tiết",
-      width: 90,
-      render: () => <a>Xem thêm</a>,
-    },
-    {
       title: "Hành Động",
       render: (record) => {
         return (
