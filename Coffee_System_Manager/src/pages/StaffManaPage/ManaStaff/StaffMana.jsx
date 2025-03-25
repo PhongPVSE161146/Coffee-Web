@@ -259,24 +259,33 @@ const columns = [
     },
   ];
 
-  const data = [
+  const dataSource = [
     {
-      mid: '1',
-      name: 'Olivia',
-      gmail: 'olivia456',
-      age: 32,
-      address: 'New York Park',
-      adate: '01/01/2025',
+      key: "1",
+      staffId: "NV001",
+      firstName: "Nguyễn Văn A",
+      email: "nguyenvana@example.com",
     },
     {
-      mid: '2',
-      name: 'Ethan',
-      gmail: 'ethan123',
-      age: 40,
-      address: 'London Park',
-      adate: '01/01/2025',
+      key: "2",
+      staffId: "NV002",
+      firstName: "Trần Thị B",
+      email: "tranthib@example.com",
+    },
+    {
+      key: "3",
+      staffId: "NV003",
+      firstName: "Lê Văn C",
+      email: "levanc@example.com",
+    },
+    {
+      key: "4",
+      staffId: "NV004",
+      firstName: "Phạm Thị D",
+      email: "phamthid@example.com",
     },
   ];
+  
   const { styles } = useStyle();
 
   // Hàm thêm nhân viên mới
@@ -345,7 +354,7 @@ const columns = [
        <Table
          bordered
          columns={columns}
-         dataSource={filteredStaffList}
+         dataSource={dataSource}
          scroll={{
            x: "max-content",
          }}
