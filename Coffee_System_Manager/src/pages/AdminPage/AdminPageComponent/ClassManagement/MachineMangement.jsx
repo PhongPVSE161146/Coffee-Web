@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, DatePicker, Form, Input, Modal, Select, Table } from "antd";
 import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
@@ -15,6 +15,7 @@ const MachineMangement = () => {
   const [selectedMachine, setSelectedMachine] = useState("");
   const [form] = useForm();
   const [formUpdate] = useForm();
+  const [loading, setLoading] = useState(false);
 
   const useStyle = createStyles(({ css }) => ({
     centeredContainer: css`
@@ -27,10 +28,39 @@ const MachineMangement = () => {
     `,
   }));
 
+  useEffect(() => {
+    fetchMachines();
+  }, []);
+
   async function fetchMachines() {
-    const response = await axiosInstance.get("machine");
-    setMachineList(response.data);
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get(
+        "https://coffeeshop.ngrok.app/api/machine?sortBy=MachineId&isAscending=true&page=1&pageSize=10",
+        {
+          params: {
+            sortBy: "machineId",
+            isAscending: true,
+            page: 1,
+            pageSize: 10,
+          },
+        }
+      );
+      const items = response.data?.machines;
+    
+    if (Array.isArray(items)) {
+      setMachineList(items);
+      } else {
+        setMachineList([]);
+      }
+    } catch (error) {
+      toast.error("Lỗi khi tải danh sách máy");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
+
 
   const showCreateModal = () => setIsCreateModalOpen(true);
   const handleCreateCancel = () => setIsCreateModalOpen(false);
@@ -78,8 +108,8 @@ const MachineMangement = () => {
       toast.success("Cập nhật máy thành công");
 
       setMachineList((prevList) =>
-        prevList.map((item) =>
-          item.id === machine.id ? { ...item, ...updatedValues } : item
+        prevList.map((machines) =>
+          machines.id === machine.id ? { ...machines, ...updatedValues } : machines
         )
       );
 
@@ -119,13 +149,13 @@ const MachineMangement = () => {
     {
       title: 'Mã máy',
       width: 100,
-      dataIndex: 'mid',
+      dataIndex: 'machineId',
       fixed: 'left',
     },
     {
       title: 'Tên máy',
       width: 150,
-      dataIndex: 'name',
+      dataIndex: 'machineName',
     },
     {
       title: 'Ngày thêm máy',
