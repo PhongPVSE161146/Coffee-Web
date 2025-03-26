@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Modal, Select, Table } from "antd";
 import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
@@ -28,10 +28,30 @@ const MachineMangement = () => {
   }));
 
   async function fetchMachines() {
-    const response = await axiosInstance.get("machine");
-    setMachineList(response.data);
-  }
-
+      try {
+        const response = await axiosInstance.get(
+          "machines"
+        );
+  console.log(response);
+  
+        const data = response?.data?.machines;
+  
+        if (Array.isArray(data)) {
+          setMachineList(data);
+        } else {
+          console.warn("Dữ liệu không đúng dạng mảng:", data);
+          setMachineList([]);
+        }
+  
+      } catch (error) {
+        console.error("Lỗi fetch store:", error);
+        setMachineList([]);
+      }
+    }
+useEffect(() => {
+    fetchMachines();
+    // fetchCategory();
+  }, []);
   const showCreateModal = () => setIsCreateModalOpen(true);
   const handleCreateCancel = () => setIsCreateModalOpen(false);
   const handleCreateOk = () => setIsCreateModalOpen(false);
@@ -73,7 +93,7 @@ const MachineMangement = () => {
     try {
       const updatedValues = { ...newData };
 
-      await axiosInstance.put(`machine/${machine.id}`, updatedValues);
+      await axiosInstance.put(`machines/${machine.id}`, updatedValues);
 
       toast.success("Cập nhật máy thành công");
 
@@ -119,13 +139,13 @@ const MachineMangement = () => {
     {
       title: 'Mã máy',
       width: 100,
-      dataIndex: 'mid',
+      dataIndex: 'machineCode',
       fixed: 'left',
     },
     {
       title: 'Tên máy',
       width: 150,
-      dataIndex: 'name',
+      dataIndex: 'machineName',
     },
     {
       title: 'Ngày thêm máy',
@@ -137,7 +157,7 @@ const MachineMangement = () => {
       title: 'Sản phẩm',
       width: 110,
       render: (record) => (
-        <a onClick={() => handleViewProducts(record.mproduct)}>Xem thêm</a>
+        <a onClick={() => handleViewProducts(record.machineProducts)}>Xem thêm</a>
       ),
     },
     {
@@ -315,7 +335,7 @@ const MachineMangement = () => {
         okText: "Đồng ý",
         cancelText: "Hủy",
         onOk: async () => {
-          await axiosInstance.delete(`Machine/${machine.id}`);
+          await axiosInstance.delete(`machines/${machine.id}`);
           toast.success("Xóa máy thành công");
 
           setMachineList((prev) => prev.filter((item) => item.id !== machine.id));
