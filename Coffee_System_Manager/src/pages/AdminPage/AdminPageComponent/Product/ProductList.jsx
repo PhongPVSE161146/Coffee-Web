@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Image, Input, Modal, Select, Table, Upload } from "antd";
 import { createStyles } from 'antd-style';
-import { Option } from "antd/es/mentions";
 import { useForm } from "antd/es/form/Form";
 import { axiosInstance } from "../../../../axios/Axios";
 import { toast } from "react-toastify";
 import { UploadOutlined } from "@ant-design/icons";
 import uploadFile from "../../../../utils/uploadFile";
+
+
+const useStyle = createStyles(({ css }) => ({
+  centeredContainer: css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    width: 85vw; 
+    flex-direction: column;
+  `,
+}));
+
 
 const ProductList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,21 +30,14 @@ const ProductList = () => {
   const [newData, setNewData] = useState("");
   const [img, setImg] = useState(null);
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-  const useStyle = createStyles(({ css }) => ({
-    centeredContainer: css`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh; // Chiều cao toàn màn hình
-      width: 85w; // Chiều rộng toàn màn hình
-      flex-direction: column;
-    `,
-  }));
+  const { styles } = useStyle();
 
   async function fetchProduct() {
     try {
-      const response = await axiosInstance.get("product");
-      console.log("API response:", response);
+      const response = await axiosInstance.get(
+        "products?sortBy=ProductId&isAscending=true&page=1&pageSize=1000"
+      );
+      
 
       const data = response?.data?.products;
 
@@ -50,8 +55,7 @@ const ProductList = () => {
   }
   async function fetchCategory() {
     try {
-      const response = await axiosInstance.get("category");
-      console.log("API response:", response);
+      const response = await axiosInstance.get("categories");
 
       const data = response?.data?.categories;
 
@@ -89,9 +93,9 @@ const ProductList = () => {
   const handleUpdateCancel = () => {
     setIsModalUpdateOpen(false);
   };
-  function hanldeClickSubmit() {
+  function handleClickSubmit() {
     form.submit();
-    setIsModalOpen(false);
+    // setIsModalOpen(false);
     fetchProduct();
   }
   const handleClickUpdateSubmit = () => {
@@ -102,17 +106,25 @@ const ProductList = () => {
     try {
       // Xử lý dữ liệu từ form (values)
       const payload = {
-        productId: values.productId, // Mã máy
-        productName: values.productName,      // Tên máy
-        price: values.price, // Sản phẩm (danh sách sản phẩm đã chọn)
+        productCode: values.productCode,
+        productName: values.productName,
+        price: values.price,
+        categoryId: values.categoryId,
+        path: "something",
+        description: "something",
+        stockQuantity: 10,
+        status: 1,
       };
+
 
       // Nếu có hình ảnh thì bạn có thể thêm bước upload ảnh ở đây (giống AddDiamond)
       // const imgURL = await uploadFile(img);
       // payload.imgURL = imgURL;
 
       // Gửi dữ liệu lên API
-      await axiosInstance.post("product", payload);
+      console.log("Payload gửi lên:", payload);
+      const response = await axiosInstance.post("products", payload);
+      console.log("Phản hồi từ API:", response.data);
 
       // Xử lý sau khi thêm thành công
       toast.success("Thêm máy thành công");
@@ -131,31 +143,26 @@ const ProductList = () => {
 
   async function updateProduct(product) {
     try {
-      const updatedValues = {
-        ...newData,
-      };
+      const updatedValues = await formUpdate.validateFields();
 
-      await axiosInstance.put(`product/${product.id}`, updatedValues);
+      await axiosInstance.put(`products/${product.id}`, updatedValues);
 
       toast.success("Cập nhật máy thành công");
 
-      // Cập nhật danh sách máy hiện tại
       setProductList((prevList) =>
         prevList.map((item) =>
           item.id === product.id ? { ...item, ...updatedValues } : item
         )
       );
 
-      // Đóng modal sau khi cập nhật thành công
-      setIsModalOpen(false);
-
-      // Nếu cần, fetch lại data chính xác từ server
+      setIsModalUpdateOpen(false);
       fetchProduct();
     } catch (error) {
       toast.error("Có lỗi khi cập nhật máy");
       console.log(error);
     }
   }
+
 
   async function deleteProduct(product) {
     try {
@@ -173,7 +180,7 @@ const ProductList = () => {
 
           await axiosInstance.delete(`/product/${product.productId}`);
           toast.success("Xóa sản phẩm thành công");
-          setProductList((prev) => prev.filter((item) => item.id !== product.productId));
+          setProductList((prev) => prev.filter((item) => item.productId !== product.productId));
           fetchProduct();
         },
 
@@ -206,6 +213,10 @@ const ProductList = () => {
       title: 'Loại sản phẩm',
       width: 130,
       dataIndex: 'categoryId',
+      render: (categoryId) => {
+        const category = categories.find(cat => cat.categoryId === categoryId);
+        return category ? category.categoryName : "Không xác định";
+      }
     },
     {
       title: 'Giá sản phẩm',
@@ -232,9 +243,9 @@ const ProductList = () => {
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
                 onClick={() => {
+                  console.log("Mở modal cho sản phẩm:", record);
                   setSelectedProduct(record);
                   formUpdate.setFieldsValue(record);
-                  setIsModalUpdateOpen(true); 
                 }}
               >
                 Chỉnh sửa
@@ -244,18 +255,21 @@ const ProductList = () => {
             {/* Modal chỉnh sửa máy */}
             <Modal
               title="Chỉnh sửa sản phẩm"
-              open={isModalUpdateOpen}
-              onOk={handleUpdateOk}
-              onCancel={handleUpdateCancel}
+              open={!!selectedProduct} // Chỉ mở khi có sản phẩm được chọn
+              onCancel={() => {
+                console.log("Đóng modal");
+                setSelectedProduct(null);
+              }}
               footer={null}
             >
+
               <Form
                 layout="horizontal"
                 labelCol={{ span: 7 }}
                 wrapperCol={{ span: 20 }}
                 style={{ width: "100%" }}
-                form={form}
-                // onFinish={RegisterAccount}
+                form={formUpdate}
+                onFinish={() => updateProduct(selectedProduct)}
                 id="form"
                 className=""
               >
@@ -338,7 +352,6 @@ const ProductList = () => {
 
 
 
-  const { styles } = useStyle();
   return (
     <div>
       <div className={styles.centeredContainer}>
@@ -356,7 +369,7 @@ const ProductList = () => {
           Tạo thông tin sản phẩm mới
         </Button>
         <Modal
-          title="Tạo máyyy"
+          title="Tạo máy"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
@@ -375,11 +388,24 @@ const ProductList = () => {
             <Form.Item
               required
               label="Tên sản phẩm"
-              name="name"
+              name="productName"
               rules={[
                 {
                   required: true,
                   message: "Hãy nhập tên sản phẩm",
+                },
+              ]}
+            >
+              <Input required />
+            </Form.Item>
+            <Form.Item
+              required
+              label="Mã sản phẩm"
+              name="productCode"
+              rules={[
+                {
+                  required: true,
+                  message: "Hãy nhập mã sản phẩm",
                 },
               ]}
             >
@@ -438,7 +464,7 @@ const ProductList = () => {
             </Form.Item> */}
 
 
-            <Button onClick={hanldeClickSubmit} className="form-button ">
+            <Button onClick={handleClickSubmit} className="form-button ">
               Thêm sản phẩm mới
             </Button>
           </Form>
