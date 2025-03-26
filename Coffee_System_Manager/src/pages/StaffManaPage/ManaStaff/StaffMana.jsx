@@ -354,7 +354,7 @@ const columns = [
        <Table
          bordered
          columns={columns}
-         dataSource={dataSource}
+         dataSource={filteredStaffList}
          scroll={{
            x: "max-content",
          }}
