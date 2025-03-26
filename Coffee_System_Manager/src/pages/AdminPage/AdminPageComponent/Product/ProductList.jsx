@@ -10,13 +10,13 @@ import uploadFile from "../../../../utils/uploadFile";
 
 const useStyle = createStyles(({ css }) => ({
   centeredContainer: css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; 
-    width: 85vw; 
-    flex-direction: column;
-  `,
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; 
+      width: 85vw; 
+      flex-direction: column;
+    `,
 }));
 
 
@@ -37,7 +37,7 @@ const ProductList = () => {
       const response = await axiosInstance.get(
         "products?sortBy=ProductId&isAscending=true&page=1&pageSize=1000"
       );
-      
+
 
       const data = response?.data?.products;
 
@@ -141,27 +141,34 @@ const ProductList = () => {
   }
 
 
-  async function updateProduct(product) {
+  async function updateProduct(values) {
     try {
-      const updatedValues = await formUpdate.validateFields();
-
-      await axiosInstance.put(`products/${product.id}`, updatedValues);
-
-      toast.success("Cập nhật máy thành công");
-
-      setProductList((prevList) =>
-        prevList.map((item) =>
-          item.id === product.id ? { ...item, ...updatedValues } : item
-        )
-      );
-
-      setIsModalUpdateOpen(false);
-      fetchProduct();
+      const payload = {
+        productId: selectedProduct?.productId, // Cập nhật theo ID
+        productCode: values.productCode,
+        productName: values.productName,
+        price: values.price,
+        categoryId: values.categoryId,
+        stockQuantity: selectedProduct?.stockQuantity || 10, // Giữ nguyên stock
+        status: values.status,
+      };
+  
+      console.log("Payload cập nhật:", payload);
+  
+      const response = await axiosInstance.put(`products/${payload.productId}`, payload);
+      console.log("Phản hồi từ API:", response.data);
+  
+      toast.success("Cập nhật sản phẩm thành công");
+  
+      fetchProduct(); // Load lại danh sách
+      formUpdate.resetFields();
+      setSelectedProduct(null);
     } catch (error) {
-      toast.error("Có lỗi khi cập nhật máy");
+      toast.error("Đã có lỗi khi cập nhật sản phẩm");
       console.log(error);
     }
   }
+  
 
 
   async function deleteProduct(product) {
@@ -262,62 +269,49 @@ const ProductList = () => {
               }}
               footer={null}
             >
-
               <Form
                 layout="horizontal"
                 labelCol={{ span: 7 }}
                 wrapperCol={{ span: 20 }}
-                style={{ width: "100%" }}
                 form={formUpdate}
-                onFinish={() => updateProduct(selectedProduct)}
+                onFinish={updateProduct}
                 id="form"
-                className=""
               >
                 <Form.Item
                   required
                   label="Mã sản phẩm"
-                  name="productId"
+                  name="productCode"
                   rules={[
-                    {
-                      required: true,
-                      message: "Hãy nhập mã sản phẩm",
-                    },
+                    { required: true, message: "Hãy nhập mã sản phẩm" },
                   ]}
                 >
                   <Input required />
                 </Form.Item>
+
                 <Form.Item
                   required
                   label="Tên sản phẩm"
                   name="productName"
                   rules={[
-                    {
-                      required: true,
-                      message: "Hãy nhập tên sản phẩm",
-                    },
+                    { required: true, message: "Hãy nhập tên sản phẩm" },
                   ]}
                 >
                   <Input required />
                 </Form.Item>
+
                 <Form.Item
-                  className="label-form"
+                  required
                   label="Loại Sản Phẩm"
-                  name="categoryId" // nên là id để dễ xử lý backend
+                  name="categoryId"
                   rules={[
-                    {
-                      required: true,
-                      message: "Chọn Loại Sản Phẩm",
-                    },
+                    { required: true, message: "Chọn Loại Sản Phẩm" },
                   ]}
                 >
-                  <Select
-                    className="select-input"
-                    placeholder="Chọn Loại Sản Phẩm"
-                  >
+                  <Select className="select-input" placeholder="Chọn Loại Sản Phẩm">
                     {categories.map((category) => (
                       <Select.Option
-                        key={category.categoryId} // unique key
-                        value={category.categoryId} // backend nhận id
+                        key={category.categoryId}
+                        value={category.categoryId}
                       >
                         {category.categoryName}
                       </Select.Option>
@@ -330,19 +324,32 @@ const ProductList = () => {
                   label="Giá sản phẩm"
                   name="price"
                   rules={[
-                    {
-                      required: true,
-                      message: "Hãy nhập giá tiền",
-                    },
+                    { required: true, message: "Hãy nhập giá tiền" },
                   ]}
                 >
                   <Input required />
                 </Form.Item>
-                <Button onClick={handleClickUpdateSubmit} className="form-button ">
+
+                <Form.Item
+                  required
+                  label="Trạng thái"
+                  name="status"
+                  rules={[
+                    { required: true, message: "Chọn trạng thái sản phẩm" },
+                  ]}
+                >
+                  <Select>
+                    <Select.Option value={1}>Đang bán</Select.Option>
+                    <Select.Option value={0}>Ngừng bán</Select.Option>
+                  </Select>
+                </Form.Item>
+
+                <Button onClick={handleClickUpdateSubmit} className="form-button">
                   Cập Nhật Sản Phẩm
                 </Button>
               </Form>
             </Modal>
+
           </>
         );
       },
@@ -451,17 +458,17 @@ const ProductList = () => {
               <Input required />
             </Form.Item>
             {/* <Form.Item className="label-form" label="Hình Ảnh " name="imgURL">
-              <Upload
-                fileList={img ? [img] : []}
-                beforeUpload={(file) => {
-                  setImg(file);
-                  return false;
-                }}
-                onRemove={() => setImg(null)}
-              >
-                <Button icon={<UploadOutlined />}>Tải Hình Ảnh</Button>
-              </Upload>{" "}
-            </Form.Item> */}
+                <Upload
+                  fileList={img ? [img] : []}
+                  beforeUpload={(file) => {
+                    setImg(file);
+                    return false;
+                  }}
+                  onRemove={() => setImg(null)}
+                >
+                  <Button icon={<UploadOutlined />}>Tải Hình Ảnh</Button>
+                </Upload>{" "}
+              </Form.Item> */}
 
 
             <Button onClick={handleClickSubmit} className="form-button ">
