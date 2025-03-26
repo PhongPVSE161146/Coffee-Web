@@ -185,7 +185,7 @@ const ProductList = () => {
             return;
           }
 
-          await axiosInstance.delete(`/product/${product.productId}`);
+          await axiosInstance.delete(`/products/${product.productId}`);
           toast.success("Xóa sản phẩm thành công");
           setProductList((prev) => prev.filter((item) => item.productId !== product.productId));
           fetchProduct();
