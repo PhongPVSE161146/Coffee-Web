@@ -196,3 +196,129 @@ const OrderList = () => {
 };
 
 export default OrderList;
+// {
+    //   title: "Hành Động",
+    //   render: (record) => {
+    //     return (
+    //       <>
+    //         <div className="action-button">
+    //           {/* Nút Xóa */}
+    //           <Button
+    //             onClick={() => deleteOrder(record)}
+    //             className="delete-button"
+    //           >
+    //             Xóa
+    //           </Button>
+
+    //           {/* Nút Chỉnh sửa */}
+    //           <Button
+    //             icon={<UploadOutlined />}
+    //             className="admin-upload-button update-button"
+    //             onClick={() => {
+    //               setSelectedOrder(record); // Chọn máy hiện tại
+    //               formUpdate.setFieldsValue(record); // Đổ data vào form
+    //               setIsModalOpen(true); // Mở modal chỉnh sửa
+    //             }}
+    //           >
+    //             Chỉnh sửa
+    //           </Button>
+    //         </div>
+
+    //         {/* Modal chỉnh sửa máy */}
+    //         <Modal
+    //           title="Chỉnh sửa sản phẩm"
+    //           open={isModalUpdateOpen}
+    //           onOk={handleUpdateOk}
+    //           onCancel={handleUpdateCancel}
+    //           footer={null}
+    //         >
+    //           <Form
+    //             layout="horizontal"
+    //             labelCol={{ span: 7 }}
+    //             wrapperCol={{ span: 20 }}
+    //             style={{ width: "100%" }}
+    //             form={form}
+    //             // onFinish={RegisterAccount}
+    //             id="form"
+    //             className=""
+    //           >
+    //             <Form.Item
+    //               required
+    //               label="Mã sản phẩm"
+    //               name="productId"
+    //               rules={[
+    //                 {
+    //                   required: true,
+    //                   message: "Hãy nhập mã sản phẩm",
+    //                 },
+    //               ]}
+    //             >
+    //               <Input required />
+    //             </Form.Item>
+    //             <Form.Item
+    //               required
+    //               label="Tên sản phẩm"
+    //               name="productName"
+    //               rules={[
+    //                 {
+    //                   required: true,
+    //                   message: "Hãy nhập tên sản phẩm",
+    //                 },
+    //               ]}
+    //             >
+    //               <Input required />
+    //             </Form.Item>
+    //             <Form.Item
+    //               className="label-form"
+    //               label="Loại Sản Phẩm"
+    //               name="type"
+    //               rules={[
+    //                 {
+    //                   required: true,
+    //                   message: "Chọn Loại Sản Phẩm",
+    //                 },
+    //               ]}
+    //             >
+    //               <Select
+    //                 className="select-input"
+    //                 placeholder="chọn Loại Sản Phẩm"
+    //               >
+    //                 <Select.Option value="ROUND">Cappuchino</Select.Option>
+    //                 <Select.Option value="OVAL">Mocha</Select.Option>
+    //                 <Select.Option value="CUSHION">Latte</Select.Option>
+    //                 <Select.Option value="PEAR">Americano</Select.Option>
+    //               </Select>
+    //             </Form.Item>
+    //             <Form.Item
+    //               name="doap"
+    //               label="Ngày thêm sản phẩm"
+    //               rules={[{ required: true, message: "Chọn ngày thêm sản phẩm" }]}
+    //             >
+    //               <DatePicker
+    //                 placeholder="Ngày Thêm Sản Phẩm"
+    //                 style={{ width: "100%" }}
+    //               // format={dateFormat}
+    //               />
+    //             </Form.Item>
+    //             <Form.Item
+    //               required
+    //               label="Giá sản phẩm"
+    //               name="price"
+    //               rules={[
+    //                 {
+    //                   required: true,
+    //                   message: "Hãy nhập giá tiền",
+    //                 },
+    //               ]}
+    //             >
+    //               <Input required />
+    //             </Form.Item>
+    //             <Button onClick={handleClickUpdateSubmit} className="form-button ">
+    //               Cập Nhật Sản Phẩm
+    //             </Button>
+    //           </Form>
+    //         </Modal>
+    //       </>
+    //     );
+    //   },
+    // },

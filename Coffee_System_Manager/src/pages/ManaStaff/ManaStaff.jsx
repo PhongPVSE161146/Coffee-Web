@@ -111,12 +111,6 @@ const ManaStaff = () => {
       dataIndex: "gmail",
     },
     {
-      title: "Ngày Thêm Nhân Viên",
-      dataIndex: "adate",
-      key: "1",
-      width: 100,
-    },
-    {
       title: "Vai Trò",
       width: 100,
       dataIndex: "role",

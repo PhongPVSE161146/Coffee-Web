@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, DatePicker, Form, Input, Modal, Select, Table } from "antd";
 import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
@@ -7,75 +7,113 @@ import { toast } from "react-toastify";
 import { axiosInstance } from "../../../../axios/Axios";
 import { UploadOutlined } from "@ant-design/icons";
 
-const ClassMangement = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const MachineMangement = () => {
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [newData, setNewData] = useState("");
   const [machineList, setMachineList] = useState("");
   const [selectedMachine, setSelectedMachine] = useState("");
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [form] = useForm();
   const [formUpdate] = useForm();
+  const [loading, setLoading] = useState(false);
+
   const useStyle = createStyles(({ css }) => ({
     centeredContainer: css`
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh; // Chiều cao toàn màn hình
-      width: 85w; // Chiều rộng toàn màn hình
+      height: 100vh;
+      width: 85vw;
       flex-direction: column;
     `,
   }));
 
+  useEffect(() => {
+    fetchMachines();
+  }, []);
+
   async function fetchMachines() {
-    const response = await axiosInstance.get("Machine");
-    setMachineList(response.data);
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get(
+        "https://coffeeshop.ngrok.app/api/machine?sortBy=MachineId&isAscending=true&page=1&pageSize=10",
+        {
+          params: {
+            sortBy: "machineId",
+            isAscending: true,
+            page: 1,
+            pageSize: 10,
+          },
+        }
+      );
+      const items = response.data?.machines;
+    
+    if (Array.isArray(items)) {
+      setMachineList(items);
+      } else {
+        setMachineList([]);
+      }
+    } catch (error) {
+      toast.error("Lỗi khi tải danh sách máy");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-  const handleUpdateOk = () => {
-    setIsModalUpdateOpen(false);
-  };
-  const handleUpdateCancel = () => {
-    setIsModalUpdateOpen(false);
-  };
-  function hanldeClickSubmit() {
+
+
+  const showCreateModal = () => setIsCreateModalOpen(true);
+  const handleCreateCancel = () => setIsCreateModalOpen(false);
+  const handleCreateOk = () => setIsCreateModalOpen(false);
+
+  const showUpdateModal = () => setIsUpdateModalOpen(true);
+  const handleUpdateCancel = () => setIsUpdateModalOpen(false);
+  const handleUpdateOk = () => setIsUpdateModalOpen(false);
+
+  function handleClickCreateSubmit() {
     form.submit();
-    setIsModalOpen(false);
+    setIsCreateModalOpen(false);
     fetchMachines();
   }
+
   const handleClickUpdateSubmit = () => {
     formUpdate.submit();
   };
 
-
+  const handleViewProducts = (products) => {
+    if (!products || products.length === 0) {
+      Modal.info({
+        title: 'Thông báo',
+        content: 'Không có sản phẩm nào.',
+        okText: 'Đóng',
+      });
+      return;
+    }
+  
+    const productList = products.join(', ');
+  
+    Modal.info({
+      title: 'Danh sách sản phẩm',
+      content: `Các sản phẩm: ${productList}`,
+      okText: 'Đóng',
+    });
+  };
+  
   async function updateMachine(machine) {
     try {
-      const updatedValues = {
-        ...newData,
-      };
+      const updatedValues = { ...newData };
 
       await axiosInstance.put(`machine/${machine.id}`, updatedValues);
 
       toast.success("Cập nhật máy thành công");
 
-      // Cập nhật danh sách máy hiện tại
       setMachineList((prevList) =>
-        prevList.map((item) =>
-          item.id === machine.id ? { ...item, ...updatedValues } : item
+        prevList.map((machines) =>
+          machines.id === machine.id ? { ...machines, ...updatedValues } : machines
         )
       );
 
-      // Đóng modal sau khi cập nhật thành công
-      setIsModalOpen(false);
-
-      // Nếu cần, fetch lại data chính xác từ server
+      setIsUpdateModalOpen(false);
       fetchMachines();
     } catch (error) {
       toast.error("Có lỗi khi cập nhật máy");
@@ -83,38 +121,62 @@ const ClassMangement = () => {
     }
   }
 
-
-
+  const data = [
+    {
+      id: 1,
+      mid: 'M001',
+      name: 'Máy Pha Cà Phê Espresso',
+      installationDate: '2025-01-01',
+      mproduct: ['Cappuchino', 'Latte'],
+    },
+    {
+      id: 2,
+      mid: 'M002',
+      name: 'Máy Xay Sinh Tố Công Nghiệp',
+      installationDate: '2025-02-15',
+      mproduct: ['Mocha'],
+    },
+    {
+      id: 3,
+      mid: 'M003',
+      name: 'Máy Đun Nước Tự Động',
+      installationDate: '2025-03-10',
+      mproduct: ['Cappuchino', 'Latte', 'Mocha'],
+    },
+  ];
+  
   const columns = [
     {
       title: 'Mã máy',
       width: 100,
-      dataIndex: 'mid',
+      dataIndex: 'machineId',
       fixed: 'left',
     },
     {
       title: 'Tên máy',
-      width: 100,
-      dataIndex: 'name',
+      width: 150,
+      dataIndex: 'machineName',
     },
     {
       title: 'Ngày thêm máy',
-      dataIndex: 'adate',
+      dataIndex: 'installationDate',
       key: '1',
-      width: 100,
+      width: 150,
     },
     {
       title: 'Sản phẩm',
-      width: 90,
-      render: () => <a>Xem thêm</a>,
+      width: 110,
+      render: (record) => (
+        <a onClick={() => handleViewProducts(record.mproduct)}>Xem thêm</a>
+      ),
     },
     {
       title: "Hành Động",
+      width: 110,
       render: (record) => {
         return (
           <>
             <div className="action-button">
-              {/* Nút Xóa */}
               <Button
                 onClick={() => deleteMachine(record)}
                 className="delete-button"
@@ -122,26 +184,25 @@ const ClassMangement = () => {
                 Xóa
               </Button>
 
-              {/* Nút Chỉnh sửa */}
               <Button
                 icon={<UploadOutlined />}
                 className="admin-upload-button update-button"
                 onClick={() => {
-                  setSelectedMachine(record); // Chọn máy hiện tại
-                  formUpdate.setFieldsValue(record); // Đổ data vào form
-                  setIsModalOpen(true); // Mở modal chỉnh sửa
+                  setSelectedMachine(record);
+                  formUpdate.setFieldsValue(record);
+                  showUpdateModal(); // mở modal update đúng cách
                 }}
               >
                 Chỉnh sửa
               </Button>
             </div>
 
-            {/* Modal chỉnh sửa máy */}
+            {/* Modal chỉnh sửa */}
             <Modal
               className="modal-add-form"
               footer={false}
               title="Chỉnh Sửa Máy"
-              open={isModalUpdateOpen}
+              open={isUpdateModalOpen}
               onOk={handleUpdateOk}
               onCancel={handleUpdateCancel}
             >
@@ -159,48 +220,29 @@ const ClassMangement = () => {
               >
                 <div className="form-content-main">
                   <div className="form-content">
-
-                    {/* Mã máy */}
                     <Form.Item
                       className="label-form"
                       label="Mã Máy"
                       name="firstname"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập mã máy",
-                        },
-                      ]}
+                      rules={[{ required: true, message: "Nhập mã máy" }]}
                     >
                       <Input type="text" required />
                     </Form.Item>
 
-                    {/* Tên máy */}
                     <Form.Item
                       className="label-form"
                       label="Tên Máy"
                       name="name"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập tên máy",
-                        },
-                      ]}
+                      rules={[{ required: true, message: "Nhập tên máy" }]}
                     >
                       <Input type="text" required />
                     </Form.Item>
 
-                    {/* Ngày thêm máy */}
                     <Form.Item
                       className="label-form"
                       label="Ngày Thêm Máy"
                       name="doa"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Chọn ngày thêm máy",
-                        },
-                      ]}
+                      rules={[{ required: true, message: "Chọn ngày thêm máy" }]}
                     >
                       <DatePicker
                         style={{ width: "100%" }}
@@ -208,17 +250,11 @@ const ClassMangement = () => {
                       />
                     </Form.Item>
 
-                    {/* Sản phẩm */}
                     <Form.Item
                       className="label-form"
                       label="Sản phẩm"
                       name="mproduct"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Thêm sản phẩm của máy",
-                        },
-                      ]}
+                      rules={[{ required: true, message: "Thêm sản phẩm của máy" }]}
                     >
                       <Select
                         mode="multiple"
@@ -264,15 +300,10 @@ const ClassMangement = () => {
                         <Select.Option value="MANAGER">Mocha</Select.Option>
                       </Select>
                     </Form.Item>
-
                   </div>
                 </div>
 
-                {/* Nút xác nhận chỉnh sửa */}
-                <Button
-                  onClick={() => handleClickUpdateSubmit()}
-                  className="form-button"
-                >
+                <Button onClick={handleClickUpdateSubmit} className="form-button">
                   Cập Nhật Máy
                 </Button>
               </Form>
@@ -283,54 +314,30 @@ const ClassMangement = () => {
     },
   ];
 
-  const data = [
-    {
-      mid: '1',
-      name: 'Olivia',
-      age: 32,
-      address: 'New York Park',
-      adate: '01/01/2025',
-    },
-    {
-      mid: '2',
-      name: 'Ethan',
-      age: 40,
-      address: 'London Park',
-      adate: '01/01/2025',
-    },
-  ];
   const { styles } = useStyle();
 
   async function AddMachine(values) {
     try {
-      // Xử lý dữ liệu từ form (values)
       const payload = {
-        code: values.firstname, // Mã máy
-        name: values.name,      // Tên máy
-        doa: values.doa.format("YYYY-MM-DD"), // Ngày thêm máy (format lại ngày tháng)
-        mproduct: values.mproduct, // Sản phẩm (danh sách sản phẩm đã chọn)
+        code: values.firstname,
+        name: values.name,
+        doa: values.doa.format("YYYY-MM-DD"),
+        mproduct: values.mproduct,
       };
 
-      // Nếu có hình ảnh thì bạn có thể thêm bước upload ảnh ở đây (giống AddDiamond)
-      // const imgURL = await uploadFile(img);
-      // payload.imgURL = imgURL;
-
-      // Gửi dữ liệu lên API
       await axiosInstance.post("machine", payload);
 
-      // Xử lý sau khi thêm thành công
       toast.success("Thêm máy thành công");
 
-
       fetchMachines();
-
       form.resetFields();
-      setIsModalOpen(false); // Đóng modal tạo máy
+      setIsCreateModalOpen(false);
     } catch (error) {
       toast.error("Đã có lỗi khi thêm máy");
       console.log(error);
     }
   }
+
   async function deleteMachine(machine) {
     try {
       Modal.confirm({
@@ -338,18 +345,14 @@ const ClassMangement = () => {
         okText: "Đồng ý",
         cancelText: "Hủy",
         onOk: async () => {
-          await axiosInstance.delete(`Machine/${machine.id}`); // API xóa theo ID máy
+          await axiosInstance.delete(`Machine/${machine.id}`);
           toast.success("Xóa máy thành công");
 
-          // Cập nhật lại state danh sách máy (giả sử state là machineList)
           setMachineList((prev) => prev.filter((item) => item.id !== machine.id));
-
-          // Fetch lại danh sách máy (nếu cần)
           fetchMachines();
         },
       });
     } catch (error) {
-      // toast.error("Đã có lỗi trong lúc xóa máy");
       console.log(error);
     }
   }
@@ -360,21 +363,20 @@ const ClassMangement = () => {
         <Table
           bordered
           columns={columns}
-          dataSource={data}
-          scroll={{
-            x: 'max-content',
-          }}
+          dataSource={machineList}
+          onViewProducts={handleViewProducts}
+          scroll={{ x: 'max-content' }}
           pagination={{ pageSize: 5 }}
           style={{ width: "90%", maxWidth: "1200px" }}
         />
-        <Button type="primary" onClick={showModal}>
+        <Button type="primary" onClick={showCreateModal}>
           Tạo thông tin máy mới
         </Button>
         <Modal
           title="Tạo máy"
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
+          open={isCreateModalOpen}
+          onOk={handleCreateOk}
+          onCancel={handleCreateCancel}
           footer={null}
         >
           <Form
@@ -384,48 +386,32 @@ const ClassMangement = () => {
             style={{ width: "100%" }}
             form={form}
             onFinish={AddMachine}
-            id="form"
-            className=""
           >
             <Form.Item
-              required
               label="Mã máy"
               name="firstname"
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập mã máy",
-                },
-              ]}
+              rules={[{ required: true, message: "Hãy nhập mã máy" }]}
             >
-              <Input required />
+              <Input />
             </Form.Item>
+
             <Form.Item
-              required
               label="Tên máy"
               name="name"
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập tên máy",
-                },
-              ]}
+              rules={[{ required: true, message: "Hãy nhập tên máy" }]}
             >
-              <Input required />
+              <Input />
             </Form.Item>
+
             <Form.Item
               name="doa"
               label="Ngày thêm máy"
               rules={[{ required: true, message: "Chọn ngày thêm máy" }]}
             >
-              <DatePicker
-                placeholder="Ngày Thêm Máy"
-                style={{ width: "100%" }}
-              // format={dateFormat}
-              />
+              <DatePicker style={{ width: "100%" }} placeholder="Ngày Thêm Máy" />
             </Form.Item>
+
             <Form.Item
-              required
               label="Sản phẩm"
               name="mproduct"
               rules={[{ required: true, message: "Thêm sản phẩm của máy" }]}
@@ -434,59 +420,24 @@ const ClassMangement = () => {
                 mode="multiple"
                 placeholder="Chọn Sản Phẩm"
                 onChange={(value) => {
-                  // Loại bỏ giá trị bị trùng (nếu có)
                   const uniqueValues = [...new Set(value)];
                   form.setFieldsValue({ mproduct: uniqueValues });
                 }}
-                tagRender={(props) => {
-                  const { label, closable, onClose } = props;
-                  return (
-                    <span
-                      style={{
-                        fontWeight: "bold", // Làm đậm chữ
-                        padding: "4px 8px",
-                        borderRadius: "4px",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        margin: "2px",
-                        border: "1px solid #d9d9d9", // Giữ viền mặc định của Antd
-                        background: "#f5f5f5", // Màu nền nhẹ
-                      }}
-                    >
-                      {label}
-                      {closable && (
-                        <span
-                          onClick={onClose}
-                          style={{
-                            marginLeft: "8px",
-                            cursor: "pointer",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          ✖
-                        </span>
-                      )}
-                    </span>
-                  );
-                }}
               >
-                <Option value="SALES">Cappuchino</Option>
-                <Option value="DELIVERY">Latte</Option>
-                <Option value="MANAGER">Mocha</Option>
+                <Option value="CAPPUCHINO">Cappuchino</Option>
+                <Option value="LATTE">Latte</Option>
+                <Option value="MOCHA">Mocha</Option>
               </Select>
             </Form.Item>
-
 
             <Button htmlType="submit" className="form-button">
               Thêm máy mới
             </Button>
-
           </Form>
         </Modal>
       </div>
     </div>
-
   );
 };
 
-export default ClassMangement;
+export default MachineMangement;
