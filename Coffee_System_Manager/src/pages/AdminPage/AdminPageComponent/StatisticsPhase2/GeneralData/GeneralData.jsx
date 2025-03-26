@@ -60,7 +60,7 @@ const Dashboard = () => {
     const fetchRevenue = async () => {
       try {
         const response = await axios.get(
-          "https://coffeeshop.ngrok.app/api/order?page=1&pageSize=100"
+          "https://coffeeshop.ngrok.app/api/order?sortBy=OrderId&isAscending=true&page=1&pageSize=10"
         );
         const orders = response.data.orders || [];
 

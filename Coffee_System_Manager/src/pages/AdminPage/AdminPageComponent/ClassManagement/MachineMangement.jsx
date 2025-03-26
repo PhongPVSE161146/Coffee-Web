@@ -149,7 +149,7 @@ const MachineMangement = () => {
     {
       title: 'Mã máy',
       width: 100,
-      dataIndex: 'machineId',
+      dataIndex: 'machineCode',
       fixed: 'left',
     },
     {
