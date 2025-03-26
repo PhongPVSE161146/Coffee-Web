@@ -356,7 +356,7 @@ const ProductList = () => {
           Tạo thông tin sản phẩm mới
         </Button>
         <Modal
-          title="Tạo máy"
+          title="Tạo máyyy"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
