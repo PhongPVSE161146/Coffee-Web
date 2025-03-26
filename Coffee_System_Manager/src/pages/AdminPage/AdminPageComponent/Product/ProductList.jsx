@@ -31,7 +31,7 @@ const ProductList = () => {
 
   async function fetchProduct() {
     try {
-      const response = await axiosInstance.get("product");
+      const response = await axiosInstance.get("products");
       console.log("API response:", response);
 
       const data = response?.data?.products;

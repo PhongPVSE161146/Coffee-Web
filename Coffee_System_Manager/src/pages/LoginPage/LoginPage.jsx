@@ -1,109 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useAuth } from "../../features/Auth/useAuth";
-// import "./LoginPage.css";
-// import RoleSelectionPopup from "./RoleSelectionPopUp/RoleSelectionPopup";
-// import kohicoffee from "../../assets/kohicoffee.png";
-// import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
-// import LoginLoader from "./RoleSelectionPopUp/LoginLoader/LoginLoader";
-// import NetworkError from "./RoleSelectionPopUp/LoginNetworkError/NetworkError";
-
-// const trainerRole = ["TRAINER"];
-// const adminRoles = ["CLASS_ADMIN", "FA_MANAGER"];
-// const deliveryManagerRoles = ["DELIVERY_MANAGER", "CHECKPOINT_REVIEWER"];
-// const trainerManagerRole = ["TRAINER_MANAGER"];
-// const FAMdminRoles = ["FAMS_ADMIN"];
-
-// const Login = () => {
-//   const [username, setUsername] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [message, setMessage] = useState("");
-//   const [roles, setRoles] = useState([]);
-//   const [ShowLoaderPopup, setShowLoaderPopup] = useState(false);
-//   const [noConnectionPopup, setNoConnectionPopup] = useState(false);
-//   const [showRolePopup, setShowRolePopup] = useState(false);
-//   const [playAnimation, setPlayAnimation] = useState(false);
-//   const [showPassword, setShowPassword] = useState(false);
-//   const navigate = useNavigate();
-//   const { login } = useAuth();
-
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
-//     setRoles([]);
-//     sessionStorage.removeItem("selectedRole");
-//     setShowLoaderPopup(true);
-//     setNoConnectionPopup(false);
-
-//     try {
-//       const roles = await login(username, password);
-//       if (roles === 'connectionDown') { setNoConnectionPopup(true); roles = null; }
-//       if (roles) {
-//         setShowLoaderPopup(false);
-//         const userRoles = [];
-
-//         if (roles.some((role) => adminRoles.includes(role))) {
-//           userRoles.push("admin");
-//         }
-//         if (roles.some((role) => FAMdminRoles.includes(role))) {
-//           userRoles.push("FAMadmin");
-//         }
-//         if (roles.some((role) => trainerRole.includes(role))) {
-//           userRoles.push("trainer");
-//         }
-//         if (roles.some((role) => deliveryManagerRoles.includes(role))) {
-//           userRoles.push("deliverymanager");
-//         }
-//         if (roles.some((role) => trainerManagerRole.includes(role))) {
-//           userRoles.push("trainermanager");
-//         }
-
-//         if (userRoles.length === 1) {
-//           // Automatically navigate if only one role is available
-//           handleRoleSelection(userRoles[0]);
-//         } else if (userRoles.length > 1) {
-//           // Show popup if multiple roles are available
-//           setRoles(userRoles);
-//           setShowRolePopup(true);
-//         } else {
-//           setMessage("There are no valid roles for this account!");
-//         }
-//       } else {
-//         setMessage("The username or password is incorrect!");
-//         setUsername("");
-//         setPassword("");
-//         setShowLoaderPopup(false);
-//       }
-//     } catch (error) {
-//       //console.error("Login error:", error);
-//       setShowLoaderPopup(false);
-//       setMessage("An error occurred during login. Please try again.");
-//     }
-//   };
-
-//   const handleRoleSelection = (selectedRole) => {
-//     sessionStorage.setItem("selectedRole", selectedRole);
-//     setShowRolePopup(false);
-
-//     if (selectedRole === "admin") {
-//       navigate("/adminPage");
-//     } else if (selectedRole === "trainer") {
-//       navigate("/trainerPage");
-//     } else if (selectedRole === "deliverymanager") {
-//       navigate("/DeliveryManagerPage");
-//     } else if (selectedRole === "trainermanager") {
-//       navigate("/TrainermanagerPage");
-//     } else if (selectedRole === "FAMadmin") {
-//       navigate("/FAMAdminPage");
-//     }
-//   };
-
-//   const togglePasswordVisibility = () => {
-//     setShowPassword(!showPassword);
-//   };
-
-//   useEffect(() => {
-//     setPlayAnimation(true);
-//   }, []);
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../features/Auth/useAuth";
@@ -116,6 +10,7 @@ import NetworkError from "./RoleSelectionPopUp/LoginNetworkError/NetworkError";
 import { auth, provider } from "../../config/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import MainPage from "../AdminPage/MainPage";
+import { axiosInstance } from "../../axios/Axios"
 
 const adminRoles = ["admin"];
 
@@ -136,35 +31,67 @@ const Login = () => {
   // Xử lý đăng nhập bằng Google
   const handleGoogleLogin = async () => {
     try {
-      console.log("Bắt đầu đăng nhập Google...");
+      console.log("🛠 Bắt đầu đăng nhập Google...");
       const result = await signInWithPopup(auth, provider);
-      const user = sessionStorage.setItem("username", result.user.displayName)
-      console.log("Kết quả đăng nhập:", result);
-
-      setEmail(result.user.email);
-      localStorage.setItem("email", result.user.email);
-      if(result.user.email === "nguyentuananh200904@gmail.com"){
-        sessionStorage.setItem("selectedRole","admin");
-        navigate("/adminPage"); 
-      }
-      else if (result.user.email === "hadntse171721@fpt.edu.vn"){
-        sessionStorage.setItem("selectedRole","manager");
+      const userEmail = result.user.email;
+  
+      console.log("✅ Đăng nhập thành công:", result.user);
+  
+      // Lưu email vào localStorage
+      setEmail(userEmail);
+      localStorage.setItem("email", userEmail);
+  
+      // 📌 Set cứng role admin & manager
+      if (userEmail === "nguyentuananh200904@gmail.com") {
+        sessionStorage.setItem("selectedRole", "admin");
+        navigate("/adminPage");
+        return;
+      } 
+      
+      if (userEmail === "hadntse171721@fpt.edu.vn") {
+        sessionStorage.setItem("selectedRole", "manager");
         navigate("/managerPage");
+        return;
       }
-      // hadntse171721@fpt.edu.vn
-      else if (result.user.email === "quanvnmse160914@fpt.edu.vn"){
-        sessionStorage.setItem("selectedRole","managerStore");
-        navigate("/managerStorePage");
-      }
-      else{
-        sessionStorage.setItem("selectedRole","user");
-      }
+  
+      // 🔹 Gọi API để kiểm tra danh sách managerStore
+      try {
+        const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/managers?sortBy=ManagerId&isAscending=true&page=1&pageSize=10");
+        const managers = response.data.managers; // Lấy danh sách managers từ API
+  
+        console.log("🎯 Danh sách managerStore từ API:", managers);
+  
+        // Kiểm tra xem email có trong danh sách managerStore không
+        console.log("📩 Email đăng nhập:", userEmail);
+        console.log("🎯 Danh sách managers từ API:", managers);
 
+        // Kiểm tra danh sách managers có chứa email đăng nhập hay không
+        const isManagerStore = managers.some(manager => {
+          console.log(`🔍 So sánh ${manager.email.toLowerCase()} với ${userEmail.toLowerCase()}`);
+          return manager.email.toLowerCase() === userEmail.toLowerCase();
+        });
+
+        console.log("✅ Kết quả kiểm tra managerStore:", isManagerStore);
+
+  
+        if (isManagerStore) {
+          sessionStorage.setItem("selectedRole", "managerStore");
+          navigate("/managerStorePage");
+          return;
+        }
+  
+      } catch (error) {
+        console.error("❌ Lỗi khi gọi API managerStore:", error);
+      }
+  
+      // Mặc định nếu không thuộc các role trên thì set "user"
+      sessionStorage.setItem("selectedRole", "user");
+      navigate("/userPage");
+  
     } catch (error) {
-      console.error("Lỗi đăng nhập Google:", error.code, error.message);
+      console.error("❌ Lỗi đăng nhập Google:", error.code, error.message);
     }
   };
-
 
 
   // Xử lý đăng nhập bằng username/password

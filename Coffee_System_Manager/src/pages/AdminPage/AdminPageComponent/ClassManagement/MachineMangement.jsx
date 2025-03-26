@@ -36,7 +36,7 @@ const MachineMangement = () => {
     setLoading(true);
     try {
       const response = await axiosInstance.get(
-        "https://coffeeshop.ngrok.app/api/machine?sortBy=MachineId&isAscending=true&page=1&pageSize=10",
+        "https://coffeeshop.ngrok.app/api/machines?sortBy=MachineId&isAscending=true&page=1&pageSize=10",
         {
           params: {
             sortBy: "machineId",

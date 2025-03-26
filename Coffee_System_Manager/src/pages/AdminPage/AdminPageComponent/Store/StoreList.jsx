@@ -61,7 +61,7 @@ const StoreList = () => {
 
   const fetchStore = async () => {
     try {
-      const response = await axiosInstance.get('/store');
+      const response = await axiosInstance.get('/stores');
       const stores = response.data?.stores;
 
       if (Array.isArray(stores)) {
