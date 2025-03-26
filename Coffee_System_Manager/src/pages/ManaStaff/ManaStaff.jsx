@@ -91,36 +91,24 @@ const ManaStaff = () => {
   const columns = [
     {
       title: 'Tên Cửa Hàng',
-      width: 100,
+      width: 130,
       dataIndex: 'storeName',
     },
     {
       title: "Mã Nhân Viên",
-      width: 100,
+      width: 130,
       dataIndex: "mid",
       fixed: "left",
     },
     {
       title: "Tên Nhân Viên",
-      width: 100,
+      width: 130,
       dataIndex: "name",
     },
     {
       title: "Gmail",
       width: 100,
       dataIndex: "gmail",
-    },
-    {
-      title: "Vai Trò",
-      width: 100,
-      dataIndex: "role",
-      render: (role) => (role === "manageStore" ? "Quản Lý Cửa Hàng" : null),
-    },
-    
-    {
-      title: "Chi Tiết",
-      width: 90,
-      render: () => <a>Xem thêm</a>,
     },
     {
       title: "Hành Động",
@@ -346,7 +334,7 @@ return (
       <Table
         bordered
         columns={columns}
-        dataSource={data}
+        dataSource={manaStaffList}
         scroll={{
           x: "max-content",
         }}
@@ -409,16 +397,6 @@ return (
             ]}
           >
             <Input required />
-          </Form.Item>
-          <Form.Item
-            name="adate"
-            label="Ngày thêm nhân viên"
-            rules={[{ required: true, message: "Chọn ngày thêm nhân viên" }]}
-          >
-            <DatePicker
-              placeholder="Ngày Thêm Nhân Viên"
-              style={{ width: "100%" }}
-            />
           </Form.Item>
           <Form.Item
             label="Vai Trò"

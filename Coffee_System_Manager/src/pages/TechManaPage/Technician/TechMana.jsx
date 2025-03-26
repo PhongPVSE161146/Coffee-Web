@@ -93,7 +93,7 @@ useEffect (() => {
         ...newData,
       };
   
-      await axiosInstance.put(`techStaff/${techStaff.id}`, updatedValues);
+      await axiosInstance.put(`techStaff/${techStaff.id}` , updatedValues);
   
       toast.success("Cập nhật nhân viên thành công");
   
