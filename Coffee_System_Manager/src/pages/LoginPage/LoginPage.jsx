@@ -39,7 +39,7 @@ const Login = () => {
   
       // Lưu email vào localStorage
       setEmail(userEmail);
-      localStorage.setItem("email", userEmail);
+      sessionStorage.setItem("email", userEmail);
   
       // 📌 Set cứng role admin & manager
       if (userEmail === "nguyentuananh200904@gmail.com") {
@@ -76,6 +76,9 @@ const Login = () => {
   
         if (isManagerStore) {
           sessionStorage.setItem("selectedRole", "managerStore");
+          console.log(sessionStorage.getItem("email"));
+          console.log(sessionStorage.getItem("selectedRole"));
+
           navigate("/managerStorePage");
           return;
         }

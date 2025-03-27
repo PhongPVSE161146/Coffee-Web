@@ -48,10 +48,19 @@ const MainLayout = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  const username = sessionStorage.getItem("username");
+  // const email = sessionStorage.getItem("userEmail");
+  const userName = sessionStorage.getItem("username");
   const role = sessionStorage.getItem("selectedRole");
 
+  const [email, setEmail] = useState(sessionStorage.getItem("email") || "");
 
+  useEffect(() => {
+    const storedEmail = sessionStorage.getItem("email");
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
+  }, []);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -379,7 +388,7 @@ const MainLayout = () => {
                   {role === 'manager' && (<span className="role-container" style={{ backgroundColor: '#ff4949' }}>Manager</span>)}
                   {role === 'managerStore' && (<span className="role-container" style={{ backgroundColor: '#ff4949' }}>Manager Store</span>)}
                 </div>) : (<></>)}
-              Welcome, {username}
+              Welcome, {email || userName}
             </p>
             <Dropdown menu={{ items: menuProfile }} trigger={['click']}>
               <span onClick={(e) => e.preventDefault()} className="dropdown-user">

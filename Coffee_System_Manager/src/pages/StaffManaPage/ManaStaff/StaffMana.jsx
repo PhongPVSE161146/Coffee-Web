@@ -15,10 +15,21 @@ const StaffMana = () => {
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // Giá trị tìm kiếm
   const [filteredStaffList, setFilteredStaffList] = useState([]); // Danh sách sau khi lọc
-  
-const [form] = useForm();
+
+  const [form] = useForm();
   const [formUpdate] = useForm();
-const useStyle = createStyles(({ css }) => ({
+
+  const [email, setEmail] = useState(sessionStorage.getItem("email") || "");
+  
+    useEffect(() => {
+      const storedEmail = sessionStorage.getItem("email");
+      if (storedEmail) {
+        setEmail(storedEmail);
+      }
+    }, []);
+    
+  
+  const useStyle = createStyles(({ css }) => ({
   centeredContainer: css`
     display: flex;
     justify-content: center;
@@ -30,17 +41,44 @@ const useStyle = createStyles(({ css }) => ({
 }));
 
 useEffect(() => {
-  fetchStaffMana();
-  }, []);
+  fetchStoreId(); // Lấy storeId trước
+}, []);
 
-async function fetchStaffMana() {
+async function fetchStoreId() {
   try {
-    const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/staffs?sortBy=StaffId&isAscending=true&page=1&pageSize=10");
-    console.log("API response:", response);
+    const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/managers?sortBy=ManagerId&isAscending=true&page=1&pageSize=10");
+    console.log("Danh sách managers:", response.data);
 
-    const data = response?.data?.staff;
-    console.log("Processed data:", data); // Kiểm tra dữ liệu
+    const managers = response?.data?.managers; // Kiểm tra key trả về từ API
+    if (!Array.isArray(managers)) {
+      console.warn("Dữ liệu không phải mảng:", managers);
+      return;
+    }
 
+    // Tìm manager có email khớp với sessionStorage
+    const manager = managers.find((m) => m.email === email);
+    if (!manager) {
+      console.warn("Không tìm thấy manager có email khớp:", email);
+      return;
+    }
+
+    console.log("Manager tìm thấy:", manager);
+    const storeId = manager.storeId;
+    
+    if (storeId) {
+      fetchStaffMana(storeId); // Gọi API nhân viên với storeId
+    }
+  } catch (error) {
+    console.error("Lỗi fetch managers:", error);
+  }
+}
+
+async function fetchStaffMana(storeId) {
+  try {
+    const response = await axiosInstance.get(`https://coffeeshop.ngrok.app/api/staffs?storeId=${storeId}&sortBy=StaffId&isAscending=true&page=1&pageSize=10`);
+    console.log("Danh sách nhân viên:", response.data);
+
+    const data = response?.data?.staff; // Kiểm tra key trả về từ API
     if (Array.isArray(data)) {
       setStaffManaList(data);
     } else {
@@ -48,10 +86,11 @@ async function fetchStaffMana() {
       setStaffManaList([]);
     }
   } catch (error) {
-    console.error("Lỗi fetch store:", error);
+    console.error("Lỗi fetch staffs:", error);
     setStaffManaList([]);
   }
 }
+
 
   useEffect(() => {
     const filteredData = staffManaList.filter((staff) => {
@@ -98,39 +137,7 @@ function hanldeClickSubmit() {
 
 const handleClickUpdateSubmit = () => {
   formUpdate.submit();
-};
-
-
-// async function updateStaffMana(staff) {
-//   try {
-//     const updatedValues = {
-//       ...newData,
-      
-//     };
-    
-
-//     await axiosInstance.put(`staffMana/${staff.id}`, updatedValues);
-
-//     toast.success("Cập nhật nhân viên thành công");
-
-//     // Cập nhật danh sách nhân viên hiện tại
-//     setStaffManaList((prevList) =>
-//       prevList.map((item) =>
-//         item.id === staff.id ? { ...item, ...updatedValues } : item
-//       )
-//     );
-
-//     // Đóng modal sau khi cập nhật thành công
-//     setIsModalOpen(false);    
-//     // fetchAccount();
-
-//     // Nếu cần, fetch lại data chính xác từ server
-//     fetchStaffMana();
-//   } catch (error) {
-//     toast.error("Có lỗi khi cập nhật nhân viên");
-//     console.log(error);
-//   }
-// }  
+}; 
 async function updateStaffMana(values) {
   try {
     const payload = {
@@ -165,17 +172,9 @@ const columns = [
      
     },
     {
-      title: "Họ",
-      dataIndex: "firstName",
-    },
-    {
-      title: "Tên",
-      dataIndex: "lastName",
-      sorter: (a, b) => {
-        const lastA = a.lastName.split(" ").slice(-1)[0]; // Lấy chữ cuối
-        const lastB = b.lastName.split(" ").slice(-1)[0]; 
-        return lastA.localeCompare(lastB);
-      },
+      title: "Tên Nhân Viên",
+      render: (record) => `${record.firstName} ${record.lastName}`,
+      width: 130,
     },
     { 
       title: "Số Điện Thoại", 
@@ -319,7 +318,7 @@ const columns = [
       firstName: values.firstName, // họ
       lastName: values.lastName,   // ten
       email: values.email,
-      phoneNumber: values.phoneNumber,     
+      phoneNumber: values.phoneNumber, 
     }
     console.log("Payload gửi lên API:", payload);
 
