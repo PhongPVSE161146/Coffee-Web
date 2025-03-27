@@ -30,7 +30,7 @@ const TechMana = () => {
 
   async function fetchTechStaff() {
     try {
-          const response = await axiosInstance.get("technician");
+          const response = await axiosInstance.get("technicians");
           console.log("API response:", response);
     
           const data = response?.data?.technicians;
