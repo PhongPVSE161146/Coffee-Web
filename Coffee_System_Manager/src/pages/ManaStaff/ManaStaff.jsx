@@ -255,24 +255,56 @@ const ManaStaff = () => {
 
   const data = [
     {
-      mid: '1',
-      storeName: 'Huỳnh Tấn Phát',
-      name: 'Olivia',
-      gmail: 'olivia456',
-      age: 32,
-      address: 'New York Park',
-      adate: '01/01/2025',
+      key: 1,
+      storeName: "Cửa Hàng A",
+      mid: "NV001",
+      name: "Nguyễn Văn A",
+      gmail: "nguyenvana@example.com",
     },
     {
-      mid: '2',
-      storeName: 'Hai Bà Trưng',
-      name: 'Ethan',
-      gmail: 'ethan123',
-      age: 40,
-      address: 'London Park',
-      adate: '01/01/2025',
+      key: 2,
+      storeName: "Cửa Hàng B",
+      mid: "NV002",
+      name: "Trần Thị B",
+      gmail: "tranthib@example.com",
+    },
+    {
+      key: 3,
+      storeName: "Cửa Hàng A",
+      mid: "NV003",
+      name: "Lê Văn C",
+      gmail: "levanc@example.com",
+    },
+    {
+      key: 4,
+      storeName: "Cửa Hàng C",
+      mid: "NV004",
+      name: "Phạm Minh D",
+      gmail: "phamminhd@example.com",
+    },
+    {
+      key: 5,
+      storeName: "Cửa Hàng D",
+      mid: "NV005",
+      name: "Hoàng Thị E",
+      gmail: "hoangthie@example.com",
+    },
+    {
+      key: 6,
+      storeName: "Cửa Hàng B",
+      mid: "NV006",
+      name: "Đặng Văn F",
+      gmail: "dangvanf@example.com",
+    },
+    {
+      key: 7,
+      storeName: "Cửa Hàng C",
+      mid: "NV007",
+      name: "Bùi Văn G",
+      gmail: "buivang@example.com",
     },
   ];
+  
   const { styles } = useStyle();
 
 // Hàm thêm nhân viên mới

@@ -138,13 +138,12 @@ useEffect(() => {
 async function updateStaffMana(values) {
   try {
     const payload = {
+      id: values.id, // Thêm ID vào payload để xác định đối tượng cập nhật
       firstName: values.firstName,
       lastName: values.lastName,
       phoneNumber: values.phoneNumber,
       email: values.email,
-
     };
-
     console.log("Payload cập nhật:", payload);
 
     const response = await axiosInstance.put(`staffs/${payload.staffId}`, payload);
@@ -249,7 +248,7 @@ const columns = [
                       rules={[
                         {
                           required: true,
-                          message: "Nhập họhọ nhân viên",
+                          message: "Nhập họ nhân viên",
                         },
                       ]}
                     >
@@ -303,6 +302,64 @@ const columns = [
     },
   ];
 
+  const data = [
+    {
+      key: 1,
+      staffId: "NV001",
+      firstName: "Nguyễn",
+      lastName: "Văn A",
+      phoneNumber: "0901234567",
+      email: "nguyenvana@example.com",
+    },
+    {
+      key: 2,
+      staffId: "NV002",
+      firstName: "Trần",
+      lastName: "Thị B",
+      phoneNumber: "0912345678",
+      email: "tranthib@example.com",
+    },
+    {
+      key: 3,
+      staffId: "NV003",
+      firstName: "Lê",
+      lastName: "Văn C",
+      phoneNumber: "0923456789",
+      email: "levanc@example.com",
+    },
+    {
+      key: 4,
+      staffId: "NV004",
+      firstName: "Phạm",
+      lastName: "Minh D",
+      phoneNumber: "0934567890",
+      email: "phamminhd@example.com",
+    },
+    {
+      key: 5,
+      staffId: "NV005",
+      firstName: "Hoàng",
+      lastName: "Thị E",
+      phoneNumber: "0945678901",
+      email: "hoangthie@example.com",
+    },
+    {
+      key: 6,
+      staffId: "NV006",
+      firstName: "Đặng",
+      lastName: "Văn F",
+      phoneNumber: "0956789012",
+      email: "dangvanf@example.com",
+    },
+    {
+      key: 7,
+      staffId: "NV007",
+      firstName: "Bùi",
+      lastName: "Văn G",
+      phoneNumber: "0967890123",
+      email: "buivang@example.com",
+    },
+  ];
   
   
   const { styles } = useStyle();
@@ -319,9 +376,7 @@ const columns = [
       firstName: values.firstName, // họ
       lastName: values.lastName,   // ten
       email: values.email,
-      phoneNumber: values.phoneNumber,  
-     
-       
+      phoneNumber: values.phoneNumber,     
     }
     console.log("Payload gửi lên API:", payload);
 

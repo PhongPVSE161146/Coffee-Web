@@ -232,6 +232,18 @@ const TechMana = () => {
               >
                 <div className="form-content-main">
                   <div className="form-content">
+                    {/* Mã nhân viên */}
+                    <Form.Item
+                      className="label-form"
+                      label="Mã Nhân Viên"
+                      name="technicianId"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Nhập mã nhân viên",
+                        },
+                      ]}
+                    ></Form.Item>
                     {/* Họ nhân viên */}
                     <Form.Item
                       className="label-form"

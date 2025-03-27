@@ -134,16 +134,17 @@ const OrderList = () => {
     //   dataIndex: "productId",
     //   key: "productId",
     // },
+      // {
+    //   title: "Số lượng",
+    //   dataIndex: "quantity",
+    //   key: "quantity",
+    // },
     {
       title: "Tên sản phẩm",
       dataIndex: "product",
       key: "product",
     },
-    // {
-    //   title: "Số lượng",
-    //   dataIndex: "quantity",
-    //   key: "quantity",
-    // },
+    
     {
       title: "Giá",
       dataIndex: "price",
