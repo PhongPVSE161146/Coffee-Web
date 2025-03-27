@@ -164,11 +164,11 @@ const MainLayout = () => {
         icon: <LineChartOutlined style={{ fontSize: "24px" }} />,
         label: "Báo Cáo",
       },
-      {
-        key: "3",
-        icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
-        label: "Danh Sách Đơn Hàng",
-      },
+      // {
+      //   key: "3",
+      //   icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
+      //   label: "Danh Sách Đơn Hàng",
+      // },
     ],
   };
 

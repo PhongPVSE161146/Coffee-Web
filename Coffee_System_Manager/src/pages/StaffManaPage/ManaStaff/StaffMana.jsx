@@ -46,7 +46,7 @@ useEffect(() => {
 
 async function fetchStoreId() {
   try {
-    const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/managers?sortBy=ManagerId&isAscending=true&page=1&pageSize=10");
+    const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/managers");
     console.log("Danh sách managers:", response.data);
 
     const managers = response?.data?.managers; // Kiểm tra key trả về từ API
@@ -75,7 +75,7 @@ async function fetchStoreId() {
 
 async function fetchStaffMana(storeId) {
   try {
-    const response = await axiosInstance.get(`https://coffeeshop.ngrok.app/api/staffs?storeId=${storeId}&sortBy=StaffId&isAscending=true&page=1&pageSize=10`);
+    const response = await axiosInstance.get(`https://coffeeshop.ngrok.app/api/staffs?storeId=${storeId}`);
     console.log("Danh sách nhân viên:", response.data);
 
     const data = response?.data?.staff; // Kiểm tra key trả về từ API
@@ -185,11 +185,11 @@ const columns = [
       title: "Gmail", 
       dataIndex: "email" 
     }, 
-    {
-      title: "Chi Tiết",
-      width: 90,
-      render: () => <a>Xem thêm</a>,
-    },
+    // {
+    //   title: "Chi Tiết",
+    //   width: 90,
+    //   render: () => <a>Xem thêm</a>,
+    // },
     {
       title: "Hành Động",
       render: (record) => {
@@ -464,9 +464,9 @@ const columns = [
            </Form.Item>
            
  
-           <Button htmlType="submit" className="form-button">
+           {/* <Button htmlType="submit" className="form-button">
              Thêm nhân viên mới
-           </Button>
+           </Button> */}
          </Form>
        </Modal>
      </div>

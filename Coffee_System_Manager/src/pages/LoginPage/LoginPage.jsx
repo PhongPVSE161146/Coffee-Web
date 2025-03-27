@@ -53,7 +53,11 @@ const Login = () => {
         navigate("/managerPage");
         return;
       }
-  
+      // if (userEmail === "phongpvse161146@fpt.edu.vn") {
+      //   sessionStorage.setItem("selectedRole", "manager");
+      //   navigate("/managerPage");
+      //   return;
+      // } 
       // 🔹 Gọi API để kiểm tra danh sách managerStore
       try {
         const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/managers?sortBy=ManagerId&isAscending=true&page=1&pageSize=10");
