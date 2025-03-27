@@ -15,7 +15,7 @@ const StaffMana = () => {
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // Giá trị tìm kiếm
   const [filteredStaffList, setFilteredStaffList] = useState([]); // Danh sách sau khi lọc
-
+const [storeList, setStoreList] = useState([]);
   const [form] = useForm();
   const [formUpdate] = useForm();
 
@@ -27,7 +27,24 @@ const StaffMana = () => {
         setEmail(storedEmail);
       }
     }, []);
-    
+    useEffect(() => {
+      fetchStore();
+    }, []);
+    const fetchStore = async () => {
+      try {
+        const response = await axiosInstance.get('/stores');
+        const stores = response.data?.stores;
+  
+        if (Array.isArray(stores)) {
+          setStoreList(stores);
+        } else {
+          console.warn('❗ Không nhận được danh sách store hợp lệ:', stores);
+          setStoreList([]); // reset danh sách nếu không đúng định dạng
+        }
+      } catch (error) {
+        console.error('❌ Lỗi khi gọi API /store:', error);
+      }
+    };
   
   const useStyle = createStyles(({ css }) => ({
   centeredContainer: css`
@@ -46,7 +63,7 @@ useEffect(() => {
 
 async function fetchStoreId() {
   try {
-    const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/managers");
+    const response = await axiosInstance.get("/managers");
     console.log("Danh sách managers:", response.data);
 
     const managers = response?.data?.managers; // Kiểm tra key trả về từ API
@@ -75,7 +92,7 @@ async function fetchStoreId() {
 
 async function fetchStaffMana(storeId) {
   try {
-    const response = await axiosInstance.get(`https://coffeeshop.ngrok.app/api/staffs?storeId=${storeId}`);
+    const response = await axiosInstance.get(`/staffs?storeId=${storeId}`);
     console.log("Danh sách nhân viên:", response.data);
 
     const data = response?.data?.staff; // Kiểm tra key trả về từ API
@@ -118,6 +135,8 @@ const showModal = () => {
   setIsModalOpen(true);
 };
 const handleOk = () => {
+  form.submit();
+  fetchStaffMana();
   setIsModalOpen(false);
 };
 const handleCancel = () => {
@@ -319,11 +338,14 @@ const columns = [
       lastName: values.lastName,   // ten
       email: values.email,
       phoneNumber: values.phoneNumber, 
+      status: 1,
+      storeId: values.storeId,
+
     }
     console.log("Payload gửi lên API:", payload);
 
     // Gửi yêu cầu tạo nhân viên lên API
-    const response = await axiosInstance.post("https://coffeeshop.ngrok.app/api/staffs", payload);
+    const response = await axiosInstance.post("/staffs", payload);
 
     console.log("Phản hồi từ API:", response);
 
@@ -410,6 +432,19 @@ const columns = [
            onFinish={AddStaff}
            id="form"
          >
+          <Form.Item
+            name="storeId"
+            label="Cửa hàng"
+            rules={[{ required: true, message: "Vui lòng chọn cửa hàng!" }]}
+          >
+            <Select placeholder="Chọn cửa hàng">
+              {storeList.map((store) => (
+                <Select.Option key={store.storeId} value={store.storeId}>
+                  {store.storeName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
            <Form.Item
              required
              label="Họ Nhân Viên"
