@@ -13,8 +13,6 @@ const StoreList = () => {
   const [storeList, setStoreList] = useState([]);
   const [areaList, setAreaList] = useState([]);
   const [selectedStore, setSelectedStore] = useState(null);
-  const [newData, setNewData] = useState({});
-  const [img, setImg] = useState(null);
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [form] = useForm();
 
