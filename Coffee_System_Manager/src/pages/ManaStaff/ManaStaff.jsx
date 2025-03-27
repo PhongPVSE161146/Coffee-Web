@@ -63,7 +63,6 @@ const ManaStaff = () => {
       setManaStaffList(managers);
       setFilteredStaffList(managers);
   
-      // Gọi API lấy store cho từng nhân viên (không loại bỏ storeId trùng)
       fetchStoreNames(managers.map((m) => m.storeId));
     } catch (error) {
       console.error("❌ Lỗi khi lấy danh sách nhân viên:", error);
@@ -133,8 +132,42 @@ const ManaStaff = () => {
   };
 
   // Thêm nhân viên
+  // async function AddStaff(values) {
+  //   try {
+  //     const payload = {
+  //       managerId: 0,
+  //       username: values.email.split("@")[0],
+  //       firstName: values.firstName,
+  //       lastName: values.lastName,
+  //       email: values.email,
+  //       phoneNumber: values.phoneNumber,
+  //       status: 1,
+  //       storeId: values.storeId, // Lưu storeId
+  //       store: null,
+  //     };
+  
+  //     await axiosInstance.post("managers", payload);
+  //     toast.success("Thêm nhân viên thành công!");
+  //     fetchManaStaff();
+  //     handleAddCancel();
+  //   } catch (error) {
+  //     toast.error("Lỗi khi thêm nhân viên!");
+  //   }
+  // }
+  
   async function AddStaff(values) {
     try {
+      // Kiểm tra trùng lặp trước khi gọi API
+      const isDuplicate = manaStaffList.some((staff) => 
+        staff.email.trim().toLowerCase() === values.email.trim().toLowerCase() || 
+        staff.phoneNumber.trim() === values.phoneNumber.trim()
+      );
+  
+      if (isDuplicate) {
+        toast.error("Email hoặc số điện thoại đã tồn tại!");
+        return;
+      }
+  
       const payload = {
         managerId: 0,
         username: values.email.split("@")[0],
@@ -179,6 +212,7 @@ const ManaStaff = () => {
     } catch (error) {
       console.error("❌ API trả về lỗi:", error.response?.data || error.message);
       toast.error("Lỗi khi cập nhật nhân viên!");
+      handleEditCancel();
     }
   }
 
