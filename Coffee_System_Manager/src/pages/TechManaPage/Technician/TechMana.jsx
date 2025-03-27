@@ -130,21 +130,27 @@ const TechMana = () => {
 
   async function updateTechStaff(values) {
     try {
-      const payload = {
-        technicianId: values.technicianId,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        phoneNumber: values.phoneNumber,
-        email: values.email,
-
+      const updatedValues = {
+        ...newData,
       };
 
-      console.log("Payload cập nhật:", payload);
 
-      const response = await axiosInstance.put(`technicians/${payload.technicianId}`, payload);
-      console.log("Phản hồi từ API:", response.data);
+       await axiosInstance.put(`technicians/${values.technicianId}`, updatedValues);
+      
 
-      toast.success("Cập nhật nhân viên thành công");
+       toast.success("Cập nhật nhân viên thành công");
+      
+            // Cập nhật danh sách nhân viên hiện tại
+            setTechStaffList((prevList) =>
+              prevList.map((item) =>
+                item.id === values.id ? { ...item, ...updatedValues } : item
+              )
+            );
+      
+            // Đóng modal sau khi cập nhật thành công
+            setIsModalOpen(false);
+      
+            // Nếu cần, fetch lại data chính xác từ server
 
       fetchTechStaff(); // Load lại danh sách
       formUpdate.resetFields();
@@ -154,6 +160,7 @@ const TechMana = () => {
       console.log(error);
     }
   }
+
   const columns = [
     {
       title: "Mã Nhân Viên",
@@ -239,23 +246,12 @@ const TechMana = () => {
               >
                 <div className="form-content-main">
                   <div className="form-content">
-                    {/* Mã nhân viên */}
-                    <Form.Item
-                      className="label-form"
-                      label="Mã Nhân Viên"
-                      name="technicianId"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập mã nhân viên",
-                        },
-                      ]}
-                    ></Form.Item>
+                   
                     {/* Họ nhân viên */}
                     <Form.Item
                       className="label-form"
                       label="Họ Nhân Viên"
-                      name="firstName"
+                      name="name"
                       rules={[
                         {
                           required: true,
@@ -269,7 +265,7 @@ const TechMana = () => {
                     <Form.Item
                       className="label-form"
                       label="Tên Nhân Viên"
-                      name="lastName"
+                      name="last"
                       rules={[
                         {
                           required: true,
@@ -283,7 +279,7 @@ const TechMana = () => {
                     <Form.Item
                       className="label-form"
                       label="Gmail"
-                      name="email"
+                      name="gmail"
                       rules={[
                         {
                           required: true,
@@ -297,11 +293,10 @@ const TechMana = () => {
                     <Form.Item
                       className="label-form"
                       label="Số Điện Thoại"
-                      name="phoneNumber"
+                      name="phone"
                       rules={[
                         {
                           required: true,
-                          type: "phoneNumber",
                           message: "Nhập số điện thoại hợp lệ",
                         },
                       ]}

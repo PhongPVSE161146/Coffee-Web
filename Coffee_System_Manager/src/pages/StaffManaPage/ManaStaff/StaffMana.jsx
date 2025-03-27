@@ -133,29 +133,35 @@ const handleClickUpdateSubmit = () => {
 // }  
 async function updateStaffMana(values) {
   try {
-    const payload = {
-     
-      firstName: values.firstName,
-      lastName: values.lastName,
-      phoneNumber: values.phoneNumber,
-      email: values.email,
+    const updatedValues = {
+      ...newData,
     };
-    console.log("Payload cập nhật:", payload);
 
-    const response = await axiosInstance.put(`staffs/${payload.staffId}`, payload);
-    console.log("Phản hồi từ API:", response.data);
+
+     await axiosInstance.put(`staffs/${values.staffId}`, updatedValues);
+  
 
     toast.success("Cập nhật nhân viên thành công");
 
-    fetchStaffMana(); // Load lại danh sách
-    formUpdate.resetFields();
-    setStaffManaList(null);
+    // Cập nhật danh sách nhân viên hiện tại
+    setStaffManaList((prevList) =>
+      prevList.map((item) =>
+        item.id === values.id ? { ...item, ...updatedValues } : item
+      )
+    );
+
+    // Đóng modal sau khi cập nhật thành công
+    setIsModalOpen(false);
+
+    // Nếu cần, fetch lại data chính xác từ server
+    fetchStaffMana();
   } catch (error) {
-    toast.error("Đã có lỗi khi cập nhật nhân viên");
+    toast.error("Có lỗi khi cập nhật nhân viên");
     console.log(error);
   }
 }
   
+
 
 const columns = [
 
@@ -257,6 +263,7 @@ const columns = [
                     >
                       <Input type="text" required />
                     </Form.Item>
+
                     {/* Tên nhân viên */}
                     <Form.Item
                       className="label-form"
@@ -309,38 +316,43 @@ const columns = [
 
   // Hàm thêm nhân viên mới
   async function AddStaff(values) {
-    try {
-      console.log("Dữ liệu nhập vào:", values);
-  
-      const payload = {
-        staffId: values.staffId,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phoneNumber: values.phoneNumber,
-      };
-      console.log("Payload gửi lên API:", payload);
-  
-      const response = await axiosInstance.post("https://coffeeshop.ngrok.app/api/staffs", payload);
-      console.log("Phản hồi từ API:", response);
-  
-      if (response.status !== 201 && response.status !== 200) {
-        throw new Error("Thêm nhân viên thất bại");
-      }
-  
-      toast.success("Thêm nhân viên thành công");
-      fetchStaffMana();
-      form.resetFields();
-      setIsModalOpen(false);
-    } catch (error) {
-      if (error.response) {
-        console.error("Lỗi từ server:", error.response.data);
-      } else {
-        console.error("Lỗi mạng:", error.message);
-      }
-      toast.error("Đã có lỗi khi thêm nhân viên");
+  try {
+    // Kiểm tra dữ liệu đầu vào
+    console.log("Dữ liệu nhập vào:", values);
+
+
+    // Chuẩn bị dữ liệu gửi lên server
+    const payload = {
+      staffId: values.staffId,
+      firstName: values.firstName, // họ
+      lastName: values.lastName,   // ten
+      email: values.email,
+      phoneNumber: values.phoneNumber,  
+      status: 1,   
     }
-  }
+    console.log("Payload gửi lên API:", payload);
+
+    // Gửi yêu cầu tạo nhân viên lên API
+    console.log("Payload gửi lên:", payload);
+            const response = await axiosInstance.post("staffs", payload);
+            console.log("Phản hồi từ API:", response.data);
+      
+            // Xử lý sau khi thêm thành công
+            toast.success("Thêm nhân viên thành công");
+      
+
+    // Fetch lại danh sách nhân viên
+   fetchStaffMana();
+
+    // Reset form và đóng modal
+    form.resetFields();
+            setIsModalOpen(false); // Đóng modal tạo máy
+          } catch (error) {
+            toast.error("Đã có lỗi khi thêm máy");
+            console.log(error);
+          }
+        }
+
   // Hàm xóa nhân viên
   async function deleteStaff(staff) {
     try {
