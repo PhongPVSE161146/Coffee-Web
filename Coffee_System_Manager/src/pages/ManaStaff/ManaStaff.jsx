@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form, Input, Modal, Table } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Modal, Table, Select  } from "antd";
+import { UploadOutlined, SearchOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { axiosInstance } from "../../axios/Axios";
 import { createStyles } from 'antd-style';
@@ -8,7 +8,11 @@ import { createStyles } from 'antd-style';
 const ManaStaff = () => {
   const [manaStaffList, setManaStaffList] = useState([]);
   const [selectedManaStaff, setSelectedManaStaff] = useState(null);
-  const [storeNames, setStoreNames] = useState({}); 
+  const [storeMap, setStoreMap] = useState({});
+  const [storeList, setStoreList] = useState([]);
+
+  const [filteredStaffList, setFilteredStaffList] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -31,37 +35,76 @@ const ManaStaff = () => {
 
   useEffect(() => {
     fetchManaStaff();
+    fetchStores(); // Gọi API lấy danh sách cửa hàng
   }, []);
+  
+  async function fetchStores() {
+    try {
+      const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/stores");
+      console.log("📌 Dữ liệu cửa hàng từ API:", response.data);
+      
+      const data = response.data?.stores || [];  // Lấy mảng stores từ API
+      setStoreList(data); // Cập nhật storeList đúng cách
+  
+      console.log("📌 Danh sách cửa hàng sau khi setStoreList:", data);
+    } catch (error) {
+      console.error("❌ Lỗi khi lấy danh sách cửa hàng:", error);
+      setStoreList([]);
+    }
+  }
+
   async function fetchManaStaff() {
     try {
       const response = await axiosInstance.get(
         "https://coffeeshop.ngrok.app/api/managers?sortBy=ManagerId&isAscending=true&page=1&pageSize=10"
       );
       const managers = response.data?.managers || [];
+  
       setManaStaffList(managers);
-
-      // Lấy danh sách storeId duy nhất
-      // const storeIds = [...new Set(managers.map((staff) => staff.storeId))];
-      // fetchStoreNames(storeIds);
+      setFilteredStaffList(managers);
+  
+      // Gọi API lấy store cho từng nhân viên (không loại bỏ storeId trùng)
+      fetchStoreNames(managers.map((m) => m.storeId));
     } catch (error) {
       console.error("❌ Lỗi khi lấy danh sách nhân viên:", error);
     }
   }
+  
+  async function fetchStoreNames(storeIds) {
+    try {
+      const storeData = { ...storeMap }; // Giữ lại dữ liệu cũ để tránh mất dữ liệu trước đó
+  
+      for (const storeId of storeIds) {
+        const response = await axiosInstance.get(
+          `https://coffeeshop.ngrok.app/api/stores/${storeId}`
+        );
+        storeData[storeId] = response.data?.storeName || "Không xác định";
+      }
+  
+      setStoreMap(storeData); // Cập nhật storeMap với storeName chính xác
+    } catch (error) {
+      console.error("❌ Lỗi khi lấy tên cửa hàng:", error);
+    }
+  }
 
-  // async function fetchStoreNames(storeIds) {
-  //   try {
-  //     const storeData = {};
-  //     await Promise.all(
-  //       storeIds.map(async (id) => {
-  //         const response = await axiosInstance.get(`https://coffeeshop.ngrok.app/api/stores/${id}`);
-  //         storeData[id] = response.data?.storeName || "Không xác định";
-  //       })
-  //     );
-  //     setStoreNames(storeData);
-  //   } catch (error) {
-  //     console.error("❌ Lỗi khi lấy thông tin cửa hàng:", error);
-  //   }
-  // }
+  // Hàm tìm kiếm theo tất cả thông tin
+  const handleSearch = (value) => {
+    setSearchText(value);
+    const filteredData = manaStaffList.filter((staff) => {
+      const fullName = `${staff.firstName} ${staff.lastName}`;
+      const storeName = storeMap[staff.storeId] || "Không xác định";
+
+      return (
+        fullName.toLowerCase().includes(value.toLowerCase()) || // Tìm theo tên
+        staff.managerId.toString().includes(value) || // Tìm theo mã quản lý
+        staff.email.toLowerCase().includes(value.toLowerCase()) || // Tìm theo email
+        staff.phoneNumber.includes(value) || // Tìm theo số điện thoại
+        storeName.toLowerCase().includes(value.toLowerCase()) // Tìm theo tên cửa hàng
+      );
+    });
+
+    setFilteredStaffList(filteredData);
+  };
 
   // Mở form Thêm nhân viên
   const showAddModal = () => {
@@ -100,10 +143,10 @@ const ManaStaff = () => {
         email: values.email,
         phoneNumber: values.phoneNumber,
         status: 1,
-        storeId: 1,
+        storeId: values.storeId, // Lưu storeId
         store: null,
       };
-
+  
       await axiosInstance.post("managers", payload);
       toast.success("Thêm nhân viên thành công!");
       fetchManaStaff();
@@ -112,6 +155,7 @@ const ManaStaff = () => {
       toast.error("Lỗi khi thêm nhân viên!");
     }
   }
+  
 
   // Cập nhật nhân viên
   async function updateManaStaff(values) {
@@ -160,7 +204,7 @@ const ManaStaff = () => {
     {
       title: "Tên Cửa Hàng",
       dataIndex: "storeId",
-      // dataIndex: (record) => storeNames[record.storeId] || "Đang tải...",
+      render: (storeId) => storeMap[storeId] || "Đang tải...",
       width: 130,
     },
     {
@@ -199,10 +243,19 @@ const ManaStaff = () => {
   return (
     <div>
       <div className={styles.centeredContainer}>
+        {/* Thanh tìm kiếm */}
+      <Input.Search
+        placeholder="Nhập từ khóa tìm kiếm..."
+        enterButton={<SearchOutlined />}
+        value={searchText}
+        onChange={(e) => handleSearch(e.target.value)}
+        style={{ marginBottom: 16, width: "50%" }}
+      />
+
       <Table
         bordered
         columns={columns}
-        dataSource={manaStaffList}
+        dataSource={filteredStaffList}
         scroll={{
           x: "max-content",
         }}
@@ -211,7 +264,7 @@ const ManaStaff = () => {
       />
 
       <Button type="primary" onClick={showAddModal}>
-        Thêm Nhân Viên
+        Thêm Quản Lý
       </Button>
 
       {/* Modal Thêm Nhân Viên */}
@@ -226,18 +279,45 @@ const ManaStaff = () => {
           <Form.Item label="Gmail" name="email" rules={[{ required: true, type: "email" }]}>
             <Input />
           </Form.Item>
-          <Form.Item label="Số Điện Thoại" name="phoneNumber" rules={[{ required: true }]}>
-            <Input />
+          <Form.Item label="Số Điện Thoại" name="phoneNumber" rules={[
+                    { required: true, message: "Vui lòng nhập số điện thoại" },
+                    { pattern: /^[0-9]{10}$/, message: "Số điện thoại phải có đúng 10 chữ số" }
+                  ]}>
+            <Input maxLength={10} />
+          </Form.Item>
+          <Form.Item label="Cửa Hàng" name="storeId" rules={[{ required: true }]}>
+            <Select placeholder="Chọn cửa hàng" loading={!storeList.length}>
+              {storeList.map((store) => (
+                <Select.Option key={store.storeId} value={store.storeId}>
+                  {store.storeName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
           <Button htmlType="submit" type="primary">
-            Thêm nhân viên mới
+            Thêm quản lý mới
           </Button>
         </Form>
       </Modal>
 
       {/* Modal Chỉnh Sửa Nhân Viên */}
       <Modal title="Chỉnh Sửa Nhân Viên" open={isEditModalOpen} onCancel={handleEditCancel} footer={null}>
-        <Form form={formUpdate} onFinish={updateManaStaff}>
+        <Form
+          form={formUpdate}
+          onFinish={updateManaStaff}
+          onValuesChange={(changedValues, allValues) => {
+            if (changedValues.email) {
+              const username = changedValues.email.split("@")[0]; // Lấy phần trước @
+              formUpdate.setFieldsValue({ username });
+            }
+          }}
+        >
+          <Form.Item label="Mã Quản Lý" name="managerId">
+            <Input disabled />
+          </Form.Item>
+          <Form.Item label="Tên đăng nhập" name="username">
+            <Input disabled />
+          </Form.Item>
           <Form.Item label="Họ" name="firstName" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
@@ -247,14 +327,27 @@ const ManaStaff = () => {
           <Form.Item label="Gmail" name="email" rules={[{ required: true, type: "email" }]}>
             <Input />
           </Form.Item>
-          <Form.Item label="Số Điện Thoại" name="phoneNumber" rules={[{ required: true }]}>
-            <Input />
+          <Form.Item label="Số Điện Thoại" name="phoneNumber" rules={[
+                    { required: true, message: "Vui lòng nhập số điện thoại" },
+                    { pattern: /^[0-9]{10}$/, message: "Số điện thoại phải có đúng 10 chữ số" }
+                  ]}>
+            <Input maxLength={10} />
+          </Form.Item>
+          <Form.Item label="Cửa Hàng" name="storeId" rules={[{ required: true }]}>
+            <Select>
+              {storeList.map((store) => (
+                <Select.Option key={store.storeId} value={store.storeId}>
+                  {store.storeName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
           <Button htmlType="submit" type="primary">
-            Cập Nhật Nhân Viên
+            Cập Nhật Quản Lý
           </Button>
         </Form>
       </Modal>
+
       </div>
     </div>
   );
