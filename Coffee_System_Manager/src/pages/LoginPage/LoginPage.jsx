@@ -52,11 +52,14 @@ const Login = () => {
         sessionStorage.setItem("selectedRole", "manager");
         navigate("/managerPage");
         return;
+      }else if (result.user.email === "quanvnmse160914@fpt.edu.vn"){
+        sessionStorage.setItem("selectedRole","managerStore");
+        navigate("/managerStore");
       }
   
       // 🔹 Gọi API để kiểm tra danh sách managerStore
       try {
-        const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/managers?sortBy=ManagerId&isAscending=true&page=1&pageSize=10");
+        const response = await axiosInstance.get("managers?sortBy=ManagerId&isAscending=true&page=1&pageSize=10");
         const managers = response.data.managers; // Lấy danh sách managers từ API
   
         console.log("🎯 Danh sách managerStore từ API:", managers);

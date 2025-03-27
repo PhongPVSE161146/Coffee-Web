@@ -1,478 +1,386 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Form, Input, Modal, Select, Table } from "antd";
+import { Button, DatePicker, Form, Input, Modal, Select, Table, message } from "antd";
 import { createStyles } from 'antd-style';
-import { Option } from "antd/es/mentions";
 import { useForm } from "antd/es/form/Form";
-import { axiosInstance } from "../../../axios/Axios";
 import { toast } from "react-toastify";
+import { axiosInstance } from "../../../axios/Axios";
 import { UploadOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 
 const StaffMana = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newData, setNewData] = useState("");
-  const [staffManaList, setStaffManaList] = useState([]);
-  const [selectedStaffMana, setSelectedStaffMana] = useState("");
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); // Giá trị tìm kiếm
-  const [filteredStaffList, setFilteredStaffList] = useState([]); // Danh sách sau khi lọc
-
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [staffList, setStaffList] = useState([]);
+  const [storeList, setStoreList] = useState([]);
+  const [selectedStaff, setSelectedStaff] = useState(null);
   const [form] = useForm();
   const [formUpdate] = useForm();
+  const [loading, setLoading] = useState(false);
+   const [searchTerm, setSearchTerm] = useState(""); // Giá trị tìm kiếm
+    const [filteredStaffList, setFilteredStaffList] = useState([]); // Danh sách sau khi lọc
 
-  const [email, setEmail] = useState(sessionStorage.getItem("email") || "");
-  
-    useEffect(() => {
-      const storedEmail = sessionStorage.getItem("email");
-      if (storedEmail) {
-        setEmail(storedEmail);
-      }
-    }, []);
-    
-  
   const useStyle = createStyles(({ css }) => ({
-  centeredContainer: css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; // Chiều cao toàn màn hình
-    width: 85w; // Chiều rộng toàn màn hình
-    flex-direction: column;
-  `,
-}));
+    centeredContainer: css`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      width: 85vw;
+      flex-direction: column;
+      padding: 20px;
+    `,
+    actionButton: css`
+      display: flex;
+      gap: 8px;
+    `,
+  }));
 
-useEffect(() => {
-  fetchStoreId(); // Lấy storeId trước
-}, []);
-
-async function fetchStoreId() {
-  try {
-    const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/managers?sortBy=ManagerId&isAscending=true&page=1&pageSize=10");
-    console.log("Danh sách managers:", response.data);
-
-    const managers = response?.data?.managers; // Kiểm tra key trả về từ API
-    if (!Array.isArray(managers)) {
-      console.warn("Dữ liệu không phải mảng:", managers);
-      return;
+  // Fetch staff data
+  const fetchStaffs = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get("staffs");
+      const data = response?.data?.staff?.map(item => ({
+        ...item,
+        key: item.id,
+        fullName: ` ${item.lastName} ${item.firstName}`
+      })) || [];
+      setStaffList(data);
+    } catch (error) {
+      console.error("Lỗi khi tải danh sách nhân viên:", error);
+      message.error("Không thể tải danh sách nhân viên");
+    } finally {
+      setLoading(false);
     }
+  };
+  const fetchStore = async () => {
+    try {
+      const response = await axiosInstance.get('/stores');
+      const stores = response.data?.stores;
 
-    // Tìm manager có email khớp với sessionStorage
-    const manager = managers.find((m) => m.email === email);
-    if (!manager) {
-      console.warn("Không tìm thấy manager có email khớp:", email);
-      return;
+      if (Array.isArray(stores)) {
+        setStoreList(stores);
+      } else {
+        console.warn('❗ Không nhận được danh sách store hợp lệ:', stores);
+        setStoreList([]); // reset danh sách nếu không đúng định dạng
+      }
+    } catch (error) {
+      console.error('❌ Lỗi khi gọi API /store:', error);
     }
-
-    console.log("Manager tìm thấy:", manager);
-    const storeId = manager.storeId;
-    
-    if (storeId) {
-      fetchStaffMana(storeId); // Gọi API nhân viên với storeId
-    }
-  } catch (error) {
-    console.error("Lỗi fetch managers:", error);
-  }
-}
-
-async function fetchStaffMana(storeId) {
-  try {
-    const response = await axiosInstance.get(`https://coffeeshop.ngrok.app/api/staffs?storeId=${storeId}&sortBy=StaffId&isAscending=true&page=1&pageSize=10`);
-    console.log("Danh sách nhân viên:", response.data);
-
-    const data = response?.data?.staff; // Kiểm tra key trả về từ API
-    if (Array.isArray(data)) {
-      setStaffManaList(data);
-    } else {
-      console.warn("Dữ liệu không phải mảng:", data);
-      setStaffManaList([]);
-    }
-  } catch (error) {
-    console.error("Lỗi fetch staffs:", error);
-    setStaffManaList([]);
-  }
-}
-
+  };
+  useEffect(() => {
+    fetchStaffs();
+    fetchStore();
+  }, []);
 
   useEffect(() => {
-    const filteredData = staffManaList.filter((staff) => {
+    const filteredData = staffList.filter((staff) => {
       const staffId = staff.staffId ? String(staff.staffId).toLowerCase() : "";
-      const firstName = staff.firstName ? staff.firstName.toLowerCase() : "";
-      const lastName = staff.lastName ? staff.lastName.toLowerCase() : "";
-      const fullName = `${firstName} ${lastName}`;
-      const email = staff.email ? staff.email.toLowerCase() : "";
-      const phoneNumber = staff.phoneNumber ? staff.phoneNumber.toLowerCase() : "";
-  
+      const fullName = staff.fullName ? staff.fullName.toLowerCase() : "";
+
       return (
-        staffId.includes(searchTerm.toLowerCase()) || 
-        firstName.includes(searchTerm.toLowerCase()) ||
-        lastName.includes(searchTerm.toLowerCase()) ||
-        fullName.includes(searchTerm.toLowerCase())||
-        email.includes(searchTerm.toLowerCase()) ||
-        phoneNumber.includes(searchTerm.toLowerCase())
+        staffId.includes(searchTerm.toLowerCase()) ||
+        fullName.includes(searchTerm.toLowerCase())
       );
     });
-  
+
     setFilteredStaffList(filteredData);
-  }, [searchTerm, staffManaList]);
+  }, [searchTerm, staffList]);
 
-const showModal = () => {
-  setIsModalOpen(true);
-};
-const handleOk = () => {
-  setIsModalOpen(false);
-};
-const handleCancel = () => {
-  setIsModalOpen(false);
-};
-const handleUpdateOk = () => {
-  setIsModalUpdateOpen(false);
-};
-const handleUpdateCancel = () => {
-  setIsModalUpdateOpen(false);
-};
-function hanldeClickSubmit() {
-  form.submit();
-  setIsModalOpen(false);
-  fetchStaffMana();
-}
+  // Modal handlers
+  const showCreateModal = () => setIsCreateModalOpen(true);
+  const handleCreateCancel = () => {
+    setIsCreateModalOpen(false);
+    form.resetFields();
+  };
 
-const handleClickUpdateSubmit = () => {
-  formUpdate.submit();
-}; 
-async function updateStaffMana(values) {
-  try {
-    const payload = {
-     
-      firstName: values.firstName,
-      lastName: values.lastName,
-      phoneNumber: values.phoneNumber,
-      email: values.email,
-    };
-    console.log("Payload cập nhật:", payload);
-
-    const response = await axiosInstance.put(`staffs/${payload.staffId}`, payload);
-    console.log("Phản hồi từ API:", response.data);
-
-    toast.success("Cập nhật nhân viên thành công");
-
-    fetchStaffMana(); // Load lại danh sách
+  const showUpdateModal = () => setIsUpdateModalOpen(true);
+  const handleUpdateCancel = () => {
+    setIsUpdateModalOpen(false);
+    setSelectedStaff(null);
     formUpdate.resetFields();
-    setStaffManaList(null);
-  } catch (error) {
-    toast.error("Đã có lỗi khi cập nhật nhân viên");
-    console.log(error);
-  }
-}
-  
+  };
 
-const columns = [
+  // Form handlers
+  const handleAddStaff = async (values) => {
+    try {
+      const payload = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phoneNumber: values.phoneNumber,
+        email: values.email,
+        status: 1,
+        storeId: values.storeId
+      };
 
-    { 
-      title: "Mã Nhân Viên", 
-      dataIndex: "staffId", 
-     
-    },
-    {
-      title: "Tên Nhân Viên",
-      render: (record) => `${record.firstName} ${record.lastName}`,
-      width: 130,
-    },
-    { 
-      title: "Số Điện Thoại", 
-      dataIndex: "phoneNumber", 
-     
-    },
-    { 
-      title: "Gmail", 
-      dataIndex: "email" 
-    }, 
-    {
-      title: "Chi Tiết",
-      width: 90,
-      render: () => <a>Xem thêm</a>,
-    },
-    {
-      title: "Hành Động",
-      render: (record) => {
-        return (
-          <>
-            <div className="action-button">
-              {/* Nút Xóa */}
-              <Button
-                onClick={() => deleteStaff(record)}
-                className="delete-button"
-              >
-                Xóa
-              </Button>
-  
-              {/* Nút Chỉnh sửa */}
-              <Button
-                icon={<UploadOutlined />}
-                className="admin-upload-button update-button"
-                onClick={() => {
-                  setSelectedStaffMana(record); // Chọn nhân viên hiện tại
-                  formUpdate.setFieldsValue(record); // Đổ data vào form
-                  setIsModalOpen(true); // Mở modal chỉnh sửa
-                }}
-              >
-                Chỉnh sửa
-              </Button>
-            </div>
-  
-            {/* Modal chỉnh sửa nhân viên */}
-            <Modal
-              className="modal-add-form"
-              footer={false}
-              title="Chỉnh Sửa Nhân Viên"
-              open={isModalOpen}
-              onOk={handleUpdateOk}
-              onCancel={handleUpdateCancel}
-            >
-              <Form
-                initialValues={selectedStaffMana}
-                form={formUpdate}
-                onValuesChange={(changedValues, allValues) => {
-                  setNewData(allValues);
-                }}
-                onFinish={() => {
-                  updateStaffMana(selectedStaffMana);
-                }}
-                id="form-update-staff"
-                className="form-main"
-              >
-                <div className="form-content-main">
-                  <div className="form-content">
-                    
-                    {/* Họ nhân viên */}
-                    <Form.Item
-                      className="label-form"
-                      label="Họ Nhân Viên"
-                      name="firstName"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập họ nhân viên",
-                        },
-                      ]}
-                    >
-                      <Input type="text" required />
-                    </Form.Item>
-                    {/* Tên nhân viên */}
-                    <Form.Item
-                      className="label-form"
-                      label="Tên Nhân Viên"
-                      name="lastName"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Nhập tên nhân viên",
-                        },
-                      ]}
-                    >
-                      <Input type="text" required />
-                    </Form.Item>
-                    {/* Gmail */}
-                    <Form.Item
-                      className="label-form"
-                      label="Gmail"
-                      name="email"
-                      rules={[
-                        {
-                          required: true,
-                          type: "email",
-                          message: "Nhập Gmail hợp lệ",
-                        },
-                      ]}
-                    >
-                      <Input type="email" required />
-                    </Form.Item>
-    
-                  </div>
-                </div>
-  
-                {/* Nút xác nhận chỉnh sửa */}
-                <Button
-                  onClick={() => handleClickUpdateSubmit()}
-                  className="form-button"
-                >
-                  Cập Nhật Nhân Viên
-                </Button>
-              </Form>
-            </Modal>
-          </>
-        );
-      },
-    },
-  ];
-  
+      await axiosInstance.post("staffs", payload);
+      toast.success("Thêm nhân viên thành công!");
+      fetchStaffs();
+      handleCreateCancel();
+    } catch (error) {
+      console.error("Lỗi khi thêm nhân viên:", error.response?.data || error);
+      toast.error(error.response?.data?.message || "Đã có lỗi khi thêm nhân viên!");
+    }
+  };
+
+  const handleUpdateStaff = async (values) => {
+    try {
+      if (!selectedStaff?.staffId) {
+        throw new Error("Không tìm thấy ID nhân viên");
+      }
+
+      const payload = {
+        staffId: selectedStaff.staffId,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phoneNumber: values.phoneNumber,
+        storeId: values.storeId,
+        email: values.email,
+        status: selectedStaff.status || 1
+      };
+
+      await axiosInstance.put(`staffs/${selectedStaff.staffId}`, payload);
+      toast.success("Cập nhật nhân viên thành công");
+      fetchStaffs();
+      handleUpdateCancel();
+    } catch (error) {
+      console.error("Lỗi khi cập nhật nhân viên:", error.response?.data || error);
+      toast.error(error.response?.data?.message || "Lỗi khi cập nhật nhân viên");
+    }
+  };
+
+  const handleDeleteStaff = async (staff) => {
+    Modal.confirm({
+      title: "Xác nhận xóa nhân viên",
+      content: `Bạn có chắc muốn xóa nhân viên ${staff.fullName}?`,
+      okText: "Xóa",
+      cancelText: "Hủy",
+      onOk: async () => {
+        try {
+          await axiosInstance.delete(`staffs/${staff.staffId}`);
+          toast.success("Xóa nhân viên thành công");
+          fetchStaffs();
+        } catch (error) {
+          console.error("Lỗi khi xóa nhân viên:", error);
+          toast.error(error.response?.data?.message || "Lỗi khi xóa nhân viên");
+        }
+      }
+    });
+  };
+
   const { styles } = useStyle();
 
-  // Hàm thêm nhân viên mới
-  async function AddStaff(values) {
-  try {
-    // Kiểm tra dữ liệu đầu vào
-    console.log("Dữ liệu nhập vào:", values);
+  const columns = [
+    {
+      title: 'Mã nhân viên',
+      dataIndex: 'staffId',
+      width: 120,
+      fixed: 'left',
+    },
+    {
+      title: 'Tên nhân viên',
+      dataIndex: 'fullName',
+      width: 200,
+    
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      width: 200,
+    },
+    {
+      title: 'Số điện thoại',
+      dataIndex: 'phoneNumber',
+      width: 150,
+    },
+    {
+      title: "Hành động",
+      width: 150,
+      fixed: 'right',
+      render: (_, record) => (
+        <div className={styles.actionButton}>
+          <Button
+            danger
+            onClick={() => handleDeleteStaff(record)}
+          >
+            Xóa
+          </Button>
+          <Button
+            type="primary"
+            icon={<UploadOutlined />}
+            onClick={() => {
+              setSelectedStaff(record);
+              formUpdate.setFieldsValue({
+                ...record,
+                firstName: record.firstName,
+                lastName: record.lastName
+              });
+              showUpdateModal();
+            }}
+          >
+            Sửa
+          </Button>
+        </div>
+      ),
+    },
+  ];
 
+  return (
+    <div className={styles.centeredContainer}>
+       <Input
+                placeholder="Tìm kiếm nhân viên..."
+                style={{ width: "30%", marginBottom: 20 }}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+      <Table
+        bordered
+        columns={columns}
+        dataSource={filteredStaffList}
+        loading={loading}
+        pagination={{ pageSize: 10 }}
+        style={{ width: '100%' }}
+      />
+      <Button
+        type="primary"
+        onClick={showCreateModal}
+        style={{ marginBottom: 16 }}
+      >
+        Thêm nhân viên mới
+      </Button>
+      {/* Create Staff Modal */}
+      <Modal
+        title="Thêm nhân viên mới"
+        open={isCreateModalOpen}
+        onCancel={handleCreateCancel}
+        footer={null}
+        width={700}
+      >
+        <Form
+          form={form}
+          onFinish={handleAddStaff}
+          layout="horizontal"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+        >
+          <Form.Item
+            name="lastName"
+            label="Họ"
+            rules={[{ required: true, message: "Vui lòng nhập họ!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="firstName"
+            label="Tên"
+            rules={[{ required: true, message: "Vui lòng nhập tên!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="storeId"
+            label="Cửa hàng"
+            rules={[{ required: true, message: "Vui lòng chọn cửa hàng!" }]}
+          >
+            <Select placeholder="Chọn cửa hàng">
+              {storeList.map(store => (
+                <Select.Option key={store.storeId} value={store.storeId}>
+                  {store.storeName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[{ required: true, type: 'email', message: "Vui lòng nhập email hợp lệ!" }]}
+          >
+            <Input />
+          </Form.Item>
 
-    // Chuẩn bị dữ liệu gửi lên server
-    const payload = {
-      firstName: values.firstName, // họ
-      lastName: values.lastName,   // ten
-      email: values.email,
-      phoneNumber: values.phoneNumber, 
-    }
-    console.log("Payload gửi lên API:", payload);
+          <Form.Item
+            name="phoneNumber"
+            label="Số điện thoại"
+            rules={[{ required: true, message: "Vui lòng nhập số điện thoại!" }]}
+          >
+            <Input />
+          </Form.Item>
 
-    // Gửi yêu cầu tạo nhân viên lên API
-    const response = await axiosInstance.post("https://coffeeshop.ngrok.app/api/staffs", payload);
+          <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
+            <Button type="primary" htmlType="submit">
+              Thêm nhân viên
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
 
-    console.log("Phản hồi từ API:", response);
+      {/* Update Staff Modal */}
+      <Modal
+        title="Cập nhật thông tin nhân viên"
+        open={isUpdateModalOpen}
+        onCancel={handleUpdateCancel}
+        footer={null}
+        width={700}
+      >
+        <Form
+          form={formUpdate}
+          onFinish={handleUpdateStaff}
+          layout="horizontal"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+        >
+          <Form.Item
+            name="lastName"
+            label="Họ"
+            rules={[{ required: true, message: "Vui lòng nhập họ!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="firstName"
+            label="Tên"
+            rules={[{ required: true, message: "Vui lòng nhập tên!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="storeId"
+            label="Cửa hàng"
+            rules={[{ required: true, message: "Vui lòng chọn cửa hàng!" }]}
+          >
+            <Select placeholder="Chọn cửa hàng">
+              {storeList.map(store => (
+                <Select.Option key={store.storeId} value={store.storeId}>
+                  {store.storeName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
 
-    // Kiểm tra phản hồi từ API
-    if (response.status !== 201 && response.status !== 200) {
-      throw new Error("Thêm nhân viên thất bại");
-    }
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[{ required: true, type: 'email', message: "Vui lòng nhập email hợp lệ!" }]}
+          >
+            <Input />
+          </Form.Item>
 
-    // Xử lý sau khi thêm thành công
-    toast.success("Thêm nhân viên thành công");
+          <Form.Item
+            name="phoneNumber"
+            label="Số điện thoại"
+            rules={[{ required: true, message: "Vui lòng nhập số điện thoại!" }]}
+          >
+            <Input />
+          </Form.Item>
 
-    // Fetch lại danh sách nhân viên
-   fetchStaffMana();
-
-    // Reset form và đóng modal
-    form.resetFields();
-    setIsModalOpen(false);
-  } catch (error) {
-    toast.error("Đã có lỗi khi thêm nhân viên");
-    console.error("Lỗi khi thêm nhân viên:", error.response?.data || error.message);
-  }
-}
-  // Hàm xóa nhân viên
-  async function deleteStaff(staff) {
-    try {
-      Modal.confirm({
-        title: "Bạn có chắc muốn xóa nhân viênnày?",
-        okText: "Đồng ý",
-        cancelText: "Hủy",
-        onOk: async () => {
-          console.log("Đang xóa nhân viên có id:", staff.staffId);
-
-          if (!staff.staffId) {
-            toast.error("ID nhân viên không tồn tại");
-            return;
-          }
-
-          await axiosInstance.delete(`/staffs/${staff.staffId}`);
-          toast.success("Xóa nhân viên thành công");
-          setStaffManaList((prev) => prev.filter((item) => item.staffId !== staff.staffId));
-          fetchStaffMana();
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
- return (
-   <div>
-     <div className={styles.centeredContainer}>
-      {/* Thanh tìm kiếm */}
-<Input
-  placeholder="Tìm kiếm nhân viên..."
-  style={{ width: "30%", marginBottom: 20 }}
-  onChange={(e) => setSearchTerm(e.target.value)}
-/>
-
-       <Table
-         bordered
-         columns={columns}
-         dataSource={filteredStaffList}
-         scroll={{
-           x: "max-content",
-         }}
-         pagination={{ pageSize: 5 }}
-         style={{ width: "90%", maxWidth: "1200px" }}
-       />
-       <Button type="primary" onClick={showModal}>
-         Tạo thông tin nhân viên mới
-       </Button>
-       <Modal
-         title="Thêm nhân viên"
-         open={isModalOpen}
-         onOk={handleOk}
-         onCancel={handleCancel}
-       >
-         <Form
-           layout="horizontal"
-           labelCol={{ span: 7 }}
-           wrapperCol={{ span: 20 }}
-           style={{ width: "100%" }}
-           form={form}
-           onFinish={AddStaff}
-           id="form"
-         >
-           <Form.Item
-             required
-             label="Họ Nhân Viên"
-             name="firstName"
-             rules={[
-               {
-                 required: true,
-                 message: "Hãy nhập họ nhân viên",
-               },
-             ]}
-           >
-             <Input required />
-           </Form.Item>
-           <Form.Item
-             required
-             label="Tên Nhân Viên"
-             name="lastName"
-             rules={[
-               {
-                 required: true,
-                 message: "Hãy nhập tên nhân viên",
-               },
-             ]}
-           >
-             <Input required />
-           </Form.Item>
-           <Form.Item
-             required
-             label="Số Điện Thoại"
-             name="phoneNumber"
-             rules={[
-               {
-                 required: true,
-                 message: "Hãy nhập số điện thoại nhân viên",
-               },
-             ]}
-           >
-             <Input required />
-           </Form.Item>
-           <Form.Item
-             required
-             label="Gmail"
-             name="email"
-             rules={[
-               {
-                 required: true,
-                 message: "Hãy nhập gmail nhân viên",
-               },
-             ]}
-           >
-             <Input required />
-           </Form.Item>
-           
- 
-           <Button htmlType="submit" className="form-button">
-             Thêm nhân viên mới
-           </Button>
-         </Form>
-       </Modal>
-     </div>
-   </div>
- );
- 
- };
+          <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
+            <Button type="primary" htmlType="submit">
+              Cập nhật
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
+  );
+};
 
 export default StaffMana;
