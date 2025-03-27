@@ -85,29 +85,36 @@ const ProductList = () => {
   const handleUpdateProduct = async (values) => {
     try {
       const formData = new FormData();
-
+  
       // Thêm các trường dữ liệu
       formData.append('productId', selectedProduct.productId);
       formData.append('productCode', values.productCode);
       formData.append('productName', values.productName);
       formData.append('price', values.price);
       formData.append('categoryId', values.categoryId);
-      formData.append('status', selectedProduct.status || 1);
+      formData.append('status', 1);
       formData.append('stockQuantity', selectedProduct.stockQuantity || 100);
-
-      // Xử lý ảnh upload - sửa thành 'image'
-      if (updateFileList[0]?.originFileObj) {
-        formData.append('image', updateFileList[0].originFileObj);
-      } else if (selectedProduct?.path) {
+  
+      // Xử lý ảnh upload - QUAN TRỌNG
+      if (updateFileList.length > 0) {
+        // Nếu có ảnh mới
+        if (updateFileList[0].originFileObj) {
+          formData.append('image', updateFileList[0].originFileObj);
+        } else {
+          // Trường hợp xóa ảnh
+          formData.append('removeImage', 'true');
+        }
+      } else {
+        // Không thay đổi ảnh
         formData.append('keepExistingImage', 'true');
       }
-
-      // Debug
-      console.log('FormData contents:');
+  
+      // Debug chi tiết
+      console.log('--- FormData Contents ---');
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
-
+  
       const response = await axiosInstance.put(
         `products/${selectedProduct.productId}`,
         formData,
@@ -118,37 +125,24 @@ const ProductList = () => {
           timeout: 30000
         }
       );
-
-      // 5. Xử lý response
-      if (!response.data) {
-        throw new Error('Không nhận được phản hồi từ server');
-      }
-
-      // Kiểm tra cả status code và data
+  
+      // Xử lý response
       if (response.status >= 200 && response.status < 300) {
-        toast.success(response.data.message || "Cập nhật sản phẩm thành công");
+        toast.success(response.data.message || "Cập nhật thành công");
         fetchProducts();
         setSelectedProduct(null);
         formUpdate.resetFields();
         setUpdateFileList([]);
-        return; // Kết thúc hàm khi thành công
+        return;
       }
-
-      throw new Error(response.data.message || "Cập nhật không thành công");
-
+      throw new Error(response.data.message || "Cập nhật thất bại");
     } catch (error) {
-      console.error("Chi tiết lỗi:", {
+      console.error("Update error:", {
         message: error.message,
         response: error.response?.data,
         stack: error.stack
       });
-
-      // Hiển thị thông báo lỗi cụ thể hơn
-      const errorMessage = error.response?.data?.message ||
-        error.message ||
-        "Cập nhật sản phẩm thất bại do lỗi không xác định";
-
-      toast.error(errorMessage);
+      toast.error(error.response?.data?.message || "Cập nhật thất bại");
     }
   };
 
@@ -334,7 +328,7 @@ const ProductList = () => {
               maxCount={1}
               accept="image/*"
             >
-              {fileList.length < 1 && '+ Tải lên'}x
+              {fileList.length < 1 && '+ Tải lên'}
             </Upload>
           </Form.Item>
 
@@ -413,13 +407,13 @@ const ProductList = () => {
             <Upload
               listType="picture-card"
               fileList={updateFileList}
-              beforeUpload={(file) => {
-                // Ngăn không cho tự động upload
-                return false;
-              }}
+              beforeUpload={() => false}
               onChange={({ fileList: newFileList }) => {
-                // Chỉ giữ lại file mới nhất
-                setUpdateFileList(newFileList.slice(-1));
+                // Reset về empty array nếu cancel upload
+                setUpdateFileList(newFileList.filter(file => file.status !== 'removed'));
+              }}
+              onRemove={() => {
+                setUpdateFileList([]); // Xóa ảnh khi click nút xóa
               }}
               maxCount={1}
               accept="image/*"
