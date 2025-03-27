@@ -202,7 +202,7 @@ const ProductList = () => {
     {
       title: 'Mã sản phẩm',
       width: 120,
-      dataIndex: 'productId',
+      dataIndex: 'productCode',
       fixed: 'left',
     },
     {
