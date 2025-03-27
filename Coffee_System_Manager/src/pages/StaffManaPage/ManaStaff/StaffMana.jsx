@@ -10,12 +10,26 @@ import { UploadOutlined } from "@ant-design/icons";
 const StaffMana = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newData, setNewData] = useState("");
-  const [staffManaList, setStaffManaList] = useState("");
+  const [staffManaList, setStaffManaList] = useState([]);
   const [selectedStaffMana, setSelectedStaffMana] = useState("");
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-const [form] = useForm();
+  const [searchTerm, setSearchTerm] = useState(""); // Giá trị tìm kiếm
+  const [filteredStaffList, setFilteredStaffList] = useState([]); // Danh sách sau khi lọc
+
+  const [form] = useForm();
   const [formUpdate] = useForm();
-const useStyle = createStyles(({ css }) => ({
+
+  const [email, setEmail] = useState(sessionStorage.getItem("email") || "");
+  
+    useEffect(() => {
+      const storedEmail = sessionStorage.getItem("email");
+      if (storedEmail) {
+        setEmail(storedEmail);
+      }
+    }, []);
+    
+  
+  const useStyle = createStyles(({ css }) => ({
   centeredContainer: css`
     display: flex;
     justify-content: center;
@@ -26,25 +40,79 @@ const useStyle = createStyles(({ css }) => ({
   `,
 }));
 
-async function fetchStaffMana() {
+useEffect(() => {
+  fetchStoreId(); // Lấy storeId trước
+}, []);
+
+async function fetchStoreId() {
   try {
-        const response = await axiosInstance.get("staff");
-        console.log("API response:", response);
-  
-        const data = response?.data?.staffs;
-  
-        if (Array.isArray(data)) {
-          setStaffManaList(data);
-        } else {
-          console.warn("Dữ liệu không đúng dạng mảng:", data);
-          setStaffManaList([]);
-        }
-  
-      } catch (error) {
-        console.error("Lỗi fetch store:", error);
-        setStaffManaList([]);
-      }
+    const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/managers?sortBy=ManagerId&isAscending=true&page=1&pageSize=10");
+    console.log("Danh sách managers:", response.data);
+
+    const managers = response?.data?.managers; // Kiểm tra key trả về từ API
+    if (!Array.isArray(managers)) {
+      console.warn("Dữ liệu không phải mảng:", managers);
+      return;
+    }
+
+    // Tìm manager có email khớp với sessionStorage
+    const manager = managers.find((m) => m.email === email);
+    if (!manager) {
+      console.warn("Không tìm thấy manager có email khớp:", email);
+      return;
+    }
+
+    console.log("Manager tìm thấy:", manager);
+    const storeId = manager.storeId;
+    
+    if (storeId) {
+      fetchStaffMana(storeId); // Gọi API nhân viên với storeId
+    }
+  } catch (error) {
+    console.error("Lỗi fetch managers:", error);
+  }
 }
+
+async function fetchStaffMana(storeId) {
+  try {
+    const response = await axiosInstance.get(`https://coffeeshop.ngrok.app/api/staffs?storeId=${storeId}&sortBy=StaffId&isAscending=true&page=1&pageSize=10`);
+    console.log("Danh sách nhân viên:", response.data);
+
+    const data = response?.data?.staff; // Kiểm tra key trả về từ API
+    if (Array.isArray(data)) {
+      setStaffManaList(data);
+    } else {
+      console.warn("Dữ liệu không phải mảng:", data);
+      setStaffManaList([]);
+    }
+  } catch (error) {
+    console.error("Lỗi fetch staffs:", error);
+    setStaffManaList([]);
+  }
+}
+
+
+  useEffect(() => {
+    const filteredData = staffManaList.filter((staff) => {
+      const staffId = staff.staffId ? String(staff.staffId).toLowerCase() : "";
+      const firstName = staff.firstName ? staff.firstName.toLowerCase() : "";
+      const lastName = staff.lastName ? staff.lastName.toLowerCase() : "";
+      const fullName = `${firstName} ${lastName}`;
+      const email = staff.email ? staff.email.toLowerCase() : "";
+      const phoneNumber = staff.phoneNumber ? staff.phoneNumber.toLowerCase() : "";
+  
+      return (
+        staffId.includes(searchTerm.toLowerCase()) || 
+        firstName.includes(searchTerm.toLowerCase()) ||
+        lastName.includes(searchTerm.toLowerCase()) ||
+        fullName.includes(searchTerm.toLowerCase())||
+        email.includes(searchTerm.toLowerCase()) ||
+        phoneNumber.includes(searchTerm.toLowerCase())
+      );
+    });
+  
+    setFilteredStaffList(filteredData);
+  }, [searchTerm, staffManaList]);
 
 const showModal = () => {
   setIsModalOpen(true);
@@ -69,59 +137,54 @@ function hanldeClickSubmit() {
 
 const handleClickUpdateSubmit = () => {
   formUpdate.submit();
-};
-
-useEffect(() => {
-  fetchStaffMana();
-  }, []);
-
-async function updateStaffMana(staff) {
+}; 
+async function updateStaffMana(values) {
   try {
-    const updatedValues = {
-      ...newData,
+    const payload = {
+     
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phoneNumber: values.phoneNumber,
+      email: values.email,
     };
+    console.log("Payload cập nhật:", payload);
 
-    await axiosInstance.put(`staffMana/${staff.id}`, updatedValues);
+    const response = await axiosInstance.put(`staffs/${payload.staffId}`, payload);
+    console.log("Phản hồi từ API:", response.data);
 
     toast.success("Cập nhật nhân viên thành công");
 
-    // Cập nhật danh sách nhân viên hiện tại
-    setStaffManaList((prevList) =>
-      prevList.map((item) =>
-        item.id === staff.id ? { ...item, ...updatedValues } : item
-      )
-    );
-
-    // Đóng modal sau khi cập nhật thành công
-    setIsModalOpen(false);    
-    // fetchAccount();
-
-    // Nếu cần, fetch lại data chính xác từ server
-    fetchStaffMana();
+    fetchStaffMana(); // Load lại danh sách
+    formUpdate.resetFields();
+    setStaffManaList(null);
   } catch (error) {
-    toast.error("Có lỗi khi cập nhật nhân viên");
+    toast.error("Đã có lỗi khi cập nhật nhân viên");
     console.log(error);
   }
-}  
+}
   
 
 const columns = [
-  {
-    title: "Mã Nhân Viên",
-    width: 100,
-    dataIndex: "staffId",
-    fixed: "left",
-  },
-  {
-    title: "Tên Nhân Viên",
-    width: 100,
-    dataIndex: "firstName",
-  },
-  {
-    title: "Gmail",
-    width: 100,
-    dataIndex: "email",
-  },    
+
+    { 
+      title: "Mã Nhân Viên", 
+      dataIndex: "staffId", 
+     
+    },
+    {
+      title: "Tên Nhân Viên",
+      render: (record) => `${record.firstName} ${record.lastName}`,
+      width: 130,
+    },
+    { 
+      title: "Số Điện Thoại", 
+      dataIndex: "phoneNumber", 
+     
+    },
+    { 
+      title: "Gmail", 
+      dataIndex: "email" 
+    }, 
     {
       title: "Chi Tiết",
       width: 90,
@@ -178,26 +241,26 @@ const columns = [
               >
                 <div className="form-content-main">
                   <div className="form-content">
-                    {/* Mã nhân viên */}
+                    
+                    {/* Họ nhân viên */}
                     <Form.Item
                       className="label-form"
-                      label="Mã Nhân Viên"
-                      name="staffId"
+                      label="Họ Nhân Viên"
+                      name="firstName"
                       rules={[
                         {
                           required: true,
-                          message: "Nhập mã nhân viên",
+                          message: "Nhập họ nhân viên",
                         },
                       ]}
                     >
                       <Input type="text" required />
                     </Form.Item>
-  
                     {/* Tên nhân viên */}
                     <Form.Item
                       className="label-form"
                       label="Tên Nhân Viên"
-                      name="name"
+                      name="lastName"
                       rules={[
                         {
                           required: true,
@@ -207,7 +270,6 @@ const columns = [
                     >
                       <Input type="text" required />
                     </Form.Item>
-  
                     {/* Gmail */}
                     <Form.Item
                       className="label-form"
@@ -241,72 +303,67 @@ const columns = [
       },
     },
   ];
-
-  const data = [
-    {
-      mid: '1',
-      name: 'Olivia',
-      gmail: 'olivia456',
-      age: 32,
-      address: 'New York Park',
-      adate: '01/01/2025',
-    },
-    {
-      mid: '2',
-      name: 'Ethan',
-      gmail: 'ethan123',
-      age: 40,
-      address: 'London Park',
-      adate: '01/01/2025',
-    },
-  ];
+  
   const { styles } = useStyle();
 
   // Hàm thêm nhân viên mới
   async function AddStaff(values) {
-    try {
-      // Chuẩn bị dữ liệu gửi lên server
-      const payload = {
-        mid: values.mid, // Mã nhân viên
-        name: values.name, // Tên nhân viên
-        gmail: values.gmail, // Gmail
-        adate: values.adate.format("YYYY-MM-DD"), // Ngày thêm nhân viên (định dạng lại)
-        role: values.role, // Vai trò nhân viên
-      };
-  
-      // Gửi yêu cầu tạo nhân viên lên API
-      await axiosInstance.post("staff", payload);
-  
-      // Xử lý sau khi thêm thành công
-      toast.success("Thêm nhân viên thành công");
-  
-      // Fetch lại danh sách nhân viên
-      fetchStaffMana();
-  
-      // Reset form và đóng modal
-      form.resetFields();
-      setIsModalOpen(false);
-    } catch (error) {
-      toast.error("Đã có lỗi khi thêm nhân viên");
-      console.log(error);
+  try {
+    // Kiểm tra dữ liệu đầu vào
+    console.log("Dữ liệu nhập vào:", values);
+
+
+    // Chuẩn bị dữ liệu gửi lên server
+    const payload = {
+      firstName: values.firstName, // họ
+      lastName: values.lastName,   // ten
+      email: values.email,
+      phoneNumber: values.phoneNumber, 
     }
+    console.log("Payload gửi lên API:", payload);
+
+    // Gửi yêu cầu tạo nhân viên lên API
+    const response = await axiosInstance.post("https://coffeeshop.ngrok.app/api/staffs", payload);
+
+    console.log("Phản hồi từ API:", response);
+
+    // Kiểm tra phản hồi từ API
+    if (response.status !== 201 && response.status !== 200) {
+      throw new Error("Thêm nhân viên thất bại");
+    }
+
+    // Xử lý sau khi thêm thành công
+    toast.success("Thêm nhân viên thành công");
+
+    // Fetch lại danh sách nhân viên
+   fetchStaffMana();
+
+    // Reset form và đóng modal
+    form.resetFields();
+    setIsModalOpen(false);
+  } catch (error) {
+    toast.error("Đã có lỗi khi thêm nhân viên");
+    console.error("Lỗi khi thêm nhân viên:", error.response?.data || error.message);
   }
-  
+}
   // Hàm xóa nhân viên
   async function deleteStaff(staff) {
     try {
       Modal.confirm({
-        title: "Bạn có chắc muốn xóa nhân viên này?",
+        title: "Bạn có chắc muốn xóa nhân viênnày?",
         okText: "Đồng ý",
         cancelText: "Hủy",
         onOk: async () => {
-          await axiosInstance.delete(`staff/${staff.id}`); // API xóa theo ID nhân viên
+          console.log("Đang xóa nhân viên có id:", staff.staffId);
+
+          if (!staff.staffId) {
+            toast.error("ID nhân viên không tồn tại");
+            return;
+          }
+
+          await axiosInstance.delete(`/staffs/${staff.staffId}`);
           toast.success("Xóa nhân viên thành công");
-  
-          // Cập nhật lại danh sách nhân viên sau khi xóa
-          setStaffManaList((prev) => prev.filter((item) => item.id !== staff.id));
-  
-          // Fetch lại danh sách nhân viên nếu cần
+          setStaffManaList((prev) => prev.filter((item) => item.staffId !== staff.staffId));
           fetchStaffMana();
         },
       });
@@ -318,10 +375,17 @@ const columns = [
  return (
    <div>
      <div className={styles.centeredContainer}>
+      {/* Thanh tìm kiếm */}
+<Input
+  placeholder="Tìm kiếm nhân viên..."
+  style={{ width: "30%", marginBottom: 20 }}
+  onChange={(e) => setSearchTerm(e.target.value)}
+/>
+
        <Table
          bordered
          columns={columns}
-         dataSource={staffManaList}
+         dataSource={filteredStaffList}
          scroll={{
            x: "max-content",
          }}
@@ -348,12 +412,12 @@ const columns = [
          >
            <Form.Item
              required
-             label="Mã Nhân Viên"
-             name="mid"
+             label="Họ Nhân Viên"
+             name="firstName"
              rules={[
                {
                  required: true,
-                 message: "Hãy nhập mã nhân viên",
+                 message: "Hãy nhập họ nhân viên",
                },
              ]}
            >
@@ -362,7 +426,7 @@ const columns = [
            <Form.Item
              required
              label="Tên Nhân Viên"
-             name="name"
+             name="lastName"
              rules={[
                {
                  required: true,
@@ -374,8 +438,21 @@ const columns = [
            </Form.Item>
            <Form.Item
              required
+             label="Số Điện Thoại"
+             name="phoneNumber"
+             rules={[
+               {
+                 required: true,
+                 message: "Hãy nhập số điện thoại nhân viên",
+               },
+             ]}
+           >
+             <Input required />
+           </Form.Item>
+           <Form.Item
+             required
              label="Gmail"
-             name="gmail"
+             name="email"
              rules={[
                {
                  required: true,
@@ -385,28 +462,7 @@ const columns = [
            >
              <Input required />
            </Form.Item>
-           <Form.Item
-             name="adate"
-             label="Ngày thêm nhân viên"
-             rules={[{ required: true, message: "Chọn ngày thêm nhân viên" }]}
-           >
-             <DatePicker
-               placeholder="Ngày Thêm Nhân Viên"
-               style={{ width: "100%" }}
-             />
-           </Form.Item>
-           <Form.Item
-             required
-             label="Vai trò"
-             name="role"
-             rules={[{ required: true, message: "Chọn vai trò của nhân viên" }]}
-           >
-             <Select placeholder="Chọn vai trò">
-               <Option value="SALES">Nhân viên bán hàng</Option>
-               <Option value="DELIVERY">Nhân viên giao hàng</Option>
-               <Option value="MANAGER">Quản lý</Option>
-             </Select>
-           </Form.Item>
+           
  
            <Button htmlType="submit" className="form-button">
              Thêm nhân viên mới
