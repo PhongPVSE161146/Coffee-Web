@@ -125,7 +125,7 @@ useEffect (() => {
     },
     {
       title: "Tên Nhân Viên",
-      dataIndex: "firstName",
+      render: (record) => `${record.firstName} ${record.lastName}`,
       sorter: (a, b) => a.firstName.localeCompare(b.firstName),
     },
     {
