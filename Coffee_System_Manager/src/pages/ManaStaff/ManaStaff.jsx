@@ -141,7 +141,7 @@ const StaffManagement = () => {
       cancelText: "Hủy",
       onOk: async () => {
         try {
-          await axiosInstance.delete(`staffs/${staff.id}`);
+          await axiosInstance.delete(`staffs/${staff.staffId}`);
           toast.success("Xóa nhân viên thành công");
           fetchStaffs();
         } catch (error) {
