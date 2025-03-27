@@ -13,7 +13,7 @@ const ProductList = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
-  const [updateFileList, setUpdateFileList] = useState([]);   
+  const [updateFileList, setUpdateFileList] = useState([]);
 
   // Fetch data functions
   const fetchProducts = async () => {
@@ -86,27 +86,28 @@ const ProductList = () => {
     try {
       const formData = new FormData();
 
-      // 1. Thêm các trường dữ liệu cơ bản
-      Object.entries(values).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
+      // Thêm các trường dữ liệu
       formData.append('productId', selectedProduct.productId);
+      formData.append('productCode', values.productCode);
+      formData.append('productName', values.productName);
+      formData.append('price', values.price);
+      formData.append('categoryId', values.categoryId);
+      formData.append('status', selectedProduct.status || 1);
+      formData.append('stockQuantity', selectedProduct.stockQuantity || 100);
 
-      // 2. Xử lý ảnh upload - CẢI TIẾN QUAN TRỌNG
+      // Xử lý ảnh upload - sửa thành 'image'
       if (updateFileList[0]?.originFileObj) {
         formData.append('image', updateFileList[0].originFileObj);
       } else if (selectedProduct?.path) {
-        // Gửi cả path ảnh cũ để backup
-        formData.append('existingImagePath', selectedProduct.path);
+        formData.append('keepExistingImage', 'true');
       }
 
-      // 3. Debug chi tiết
-      console.log('--- FormData Content ---');
+      // Debug
+      console.log('FormData contents:');
       for (let [key, value] of formData.entries()) {
-        console.log(key, ':', value);
+        console.log(key, value);
       }
 
-      // 4. Gửi request với timeout dài hơn cho file lớn
       const response = await axiosInstance.put(
         `products/${selectedProduct.productId}`,
         formData,
@@ -114,35 +115,40 @@ const ProductList = () => {
           headers: {
             'Content-Type': 'multipart/form-data'
           },
-          timeout: 30000 // 30 giây
+          timeout: 30000
         }
       );
 
-      // 5. Kiểm tra phản hồi từ server
-      console.log('Server response:', response.data);
+      // 5. Xử lý response
+      if (!response.data) {
+        throw new Error('Không nhận được phản hồi từ server');
+      }
 
-      if (response.data.success) {
-        toast.success("Cập nhật sản phẩm thành công");
+      // Kiểm tra cả status code và data
+      if (response.status >= 200 && response.status < 300) {
+        toast.success(response.data.message || "Cập nhật sản phẩm thành công");
         fetchProducts();
         setSelectedProduct(null);
         formUpdate.resetFields();
         setUpdateFileList([]);
-      } else {
-        throw new Error(response.data.message || "Cập nhật thất bại");
+        return; // Kết thúc hàm khi thành công
       }
+
+      throw new Error(response.data.message || "Cập nhật không thành công");
 
     } catch (error) {
       console.error("Chi tiết lỗi:", {
         message: error.message,
         response: error.response?.data,
-        config: error.config
+        stack: error.stack
       });
 
-      toast.error(
-        error.response?.data?.message ||
+      // Hiển thị thông báo lỗi cụ thể hơn
+      const errorMessage = error.response?.data?.message ||
         error.message ||
-        "Cập nhật sản phẩm thất bại"
-      );
+        "Cập nhật sản phẩm thất bại do lỗi không xác định";
+
+      toast.error(errorMessage);
     }
   };
 
