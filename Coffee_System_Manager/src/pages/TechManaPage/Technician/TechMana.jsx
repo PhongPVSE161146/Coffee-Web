@@ -131,7 +131,7 @@ const TechMana = () => {
   async function updateTechStaff(values) {
     try {
       const payload = {
-        
+        technicianId: values.technicianId,
         firstName: values.firstName,
         lastName: values.lastName,
         phoneNumber: values.phoneNumber,

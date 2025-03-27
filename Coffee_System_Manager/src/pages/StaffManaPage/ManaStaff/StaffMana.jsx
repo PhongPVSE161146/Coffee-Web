@@ -29,12 +29,16 @@ const useStyle = createStyles(({ css }) => ({
   `,
 }));
 
+useEffect(() => {
+  fetchStaffMana();
+  }, []);
+
 async function fetchStaffMana() {
   try {
     const response = await axiosInstance.get("https://coffeeshop.ngrok.app/api/staffs?sortBy=StaffId&isAscending=true&page=1&pageSize=10");
     console.log("API response:", response);
 
-    const data = response?.data?.staffs;
+    const data = response?.data?.staff;
     console.log("Processed data:", data); // Kiểm tra dữ liệu
 
     if (Array.isArray(data)) {
@@ -48,10 +52,6 @@ async function fetchStaffMana() {
     setStaffManaList([]);
   }
 }
-
-useEffect(() => {
-  fetchStaffMana();
-  }, []);
 
   useEffect(() => {
     const filteredData = staffManaList.filter((staff) => {
@@ -99,12 +99,6 @@ function hanldeClickSubmit() {
 const handleClickUpdateSubmit = () => {
   formUpdate.submit();
 };
-
-
-  
-
-
-
 
 
 // async function updateStaffMana(staff) {
@@ -310,109 +304,43 @@ const columns = [
       },
     },
   ];
-
-  const data = [
-    {
-      key: 1,
-      staffId: "NV001",
-      firstName: "Nguyễn",
-      lastName: "Văn A",
-      phoneNumber: "0901234567",
-      email: "nguyenvana@example.com",
-    },
-    {
-      key: 2,
-      staffId: "NV002",
-      firstName: "Trần",
-      lastName: "Thị B",
-      phoneNumber: "0912345678",
-      email: "tranthib@example.com",
-    },
-    {
-      key: 3,
-      staffId: "NV003",
-      firstName: "Lê",
-      lastName: "Văn C",
-      phoneNumber: "0923456789",
-      email: "levanc@example.com",
-    },
-    {
-      key: 4,
-      staffId: "NV004",
-      firstName: "Phạm",
-      lastName: "Minh D",
-      phoneNumber: "0934567890",
-      email: "phamminhd@example.com",
-    },
-    {
-      key: 5,
-      staffId: "NV005",
-      firstName: "Hoàng",
-      lastName: "Thị E",
-      phoneNumber: "0945678901",
-      email: "hoangthie@example.com",
-    },
-    {
-      key: 6,
-      staffId: "NV006",
-      firstName: "Đặng",
-      lastName: "Văn F",
-      phoneNumber: "0956789012",
-      email: "dangvanf@example.com",
-    },
-    {
-      key: 7,
-      staffId: "NV007",
-      firstName: "Bùi",
-      lastName: "Văn G",
-      phoneNumber: "0967890123",
-      email: "buivang@example.com",
-    },
-  ];
-  
   
   const { styles } = useStyle();
 
   // Hàm thêm nhân viên mới
   async function AddStaff(values) {
-  try {
-    // Kiểm tra dữ liệu đầu vào
-    console.log("Dữ liệu nhập vào:", values);
-
-
-    // Chuẩn bị dữ liệu gửi lên server
-    const payload = {
-      firstName: values.firstName, // họ
-      lastName: values.lastName,   // ten
-      email: values.email,
-      phoneNumber: values.phoneNumber,     
+    try {
+      console.log("Dữ liệu nhập vào:", values);
+  
+      const payload = {
+        staffId: values.staffId,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+      };
+      console.log("Payload gửi lên API:", payload);
+  
+      const response = await axiosInstance.post("https://coffeeshop.ngrok.app/api/staffs", payload);
+      console.log("Phản hồi từ API:", response);
+  
+      if (response.status !== 201 && response.status !== 200) {
+        throw new Error("Thêm nhân viên thất bại");
+      }
+  
+      toast.success("Thêm nhân viên thành công");
+      fetchStaffMana();
+      form.resetFields();
+      setIsModalOpen(false);
+    } catch (error) {
+      if (error.response) {
+        console.error("Lỗi từ server:", error.response.data);
+      } else {
+        console.error("Lỗi mạng:", error.message);
+      }
+      toast.error("Đã có lỗi khi thêm nhân viên");
     }
-    console.log("Payload gửi lên API:", payload);
-
-    // Gửi yêu cầu tạo nhân viên lên API
-    const response = await axiosInstance.post("https://coffeeshop.ngrok.app/api/staffs", payload);
-
-    console.log("Phản hồi từ API:", response);
-
-    // Kiểm tra phản hồi từ API
-    if (response.status !== 201 && response.status !== 200) {
-      throw new Error("Thêm nhân viên thất bại");
-    }
-
-    // Xử lý sau khi thêm thành công
-    toast.success("Thêm nhân viên thành công");
-
-    // Fetch lại danh sách nhân viên
-   fetchStaffMana();
-
-    // Reset form và đóng modal
-    form.resetFields();
-    setIsModalOpen(false);
-  } catch (error) {
-    toast.error("Đã có lỗi khi thêm nhân viên");
-    console.error("Lỗi khi thêm nhân viên:", error.response?.data || error.message);
   }
-}
   // Hàm xóa nhân viên
   async function deleteStaff(staff) {
     try {
@@ -543,4 +471,3 @@ const columns = [
  };
 
 export default StaffMana;
-
