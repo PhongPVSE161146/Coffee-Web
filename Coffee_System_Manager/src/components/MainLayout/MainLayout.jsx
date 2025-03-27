@@ -110,7 +110,7 @@ const MainLayout = () => {
 
 
   const menuItems = {
-    admin: [      
+    admin: [
       {
         key: "3",
         icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
@@ -131,6 +131,10 @@ const MainLayout = () => {
         key: "6",
         icon: <ShopOutlined style={{ fontSize: "24px" }} />,
         label: "Cửa Hàng",
+      },{
+        key: "odr",
+        icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
+        label: "Đơn Hàng",
       },
     ],
     managerStore: [
@@ -164,7 +168,7 @@ const MainLayout = () => {
     if (role === "admin") {
       switch (e.key) {
         case "1":
-          navigate("classManagement");
+          navigate("danhsachmay");
           sessionStorage.setItem("activekey", key);
           sessionStorage.removeItem("activeTag");
           sessionStorage.removeItem("trainerData");
@@ -172,53 +176,61 @@ const MainLayout = () => {
             setCollapsed(!collapsed);
           }
           break;
-          
-          case "me":
-            navigate("quanlinhanvien");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
-          case "3":
-            navigate("danhsachsanpham");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
-            case "6":
-            navigate("danhsachcuahang");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
+
+        case "me":
+          navigate("quanlinhanvien");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
+        case "3":
+          navigate("danhsachsanpham");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
+        case "6":
+          navigate("danhsachcuahang");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
+          case "odr":
+          navigate("quanlilichsudonhang");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
       }
-    } 
+    }
 
     else if (role === "managerStore") {
       switch (e.key) {
         case "nv":
-            navigate("quanlistorenhanvien");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
+          navigate("quanlistorenhanvien");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
 
-            case "ktv":
-            navigate("quanlikythuatvien");
-            sessionStorage.setItem("activekey", key);
-            sessionStorage.removeItem("activeTag");
-            if (responsiveCollapsed) {
-              setCollapsed(!collapsed);
-            }
-            break;
+        case "ktv":
+          navigate("quanlikythuatvien");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
       }
     }
     else if (role === "manager") {
@@ -271,27 +283,29 @@ const MainLayout = () => {
           </div>
         )}
 
-<div
-  style={{
-    height: "140px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    transition: "all 0.3s ease-in-out",
-  }}
-  className="demo-logo-vertical"
->
-  <img
-    style={{
-      width: collapsed ? "50px" : "250px",
-      height: collapsed ? "50px" : "170px",
-      objectFit: "contain",
-      transition: "all 0.3s ease-in-out",
-    }}
-    src={collapsed ? kohicoffeemini : kohicoffee}
-    alt="Kohi Coffee Logo"
-  />
-</div>
+        <div
+          style={{
+            height: "140px",
+            marginLeft: collapsed ? 0 : 20,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: collapsed ? "center" : "flex-start", // Căn giữa hoặc bên trái
+            transition: "all 0.3s ease",
+          }}
+          className="demo-logo-vertical"
+        >
+          <img
+            style={{
+              width: collapsed ? "120px" : "250px",
+              height: collapsed ? "70px" : "170px",
+              transition: "all 0.3s ease",
+              transform: "scale(1)", // Không cần translateX nữa
+            }}
+            src={collapsed ? kohicoffeemini : kohicoffee}
+            alt="Kohi Coffee Logo"
+          />
+        </div>
+
 
 
         <ConfigProvider

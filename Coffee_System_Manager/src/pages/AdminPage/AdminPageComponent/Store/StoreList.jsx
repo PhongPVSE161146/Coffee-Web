@@ -152,14 +152,14 @@ const StoreList = () => {
     },
     {
       title: 'Tên Cửa Hàng',
-      width: 130,
+      width: 200,
       dataIndex: 'storeName',
     },
     {
       title: 'Địa Chỉ',
       dataIndex: 'storeLocation',
       key: '1',
-      width: 100,
+      width: 300,
     },
     {
       title: "Hành Động",
