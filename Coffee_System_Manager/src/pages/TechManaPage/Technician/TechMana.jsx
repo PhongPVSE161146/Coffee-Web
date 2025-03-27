@@ -161,10 +161,17 @@ const TechMana = () => {
 
     },
     {
-      title: "Tên Nhân Viên",
+      title: "Họ",
       dataIndex: "firstName",
-      sorter: (a, b) => (a.firstName + " " + a.lastName).localeCompare(b.firstName + " " + b.lastName),
-      render: (text, record) => `${record.firstName} ${record.lastName}`
+    },
+    {
+      title: "Tên",
+      dataIndex: "lastName",
+      sorter: (a, b) => {
+        const lastA = a.lastName.split(" ").slice(-1)[0]; // Lấy chữ cuối
+        const lastB = b.lastName.split(" ").slice(-1)[0]; 
+        return lastA.localeCompare(lastB);
+      },
     },
     {
       title: "Gmail",
