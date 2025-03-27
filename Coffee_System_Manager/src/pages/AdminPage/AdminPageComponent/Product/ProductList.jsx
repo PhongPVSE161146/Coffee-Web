@@ -176,10 +176,9 @@ const ProductList = () => {
       dataIndex: 'path',
       render: (path) => {
         // Xử lý bỏ phần /ProductImages nếu có
-        const cleanPath = path?.replace('/ProductImages', '') || '';
         return (
           <Image
-            src={cleanPath ? `https://coffeeshop.ngrok.app/api/products/image${cleanPath}` : 'https://via.placeholder.com/80'}
+            src={path ? `https://coffeeshop.ngrok.app/api/products/image${path}` : 'https://via.placeholder.com/80'}
             width={80}
             height={80}
             style={{ objectFit: 'cover' }}
