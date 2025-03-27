@@ -13,7 +13,7 @@ const ProductList = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
-  const [updateFileList, setUpdateFileList] = useState([]);
+  const [updateFileList, setUpdateFileList] = useState([]);   
 
   // Fetch data functions
   const fetchProducts = async () => {
@@ -64,15 +64,14 @@ const ProductList = () => {
       formData.append('StockQuantity', 100);
 
       if (fileList[0]?.originFileObj) {
-        formData.append('imageFile', fileList[0].originFileObj);
+        formData.append('image', fileList[0].originFileObj);
       }
 
-      await axiosInstance.post("products", formData, {
+      const response = await axiosInstance.post("products", formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-
       toast.success("Thêm sản phẩm thành công");
       fetchProducts();
       setIsCreateModalOpen(false);
@@ -86,30 +85,64 @@ const ProductList = () => {
   const handleUpdateProduct = async (values) => {
     try {
       const formData = new FormData();
-      formData.append('ProductId', selectedProduct.productId);
-      formData.append('ProductCode', values.productCode);
-      formData.append('ProductName', values.productName);
-      formData.append('Price', values.price);
-      formData.append('CategoryId', values.categoryId);
-      formData.append('Status', values.status);
 
+      // 1. Thêm các trường dữ liệu cơ bản
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      formData.append('productId', selectedProduct.productId);
+
+      // 2. Xử lý ảnh upload - CẢI TIẾN QUAN TRỌNG
       if (updateFileList[0]?.originFileObj) {
-        formData.append('imageFile', updateFileList[0].originFileObj);
+        formData.append('image', updateFileList[0].originFileObj);
+      } else if (selectedProduct?.path) {
+        // Gửi cả path ảnh cũ để backup
+        formData.append('existingImagePath', selectedProduct.path);
       }
-      console.log(formData);
-      await axiosInstance.put(`products/${selectedProduct.productId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+
+      // 3. Debug chi tiết
+      console.log('--- FormData Content ---');
+      for (let [key, value] of formData.entries()) {
+        console.log(key, ':', value);
+      }
+
+      // 4. Gửi request với timeout dài hơn cho file lớn
+      const response = await axiosInstance.put(
+        `products/${selectedProduct.productId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          timeout: 30000 // 30 giây
         }
+      );
+
+      // 5. Kiểm tra phản hồi từ server
+      console.log('Server response:', response.data);
+
+      if (response.data.success) {
+        toast.success("Cập nhật sản phẩm thành công");
+        fetchProducts();
+        setSelectedProduct(null);
+        formUpdate.resetFields();
+        setUpdateFileList([]);
+      } else {
+        throw new Error(response.data.message || "Cập nhật thất bại");
+      }
+
+    } catch (error) {
+      console.error("Chi tiết lỗi:", {
+        message: error.message,
+        response: error.response?.data,
+        config: error.config
       });
 
-      toast.success("Cập nhật sản phẩm thành công");
-      fetchProducts();
-      setSelectedProduct(null);
-      formUpdate.resetFields();
-      setUpdateFileList([]);
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Cập nhật sản phẩm thất bại");
+      toast.error(
+        error.response?.data?.message ||
+        error.message ||
+        "Cập nhật sản phẩm thất bại"
+      );
     }
   };
 
@@ -141,14 +174,18 @@ const ProductList = () => {
     {
       title: 'Hình ảnh',
       dataIndex: 'path',
-      render: (path) => (
-        <Image
-          src={path ? `https://coffeeshop.ngrok.app/api${path}` : 'https://via.placeholder.com/80'}
-          width={80}
-          height={80}
-          style={{ objectFit: 'cover' }}
-        />
-      ),
+      render: (path) => {
+        // Xử lý bỏ phần /ProductImages nếu có
+        const cleanPath = path?.replace('/ProductImages', '') || '';
+        return (
+          <Image
+            src={cleanPath ? `https://coffeeshop.ngrok.app/api/products/image${cleanPath}` : 'https://via.placeholder.com/80'}
+            width={80}
+            height={80}
+            style={{ objectFit: 'cover' }}
+          />
+        );
+      },
       width: 120,
     },
     {
@@ -181,7 +218,7 @@ const ProductList = () => {
               uid: '-1',
               name: 'current-image',
               status: 'done',
-              url: `https://coffeeshop.ngrok.app/api${record.path}`
+              url: `https://coffeeshop.ngrok.app/api/products/image${record.path}`
             }] : []);
           }}>
             Sửa
@@ -281,12 +318,18 @@ const ProductList = () => {
             <Upload
               listType="picture-card"
               fileList={fileList}
-              beforeUpload={beforeUpload}
-              onChange={({ fileList }) => setFileList(fileList)}
+              beforeUpload={(file) => {
+                // Ngăn không cho tự động upload
+                return false;
+              }}
+              onChange={({ fileList: newFileList }) => {
+                // Chỉ giữ lại file mới nhất
+                setFileList(newFileList.slice(-1));
+              }}
               maxCount={1}
               accept="image/*"
             >
-              {fileList.length < 1 && '+ Tải lên'}
+              {fileList.length < 1 && '+ Tải lên'}x
             </Upload>
           </Form.Item>
 
@@ -365,20 +408,30 @@ const ProductList = () => {
             <Upload
               listType="picture-card"
               fileList={updateFileList}
-              beforeUpload={beforeUpload}
-              onChange={({ fileList }) => setUpdateFileList(fileList)}
+              beforeUpload={(file) => {
+                // Ngăn không cho tự động upload
+                return false;
+              }}
+              onChange={({ fileList: newFileList }) => {
+                // Chỉ giữ lại file mới nhất
+                setUpdateFileList(newFileList.slice(-1));
+              }}
               maxCount={1}
               accept="image/*"
             >
               {updateFileList.length < 1 && '+ Tải lên'}
             </Upload>
-            {selectedProduct?.path && updateFileList.length === 0 && (
-              <Image
-                src={`https://coffeeshop.ngrok.app/api${selectedProduct.path}`}
-                width={100}
-                style={{ marginTop: 10 }}
-              />
-            )}
+            {selectedProduct?.path && updateFileList.length === 0 && (() => {
+              const cleanPath = selectedProduct.path.replace('/ProductImages', '').replace(/^\/+/, '');
+              return (
+                <Image
+                  src={`https://coffeeshop.ngrok.app/api/products/image/${cleanPath}`}
+                  width={100}
+                  style={{ marginTop: 10 }}
+                  preview={false}
+                />
+              );
+            })()}
           </Form.Item>
 
           <Button type="primary" htmlType="submit">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, Modal, Table, Upload } from "antd";
+import { Button, Form, Input, Modal, Select, Table, Upload } from "antd";
 import { createStyles } from 'antd-style';
 import { useForm } from "antd/es/form/Form";
 import { axiosInstance } from "../../../../axios/Axios";
@@ -11,6 +11,7 @@ const StoreList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formUpdate] = useForm();
   const [storeList, setStoreList] = useState([]);
+  const [areaList, setAreaList] = useState([]);
   const [selectedStore, setSelectedStore] = useState(null);
   const [newData, setNewData] = useState({});
   const [img, setImg] = useState(null);
@@ -74,28 +75,38 @@ const StoreList = () => {
       console.error('❌ Lỗi khi gọi API /store:', error);
     }
   };
+  const fetchArea = async () => {
+    try {
+      const response = await axiosInstance.get('/areas');
+      const areas = response.data?.areas;
+
+      if (Array.isArray(areas)) {
+        setAreaList(areas);
+      } else {
+        console.warn('❗ Không nhận được danh sách  hợp lệ:', areas);
+        setAreaList([]); // reset danh sách nếu không đúng định dạng
+      }
+    } catch (error) {
+      console.error('❌ Lỗi khi gọi API :', error);
+    }
+  };
 
   useEffect(() => {
     fetchStore();
+    fetchArea();
   }, []);
 
   const AddStore = async (values) => {
     try {
       const payload = {
-        storeId: values.storeId,
         storeName: values.storeName,
-        address: values.storeLocation,
+        storeLocation: values.storeLocation,
+        phoneNumber: "0911-2222-33",
+        status: 1,
+        areaId: values.areaId,
       };
 
-      if (!img) {
-        toast.error("Vui lòng chọn ảnh trước khi thêm cửa hàng");
-        return;
-      }
-
-      const imgURL = await uploadFile(img);
-      payload.imgURL = imgURL;
-
-      await axiosInstance.post("store", payload);
+      await axiosInstance.post("stores", payload);
       toast.success("Thêm máy thành công");
 
       fetchStore();
@@ -107,37 +118,28 @@ const StoreList = () => {
     }
   };
 
-  const updateStore = async (store) => {
+  const updateStore = async (values) => {
     try {
-      const updatedValues = {
-        ...newData,
+      if (!selectedStore?.storeId) {
+        throw new Error("Không tìm thấy ID cửa hàng");
+      }
+      console.log(values.storeName);
+      const payload = {
+        storeId: selectedStore.storeId,
+        storeName: values.storeName,
+        storeLocation: values.storeLocation,
+        phoneNumber: selectedStore.phoneNumber,
+        areaId: values.areaId,
+        status: selectedStore.status || 1
       };
-
-      // Xóa storeId khỏi updatedValues nếu tồn tại
-      delete updatedValues.storeId;
-
-      console.log("PUT store:", store.storeId);
-      console.log("Payload gửi đi:", updatedValues);
-
-      await axiosInstance.put(`store/${store.storeId}`, updatedValues, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      toast.success("Cập nhật cửa hàng thành công");
-
-      setStoreList((prevList) =>
-        prevList.map((item) =>
-          item.id === store.id ? { ...item, ...updatedValues } : item
-        )
-      );
-
-      setIsModalUpdateOpen(false);
-      setSelectedStore(null);
+      console.log(payload);
+      await axiosInstance.put(`stores/${selectedStore.storeId}`, payload);
+      toast.success("Cập nhật nhân viên thành công");
+      fetchStore();
+      handleUpdateCancel();
     } catch (error) {
-      toast.error("Có lỗi khi cập nhật cửa hàng");
-      console.log("Lỗi cập nhật:", error);
+      console.error("Lỗi khi cập nhật cửa hàng:", error.response?.data || error);
+      toast.error(error.response?.data?.message || "Lỗi khi cập nhật cửa hàng");
     }
   };
 
@@ -160,6 +162,15 @@ const StoreList = () => {
       dataIndex: 'storeLocation',
       key: '1',
       width: 300,
+    },
+    {
+      title: 'Khu Vực',
+      width: 150,
+      render: (_, record) => {
+        // Tìm store tương ứng với storeId của máy
+        const area = areaList.find(area => area.areaId === record.areaId);
+        return area ? area.areaName : 'Không xác định';
+      },
     },
     {
       title: "Hành Động",
@@ -229,6 +240,19 @@ const StoreList = () => {
             >
               <Input required />
             </Form.Item>
+            <Form.Item
+              name="areaId"
+              label="Khu Vực"
+              rules={[{ required: true, message: "Vui lòng chọn khu vực!" }]}
+            >
+              <Select placeholder="Chọn khu vực">
+                {areaList.map(area => (
+                  <Select.Option key={area.areaId} value={area.areaId}>
+                    {area.areaName}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
             <Button onClick={hanldeClickSubmit} className="form-button">
               Thêm Cửa Hàng Mới
             </Button>
@@ -257,14 +281,7 @@ const StoreList = () => {
             labelCol={{ span: 7 }}
             wrapperCol={{ span: 20 }}
             style={{ width: "100%" }}
-            onValuesChange={(changedValues, allValues) => {
-              setNewData({
-                ...allValues,
-                storeId: selectedStore?.storeId, // Đảm bảo luôn có storeId
-              });
-            }}
-
-            onFinish={() => updateStore(selectedStore)}
+            onFinish={updateStore}
           >
             <Form.Item
               label="Tên Cửa Hàng"
@@ -281,7 +298,19 @@ const StoreList = () => {
             >
               <Input required />
             </Form.Item>
-
+            <Form.Item
+              name="areaId"
+              label="Khu Vực"
+              rules={[{ required: true, message: "Vui lòng chọn khu vực!" }]}
+            >
+              <Select placeholder="Chọn khu vực">
+                {areaList.map(area => (
+                  <Select.Option key={area.areaId} value={area.areaId}>
+                    {area.areaName}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
             <Button onClick={handleClickUpdateSubmit} className="form-button">
               Cập Nhật Máy
             </Button>

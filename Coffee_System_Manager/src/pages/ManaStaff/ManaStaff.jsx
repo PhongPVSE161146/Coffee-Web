@@ -11,6 +11,7 @@ const StaffManagement = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [staffList, setStaffList] = useState([]);
+  const [storeList, setStoreList] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
   const [form] = useForm();
   const [formUpdate] = useForm();
@@ -40,7 +41,7 @@ const StaffManagement = () => {
       const data = response?.data?.staff?.map(item => ({
         ...item,
         key: item.id,
-        fullName: `${item.firstName} ${item.lastName}`
+        fullName: ` ${item.lastName} ${item.firstName}`
       })) || [];
       setStaffList(data);
     } catch (error) {
@@ -50,9 +51,24 @@ const StaffManagement = () => {
       setLoading(false);
     }
   };
+  const fetchStore = async () => {
+    try {
+      const response = await axiosInstance.get('/stores');
+      const stores = response.data?.stores;
 
+      if (Array.isArray(stores)) {
+        setStoreList(stores);
+      } else {
+        console.warn('❗ Không nhận được danh sách store hợp lệ:', stores);
+        setStoreList([]); // reset danh sách nếu không đúng định dạng
+      }
+    } catch (error) {
+      console.error('❌ Lỗi khi gọi API /store:', error);
+    }
+  };
   useEffect(() => {
     fetchStaffs();
+    fetchStore();
   }, []);
 
   // Modal handlers
@@ -78,7 +94,7 @@ const StaffManagement = () => {
         phoneNumber: values.phoneNumber,
         email: values.email,
         status: 1,
-        staffId: values.staffId
+        storeId: values.storeId
       };
 
       await axiosInstance.post("staffs", payload);
@@ -93,21 +109,21 @@ const StaffManagement = () => {
 
   const handleUpdateStaff = async (values) => {
     try {
-      if (!selectedStaff?.id) {
+      if (!selectedStaff?.staffId) {
         throw new Error("Không tìm thấy ID nhân viên");
       }
 
       const payload = {
-        id: selectedStaff.id,
+        staffId: selectedStaff.staffId,
         firstName: values.firstName,
         lastName: values.lastName,
         phoneNumber: values.phoneNumber,
+        storeId: values.storeId,
         email: values.email,
-        staffId: values.staffId,
         status: selectedStaff.status || 1
       };
 
-      await axiosInstance.put(`staffs/${selectedStaff.id}`, payload);
+      await axiosInstance.put(`staffs/${selectedStaff.staffId}`, payload);
       toast.success("Cập nhật nhân viên thành công");
       fetchStaffs();
       handleUpdateCancel();
@@ -149,6 +165,14 @@ const StaffManagement = () => {
       title: 'Tên nhân viên',
       dataIndex: 'fullName',
       width: 200,
+    },
+    {
+      title: 'Cửa hàng',
+      width: 150,
+      render: (_, record) => {
+        const store = storeList.find(store => store.storeId === record.storeId);
+        return store ? store.storeName : 'Không xác định';
+      },
     },
     {
       title: 'Email',
@@ -228,13 +252,12 @@ const StaffManagement = () => {
           wrapperCol={{ span: 18 }}
         >
           <Form.Item
-            name="staffId"
-            label="Mã nhân viên"
-            rules={[{ required: true, message: "Vui lòng nhập mã nhân viên!" }]}
+            name="lastName"
+            label="Họ"
+            rules={[{ required: true, message: "Vui lòng nhập họ!" }]}
           >
             <Input />
           </Form.Item>
-
           <Form.Item
             name="firstName"
             label="Tên"
@@ -242,15 +265,19 @@ const StaffManagement = () => {
           >
             <Input />
           </Form.Item>
-
           <Form.Item
-            name="lastName"
-            label="Họ"
-            rules={[{ required: true, message: "Vui lòng nhập họ!" }]}
+            name="storeId"
+            label="Cửa hàng"
+            rules={[{ required: true, message: "Vui lòng chọn cửa hàng!" }]}
           >
-            <Input />
+            <Select placeholder="Chọn cửa hàng">
+              {storeList.map(store => (
+                <Select.Option key={store.storeId} value={store.storeId}>
+                  {store.storeName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
-
           <Form.Item
             name="email"
             label="Email"
@@ -291,13 +318,12 @@ const StaffManagement = () => {
           wrapperCol={{ span: 18 }}
         >
           <Form.Item
-            name="staffId"
-            label="Mã nhân viên"
-            rules={[{ required: true, message: "Vui lòng nhập mã nhân viên!" }]}
+            name="lastName"
+            label="Họ"
+            rules={[{ required: true, message: "Vui lòng nhập họ!" }]}
           >
             <Input />
           </Form.Item>
-
           <Form.Item
             name="firstName"
             label="Tên"
@@ -305,13 +331,18 @@ const StaffManagement = () => {
           >
             <Input />
           </Form.Item>
-
           <Form.Item
-            name="lastName"
-            label="Họ"
-            rules={[{ required: true, message: "Vui lòng nhập họ!" }]}
+            name="storeId"
+            label="Cửa hàng"
+            rules={[{ required: true, message: "Vui lòng chọn cửa hàng!" }]}
           >
-            <Input />
+            <Select placeholder="Chọn cửa hàng">
+              {storeList.map(store => (
+                <Select.Option key={store.storeId} value={store.storeId}>
+                  {store.storeName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <Form.Item
