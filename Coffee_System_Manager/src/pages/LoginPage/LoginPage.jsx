@@ -168,16 +168,11 @@ const Login = () => {
     <div className="login-container">
 
       <div className={`startTop ${playAnimation ? "startup-animation" : ""}`}>
-        {/* <svg id="logo-svg" xmlns="http://www.w3.org/2000/svg"
-          version="1.1" viewBox="0 0 1600 383" width="2161" height="518">
 
-        </svg> */}
         <img src={kohicoffee} alt="FSA Logo" />
       </div>
       <div className={`startBot ${playAnimation ? "startup-animation" : ""}`}>
-        {/* <div className="fsa-logo">
-          <img src={kohicoffee} alt="FSA Logo" />
-        </div> */}
+
         <div className="login-box">
           <div className="login-content">
             <form onSubmit={handleLogin}>
