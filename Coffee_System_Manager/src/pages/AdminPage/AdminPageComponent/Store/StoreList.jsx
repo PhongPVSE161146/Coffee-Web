@@ -112,27 +112,27 @@ const StoreList = () => {
       const updatedValues = {
         ...newData,
       };
-  
+
       // Xóa storeId khỏi updatedValues nếu tồn tại
       delete updatedValues.storeId;
-  
+
       console.log("PUT store:", store.storeId);
       console.log("Payload gửi đi:", updatedValues);
-  
+
       await axiosInstance.put(`store/${store.storeId}`, updatedValues, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
-  
+
       toast.success("Cập nhật cửa hàng thành công");
-  
+
       setStoreList((prevList) =>
         prevList.map((item) =>
           item.id === store.id ? { ...item, ...updatedValues } : item
         )
       );
-  
+
       setIsModalUpdateOpen(false);
       setSelectedStore(null);
     } catch (error) {
@@ -140,7 +140,7 @@ const StoreList = () => {
       console.log("Lỗi cập nhật:", error);
     }
   };
-  
+
 
 
   const columns = [
@@ -165,6 +165,7 @@ const StoreList = () => {
       title: "Hành Động",
       render: (record) => (
         <Button
+          type="primary"
           icon={<UploadOutlined />}
           className="admin-upload-button update-button"
           onClick={() => {
@@ -173,7 +174,7 @@ const StoreList = () => {
             setIsModalUpdateOpen(true); // Mở modal chỉnh sửa
           }}
         >
-          Chỉnh sửa
+          Sửa
         </Button>
       ),
     },
@@ -262,7 +263,7 @@ const StoreList = () => {
                 storeId: selectedStore?.storeId, // Đảm bảo luôn có storeId
               });
             }}
-            
+
             onFinish={() => updateStore(selectedStore)}
           >
             <Form.Item

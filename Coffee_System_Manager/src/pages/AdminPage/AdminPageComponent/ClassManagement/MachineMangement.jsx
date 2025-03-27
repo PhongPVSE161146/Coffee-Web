@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Modal, Select, Table } from "antd";
 import { createStyles } from 'antd-style';
-import { Option } from "antd/es/mentions";
 import { useForm } from "antd/es/form/Form";
 import { toast } from "react-toastify";
 import { axiosInstance } from "../../../../axios/Axios";
 import { UploadOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 
-const MachineMangement = () => {
+const MachineManagement = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [newData, setNewData] = useState("");
-  const [machineList, setMachineList] = useState("");
-  const [selectedMachine, setSelectedMachine] = useState("");
+  const [machineList, setMachineList] = useState([]);
+  const [machineType, setMachineType] = useState([]);
+  const [storeList, setStoreList] = useState([]);
+  const [selectedMachine, setSelectedMachine] = useState(null);
+  const [productList, setProductList] = useState([]);
   const [form] = useForm();
   const [formUpdate] = useForm();
 
@@ -27,47 +29,131 @@ const MachineMangement = () => {
     `,
   }));
 
-  async function fetchMachines() {
-      try {
-        const response = await axiosInstance.get(
-          "machines"
-        );
-  console.log(response);
-  
-        const data = response?.data?.machines;
-  
-        if (Array.isArray(data)) {
-          setMachineList(data);
-        } else {
-          console.warn("Dữ liệu không đúng dạng mảng:", data);
-          setMachineList([]);
-        }
-  
-      } catch (error) {
-        console.error("Lỗi fetch store:", error);
-        setMachineList([]);
-      }
+  // Fetch data functions
+  const fetchMachines = async () => {
+    try {
+      const response = await axiosInstance.get("machines");
+      const data = response?.data?.machines?.map(item => ({
+        ...item,
+        key: item.machineId
+      }));
+      setMachineList(data || []);
+    } catch (error) {
+      console.error("Lỗi fetch machines:", error);
+      setMachineList([]);
     }
-useEffect(() => {
+  };
+  const fetchMachineTypes = async () => {
+    try {
+      const response = await axiosInstance.get("machine_types");
+      const data = response?.data?.machineTypes?.map(item => ({
+        ...item,
+        key: item.machineTypeId
+      }));
+      setMachineType(data || []);
+    } catch (error) {
+      console.error("Lỗi fetch machines:", error);
+      setMachineType([]);
+    }
+  };
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axiosInstance.get(
+        "products?sortBy=ProductId&isAscending=true&page=1&pageSize=1000"
+      );
+      setProductList(response?.data?.products || []);
+    } catch (error) {
+      console.error("Lỗi fetch products:", error);
+      setProductList([]);
+    }
+  };
+
+  const fetchStores = async () => {
+    try {
+      const response = await axiosInstance.get('/stores');
+      setStoreList(response.data?.stores || []);
+    } catch (error) {
+      console.error('Lỗi fetch stores:', error);
+    }
+  };
+
+  useEffect(() => {
     fetchMachines();
-    // fetchCategory();
+    fetchMachineTypes();
+    fetchProducts();
+    fetchStores();
   }, []);
+
+  // Modal handlers
   const showCreateModal = () => setIsCreateModalOpen(true);
   const handleCreateCancel = () => setIsCreateModalOpen(false);
-  const handleCreateOk = () => setIsCreateModalOpen(false);
 
   const showUpdateModal = () => setIsUpdateModalOpen(true);
-  const handleUpdateCancel = () => setIsUpdateModalOpen(false);
-  const handleUpdateOk = () => setIsUpdateModalOpen(false);
+  const handleUpdateCancel = () => {
+    setIsUpdateModalOpen(false);
+    setSelectedMachine(null);
+  };
 
-  function handleClickCreateSubmit() {
-    form.submit();
-    setIsCreateModalOpen(false);
-    fetchMachines();
-  }
+  // Form handlers
+  const handleAddMachine = async (values) => {
+    try {
+      const payload = {
+        ...values,
+        installationDate: values.installationDate.format("YYYY-MM-DD"),
+        status: 1,
+        machineTypeId: values.machineTypeId,
+        machineProducts: values.machineProducts?.map(id => ({ productId: id })) || []
+      };
 
-  const handleClickUpdateSubmit = () => {
-    formUpdate.submit();
+      await axiosInstance.post("machines", payload);
+      toast.success("Thêm máy thành công!");
+      fetchMachines();
+      form.resetFields();
+      setIsCreateModalOpen(false);
+    } catch (error) {
+      toast.error("Đã có lỗi khi thêm máy!");
+      console.error("Lỗi:", error);
+    }
+  };
+
+  const handleUpdateMachine = async (values) => {
+    try {
+      const payload = {
+        ...values,
+        machineId: selectedMachine.machineId, // Thêm machineId vào payload
+        machineTypeId: 1,
+        installationDate: values.installationDate.format("YYYY-MM-DD"),
+        machineProducts: values.machineProducts?.map(id => ({ productId: id })) || []
+      };
+
+      await axiosInstance.put(`machines/${selectedMachine.machineId}`, payload);
+      toast.success("Cập nhật thành công");
+      fetchMachines();
+      setIsUpdateModalOpen(false);
+    } catch (error) {
+      toast.error("Lỗi khi cập nhật");
+      console.error(error);
+    }
+  };
+
+  const handleDeleteMachine = async (machine) => {
+    Modal.confirm({
+      title: "Xác nhận xóa máy",
+      content: "Bạn có chắc muốn xóa máy này?",
+      okText: "Đồng ý",
+      cancelText: "Hủy",
+      onOk: async () => {
+        try {
+          await axiosInstance.delete(`machines/${machine.machineId}`);
+          toast.success("Xóa máy thành công");
+          fetchMachines();
+        } catch (error) {
+          toast.error("Lỗi khi xóa máy");
+          console.error(error);
+        }
+      }
+    });
   };
 
   const handleViewProducts = (products) => {
@@ -79,355 +165,281 @@ useEffect(() => {
       });
       return;
     }
-  
-    const productList = products.join(', ');
-  
+
+    const productNames = products.map(p => typeof p === 'object' ? p.productName : p).join(', ');
     Modal.info({
       title: 'Danh sách sản phẩm',
-      content: `Các sản phẩm: ${productList}`,
+      content: `Các sản phẩm: ${productNames}`,
       okText: 'Đóng',
     });
   };
-  
-  async function updateMachine(machine) {
-    try {
-      const updatedValues = { ...newData };
 
-      await axiosInstance.put(`machines/${machine.id}`, updatedValues);
-
-      toast.success("Cập nhật máy thành công");
-
-      setMachineList((prevList) =>
-        prevList.map((item) =>
-          item.id === machine.id ? { ...item, ...updatedValues } : item
-        )
-      );
-
-      setIsUpdateModalOpen(false);
-      fetchMachines();
-    } catch (error) {
-      toast.error("Có lỗi khi cập nhật máy");
-      console.log(error);
-    }
-  }
-
-  const data = [
-    {
-      id: 1,
-      mid: 'M001',
-      name: 'Máy Pha Cà Phê Espresso',
-      installationDate: '2025-01-01',
-      mproduct: ['Cappuchino', 'Latte'],
-    },
-    {
-      id: 2,
-      mid: 'M002',
-      name: 'Máy Xay Sinh Tố Công Nghiệp',
-      installationDate: '2025-02-15',
-      mproduct: ['Mocha'],
-    },
-    {
-      id: 3,
-      mid: 'M003',
-      name: 'Máy Đun Nước Tự Động',
-      installationDate: '2025-03-10',
-      mproduct: ['Cappuchino', 'Latte', 'Mocha'],
-    },
-  ];
-  
   const columns = [
     {
       title: 'Mã máy',
-      width: 100,
       dataIndex: 'machineCode',
+      width: 100,
       fixed: 'left',
     },
     {
-      title: 'Tên máy',
+      title: 'Loại máy',
+      dataIndex: 'machineTypeId',
       width: 150,
+      render: (machineTypeId) => machineType.find(t => t.machineTypeId === machineTypeId)?.typeName || 'Không xác định'
+    },
+    {
+      title: 'Tên máy',
       dataIndex: 'machineName',
+      width: 150,
     },
     {
       title: 'Ngày thêm máy',
       dataIndex: 'installationDate',
-      key: '1',
       width: 150,
+    },
+    {
+      title: 'Cửa hàng',
+      width: 150,
+      render: (_, record) => {
+        // Tìm store tương ứng với storeId của máy
+        const store = storeList.find(store => store.storeId === record.storeId);
+        return store ? store.storeName : 'Không xác định';
+      },
     },
     {
       title: 'Sản phẩm',
       width: 110,
-      render: (record) => (
+      render: (_, record) => (
         <a onClick={() => handleViewProducts(record.machineProducts)}>Xem thêm</a>
       ),
     },
     {
-      title: "Hành Động",
-      width: 110,
-      render: (record) => {
-        return (
-          <>
-            <div className="action-button">
-              <Button
-                onClick={() => deleteMachine(record)}
-                className="delete-button"
-              >
-                Xóa
-              </Button>
-
-              <Button
-                icon={<UploadOutlined />}
-                className="admin-upload-button update-button"
-                onClick={() => {
-                  setSelectedMachine(record);
-                  formUpdate.setFieldsValue(record);
-                  showUpdateModal(); // mở modal update đúng cách
-                }}
-              >
-                Chỉnh sửa
-              </Button>
-            </div>
-
-            {/* Modal chỉnh sửa */}
-            <Modal
-              className="modal-add-form"
-              footer={false}
-              title="Chỉnh Sửa Máy"
-              open={isUpdateModalOpen}
-              onOk={handleUpdateOk}
-              onCancel={handleUpdateCancel}
-            >
-              <Form
-                initialValues={selectedMachine}
-                form={formUpdate}
-                onValuesChange={(changedValues, allValues) => {
-                  setNewData(allValues);
-                }}
-                onFinish={() => {
-                  updateMachine(selectedMachine);
-                }}
-                id="form-update-machine"
-                className="form-main"
-              >
-                <div className="form-content-main">
-                  <div className="form-content">
-                    <Form.Item
-                      className="label-form"
-                      label="Mã Máy"
-                      name="firstname"
-                      rules={[{ required: true, message: "Nhập mã máy" }]}
-                    >
-                      <Input type="text" required />
-                    </Form.Item>
-
-                    <Form.Item
-                      className="label-form"
-                      label="Tên Máy"
-                      name="name"
-                      rules={[{ required: true, message: "Nhập tên máy" }]}
-                    >
-                      <Input type="text" required />
-                    </Form.Item>
-
-                    <Form.Item
-                      className="label-form"
-                      label="Ngày Thêm Máy"
-                      name="doa"
-                      rules={[{ required: true, message: "Chọn ngày thêm máy" }]}
-                    >
-                      <DatePicker
-                        style={{ width: "100%" }}
-                        placeholder="Ngày Thêm Máy"
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      className="label-form"
-                      label="Sản phẩm"
-                      name="mproduct"
-                      rules={[{ required: true, message: "Thêm sản phẩm của máy" }]}
-                    >
-                      <Select
-                        mode="multiple"
-                        placeholder="Chọn Sản Phẩm"
-                        onChange={(value) => {
-                          const uniqueValues = [...new Set(value)];
-                          formUpdate.setFieldsValue({ mproduct: uniqueValues });
-                        }}
-                        tagRender={(props) => {
-                          const { label, closable, onClose } = props;
-                          return (
-                            <span
-                              style={{
-                                fontWeight: "bold",
-                                padding: "4px 8px",
-                                borderRadius: "4px",
-                                display: "inline-flex",
-                                alignItems: "center",
-                                margin: "2px",
-                                border: "1px solid #d9d9d9",
-                                background: "#f5f5f5",
-                              }}
-                            >
-                              {label}
-                              {closable && (
-                                <span
-                                  onClick={onClose}
-                                  style={{
-                                    marginLeft: "8px",
-                                    cursor: "pointer",
-                                    fontWeight: "bold",
-                                  }}
-                                >
-                                  ✖
-                                </span>
-                              )}
-                            </span>
-                          );
-                        }}
-                      >
-                        <Select.Option value="SALES">Cappuchino</Select.Option>
-                        <Select.Option value="DELIVERY">Latte</Select.Option>
-                        <Select.Option value="MANAGER">Mocha</Select.Option>
-                      </Select>
-                    </Form.Item>
-                  </div>
-                </div>
-
-                <Button onClick={handleClickUpdateSubmit} className="form-button">
-                  Cập Nhật Máy
-                </Button>
-              </Form>
-            </Modal>
-          </>
-        );
-      },
+      title: "Hành động",
+      width: 150,
+      render: (_, record) => (
+        <div className="action-button">
+          <Button danger onClick={() => handleDeleteMachine(record)}>
+            Xóa
+          </Button>
+          <Button
+            type="primary"
+            icon={<UploadOutlined />}
+            onClick={() => {
+              setSelectedMachine(record);
+              formUpdate.setFieldsValue({
+                ...record,
+                installationDate: record.installationDate ? dayjs(record.installationDate) : null,
+                machineProducts: record.machineProducts?.map(p => p.productId) || []
+              });
+              showUpdateModal();
+            }}
+          >
+            Sửa
+          </Button>
+        </div>
+      ),
     },
   ];
 
   const { styles } = useStyle();
 
-  async function AddMachine(values) {
-    try {
-      const payload = {
-        code: values.firstname,
-        name: values.name,
-        doa: values.doa.format("YYYY-MM-DD"),
-        mproduct: values.mproduct,
-      };
-
-      await axiosInstance.post("machine", payload);
-
-      toast.success("Thêm máy thành công");
-
-      fetchMachines();
-      form.resetFields();
-      setIsCreateModalOpen(false);
-    } catch (error) {
-      toast.error("Đã có lỗi khi thêm máy");
-      console.log(error);
-    }
-  }
-
-  async function deleteMachine(machine) {
-    try {
-      Modal.confirm({
-        title: "Bạn có chắc muốn xóa máy này?",
-        okText: "Đồng ý",
-        cancelText: "Hủy",
-        onOk: async () => {
-          await axiosInstance.delete(`machines/${machine.id}`);
-          toast.success("Xóa máy thành công");
-
-          setMachineList((prev) => prev.filter((item) => item.id !== machine.id));
-          fetchMachines();
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   return (
-    <div>
-      <div className={styles.centeredContainer}>
-        <Table
-          bordered
-          columns={columns}
-          dataSource={machineList}
-          onViewProducts={handleViewProducts}
-          scroll={{ x: 'max-content' }}
-          pagination={{ pageSize: 5 }}
-          style={{ width: "90%", maxWidth: "1200px" }}
-        />
-        <Button type="primary" onClick={showCreateModal}>
-          Tạo thông tin máy mới
-        </Button>
-        <Modal
-          title="Tạo máy"
-          open={isCreateModalOpen}
-          onOk={handleCreateOk}
-          onCancel={handleCreateCancel}
-          footer={null}
+    <div className={styles.centeredContainer}>
+      <Table
+        bordered
+        columns={columns}
+        dataSource={machineList}
+        scroll={{ x: 'max-content' }}
+        pagination={{ pageSize: 5 }}
+        style={{ width: "90%", maxWidth: "1200px" }}
+      />
+
+      <Button type="primary" onClick={showCreateModal}>
+        Tạo thông tin máy mới
+      </Button>
+
+      {/* Create Machine Modal */}
+      <Modal
+        title="Thêm Máy Mới"
+        open={isCreateModalOpen}
+        onCancel={handleCreateCancel}
+        footer={null}
+      >
+        <Form
+          form={form}
+          onFinish={handleAddMachine}
+          layout="horizontal"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
         >
-          <Form
-            layout="horizontal"
-            labelCol={{ span: 7 }}
-            wrapperCol={{ span: 20 }}
-            style={{ width: "100%" }}
-            form={form}
-            onFinish={AddMachine}
+          <Form.Item name="machineCode" label="Mã máy">
+            <Input placeholder="Nhập mã máy (nếu có)" />
+          </Form.Item>
+          <Form.Item
+            name="machineTypeId"
+            label="Loại máy"
+            rules={[{ required: true, message: "Vui lòng chọn loại máy!" }]}
           >
-            <Form.Item
-              label="Mã máy"
-              name="firstname"
-              rules={[{ required: true, message: "Hãy nhập mã máy" }]}
-            >
-              <Input />
-            </Form.Item>
+            <Select placeholder="Chọn loại máy">
+              {machineType.map(type => (
+                <Select.Option key={type.machineTypeId} value={type.machineTypeId}>
+                  {type.typeName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="machineName"
+            label="Tên máy"
+            rules={[{ required: true, message: "Vui lòng nhập tên máy!" }]}
+          >
+            <Input placeholder="Nhập tên máy" />
+          </Form.Item>
 
-            <Form.Item
-              label="Tên máy"
-              name="name"
-              rules={[{ required: true, message: "Hãy nhập tên máy" }]}
-            >
-              <Input />
-            </Form.Item>
+          <Form.Item
+            name="storeId"
+            label="Cửa hàng"
+            rules={[{ required: true, message: "Vui lòng chọn cửa hàng!" }]}
+          >
+            <Select placeholder="Chọn cửa hàng">
+              {storeList.map(store => (
+                <Select.Option key={store.storeId} value={store.storeId}>
+                  {store.storeName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
 
-            <Form.Item
-              name="doa"
-              label="Ngày thêm máy"
-              rules={[{ required: true, message: "Chọn ngày thêm máy" }]}
-            >
-              <DatePicker style={{ width: "100%" }} placeholder="Ngày Thêm Máy" />
-            </Form.Item>
+          <Form.Item
+            name="installationDate"
+            label="Ngày lắp đặt"
+            rules={[{ required: true, message: "Vui lòng chọn ngày lắp đặt!" }]}
+          >
+            <DatePicker format="YYYY-MM-DD" style={{ width: "100%" }} />
+          </Form.Item>
 
-            <Form.Item
-              label="Sản phẩm"
-              name="mproduct"
-              rules={[{ required: true, message: "Thêm sản phẩm của máy" }]}
+          <Form.Item
+            name="machineProducts"
+            label="Sản phẩm"
+          >
+            <Select
+              mode="multiple"
+              placeholder="Chọn sản phẩm"
             >
-              <Select
-                mode="multiple"
-                placeholder="Chọn Sản Phẩm"
-                onChange={(value) => {
-                  const uniqueValues = [...new Set(value)];
-                  form.setFieldsValue({ mproduct: uniqueValues });
-                }}
-              >
-                <Option value="CAPPUCHINO">Cappuchino</Option>
-                <Option value="LATTE">Latte</Option>
-                <Option value="MOCHA">Mocha</Option>
-              </Select>
-            </Form.Item>
+              {productList.map(product => (
+                <Select.Option key={product.productId} value={product.productId}>
+                  {product.productName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
 
-            <Button htmlType="submit" className="form-button">
-              Thêm máy mới
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Thêm máy
             </Button>
-          </Form>
-        </Modal>
-      </div>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* Update Machine Modal */}
+      <Modal
+        className="modal-update-form"
+        footer={false}
+        title="Chỉnh Sửa Máy"
+        open={isUpdateModalOpen}
+        onCancel={handleUpdateCancel}
+      >
+        <Form
+          initialValues={{
+            ...selectedMachine,
+            installationDate: selectedMachine?.installationDate
+              ? dayjs(selectedMachine.installationDate)
+              : null,
+            machineProducts: selectedMachine?.machineProducts?.map(p => p.productId) || [],
+            storeId: selectedMachine?.storeId // Thêm trường storeId
+          }}
+          form={formUpdate}
+          onFinish={handleUpdateMachine}
+          layout="horizontal"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+        >
+          <Form.Item
+            name="machineCode"
+            label="Mã máy"
+          >
+            <Input placeholder="Nhập mã máy (nếu có)" />
+          </Form.Item>
+
+          <Form.Item
+            name="machineName"
+            label="Tên máy"
+            rules={[{ required: true, message: "Vui lòng nhập tên máy!" }]}
+          >
+            <Input placeholder="Nhập tên máy" />
+          </Form.Item>
+          <Form.Item
+            name="machineTypeId"
+            label="Loại máy"
+            rules={[{ required: true, message: "Vui lòng chọn loại máy!" }]}
+          >
+            <Select placeholder="Chọn loại máy">
+              {machineType.map(type => (
+                <Select.Option key={type.machineTypeId} value={type.machineTypeId}>
+                  {type.typeName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="storeId"
+            label="Cửa hàng"
+            rules={[{ required: true, message: "Vui lòng chọn cửa hàng!" }]}
+          >
+            <Select placeholder="Chọn cửa hàng">
+              {storeList.map((store) => (
+                <Select.Option key={store.storeId} value={store.storeId}>
+                  {store.storeName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="installationDate"
+            label="Ngày lắp đặt"
+            rules={[{ required: true, message: "Vui lòng chọn ngày lắp đặt!" }]}
+          >
+            <DatePicker format="YYYY-MM-DD" style={{ width: "100%" }} />
+          </Form.Item>
+
+          <Form.Item
+            name="machineProducts"
+            label="Sản phẩm"
+            rules={[{ required: false, message: "Vui lòng chọn sản phẩm!" }]}
+          >
+            <Select
+              mode="multiple"
+              placeholder="Chọn sản phẩm"
+            >
+              {productList.map(product => (
+                <Select.Option key={product.productId} value={product.productId}>
+                  {product.productName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Cập nhật
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };
 
-export default MachineMangement;
+export default MachineManagement;

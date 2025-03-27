@@ -25,7 +25,7 @@ const OrderHistory = () => {
     async function fetchOrders() {
         try {
             const response = await axiosInstance.get(
-                "orders"
+                "orders?sortBy=OrderId&isAscending=true&page=1&pageSize=100"
             );
             const data = response?.data?.orders;
             if (Array.isArray(data)) {
@@ -48,22 +48,46 @@ const OrderHistory = () => {
     const columns = [
         {
             title: 'Mã Đơn Hàng',
-            width: 120,
-            dataIndex: 'productCode',
+            width: 150,
+            dataIndex: 'orderCode',
             fixed: 'left',
         },
         {
-            title: 'Tên sản phẩm',
-            width: 130,
-            dataIndex: 'productName',
+            title: 'Mã Máy',
+            width: 100,
+            dataIndex: 'machineId',
         },
-
         {
-            title: 'Giá sản phẩm',
-            width: 130,
-            dataIndex: 'price',
+            title: 'Mã Khách Hàng',
+            width: 120,
+            dataIndex: 'customerId',
         },
+        {
+            title: 'Ngày Đặt',
+            width: 180,
+            dataIndex: 'orderDate',
+            render: (text) => new Date(text).toLocaleString("vi-VN"), // Định dạng ngày
+        },
+        {
+            title: 'Tổng Tiền (VND)',
+            width: 130,
+            dataIndex: 'totalAmount',
+            render: (amount) => amount.toLocaleString("vi-VN") + " VND", // Định dạng tiền tệ
+        },
+        {
+            title: 'Mô Tả',
+            width: 200,
+            dataIndex: 'orderDescription',
+        },
+        {
+            title: 'Trạng Thái',
+            width: 150,
+            dataIndex: 'status',
+            render: (status) => status === 1 ? 'Đã Thanh Toán' : 'Đang Xử Lý',
+        }
     ];
+    
+
     return (
         <div>
             <div className={styles.centeredContainer}>
