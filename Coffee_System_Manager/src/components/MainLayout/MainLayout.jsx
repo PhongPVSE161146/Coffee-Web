@@ -131,6 +131,10 @@ const MainLayout = () => {
         key: "6",
         icon: <ShopOutlined style={{ fontSize: "24px" }} />,
         label: "Cửa Hàng",
+      },{
+        key: "odr",
+        icon: <ContainerOutlined style={{ fontSize: "24px" }} />,
+        label: "Đơn Hàng",
       },
     ],
     managerStore: [
@@ -191,6 +195,14 @@ const MainLayout = () => {
           break;
         case "6":
           navigate("danhsachcuahang");
+          sessionStorage.setItem("activekey", key);
+          sessionStorage.removeItem("activeTag");
+          if (responsiveCollapsed) {
+            setCollapsed(!collapsed);
+          }
+          break;
+          case "odr":
+          navigate("quanlilichsudonhang");
           sessionStorage.setItem("activekey", key);
           sessionStorage.removeItem("activeTag");
           if (responsiveCollapsed) {

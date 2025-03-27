@@ -77,6 +77,7 @@ import StaffMana from "../pages/StaffManaPage/ManaStaff/StaffMana";
 import TechMana from "../pages/TechManaPage/Technician/TechMana";
 import TechStaff from "../pages/Technician/ManaStaff/TechStaff";
 import OrderList from "../pages/OrderList/orderList";
+import OrderHistory from "../pages/OrderList/OrderHistory";
 
 
 const AppRoutes = () => (
@@ -110,6 +111,7 @@ const AppRoutes = () => (
         <Route path="danhsachcuahang" element={<StoreList />} />
         <Route path="addTrainer" element={<AddTrainer />} />
         <Route path="quanlinhanvien" element={<ManaStaff />} />
+        <Route path="quanlilichsudonhang" element={<OrderHistory />} />
         <Route path="danhsachmay" element={<MachineMangement />} />
         <Route path="feedback-template/:templateId" element={<FeedbackTemplate />} />
         <Route path="traineeManagement" element={<TraineeManagement />}>

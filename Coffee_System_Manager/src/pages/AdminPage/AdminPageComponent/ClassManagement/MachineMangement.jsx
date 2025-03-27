@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Modal, Select, Table } from "antd";
 import { createStyles } from 'antd-style';
 import { Option } from "antd/es/mentions";
@@ -15,7 +15,6 @@ const MachineMangement = () => {
   const [selectedMachine, setSelectedMachine] = useState("");
   const [form] = useForm();
   const [formUpdate] = useForm();
-  const [loading, setLoading] = useState(false);
 
   const useStyle = createStyles(({ css }) => ({
     centeredContainer: css`
@@ -28,40 +27,31 @@ const MachineMangement = () => {
     `,
   }));
 
-  useEffect(() => {
-    fetchMachines();
-  }, []);
-
   async function fetchMachines() {
-    setLoading(true);
-    try {
-      const response = await axiosInstance.get(
-        "https://coffeeshop.ngrok.app/api/machines?sortBy=MachineId&isAscending=true&page=1&pageSize=10",
-        {
-          params: {
-            sortBy: "machineId",
-            isAscending: true,
-            page: 1,
-            pageSize: 10,
-          },
+      try {
+        const response = await axiosInstance.get(
+          "machines"
+        );
+  console.log(response);
+  
+        const data = response?.data?.machines;
+  
+        if (Array.isArray(data)) {
+          setMachineList(data);
+        } else {
+          console.warn("Dữ liệu không đúng dạng mảng:", data);
+          setMachineList([]);
         }
-      );
-      const items = response.data?.machines;
-    
-    if (Array.isArray(items)) {
-      setMachineList(items);
-      } else {
+  
+      } catch (error) {
+        console.error("Lỗi fetch store:", error);
         setMachineList([]);
       }
-    } catch (error) {
-      toast.error("Lỗi khi tải danh sách máy");
-      console.error(error);
-    } finally {
-      setLoading(false);
     }
-  }
-
-
+useEffect(() => {
+    fetchMachines();
+    // fetchCategory();
+  }, []);
   const showCreateModal = () => setIsCreateModalOpen(true);
   const handleCreateCancel = () => setIsCreateModalOpen(false);
   const handleCreateOk = () => setIsCreateModalOpen(false);
@@ -103,13 +93,13 @@ const MachineMangement = () => {
     try {
       const updatedValues = { ...newData };
 
-      await axiosInstance.put(`machine/${machine.id}`, updatedValues);
+      await axiosInstance.put(`machines/${machine.id}`, updatedValues);
 
       toast.success("Cập nhật máy thành công");
 
       setMachineList((prevList) =>
-        prevList.map((machines) =>
-          machines.id === machine.id ? { ...machines, ...updatedValues } : machines
+        prevList.map((item) =>
+          item.id === machine.id ? { ...item, ...updatedValues } : item
         )
       );
 
@@ -167,7 +157,7 @@ const MachineMangement = () => {
       title: 'Sản phẩm',
       width: 110,
       render: (record) => (
-        <a onClick={() => handleViewProducts(record.mproduct)}>Xem thêm</a>
+        <a onClick={() => handleViewProducts(record.machineProducts)}>Xem thêm</a>
       ),
     },
     {
@@ -345,7 +335,7 @@ const MachineMangement = () => {
         okText: "Đồng ý",
         cancelText: "Hủy",
         onOk: async () => {
-          await axiosInstance.delete(`Machine/${machine.id}`);
+          await axiosInstance.delete(`machines/${machine.id}`);
           toast.success("Xóa máy thành công");
 
           setMachineList((prev) => prev.filter((item) => item.id !== machine.id));
