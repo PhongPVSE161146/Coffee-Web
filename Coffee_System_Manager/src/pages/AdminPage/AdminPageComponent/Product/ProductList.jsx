@@ -305,7 +305,7 @@ const ProductList = () => {
               <Form.Item
                 name="price"
                 label="Giá"
-                rules={[{ required: false }]}
+                rules={[{ required: true }]}
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
               >
@@ -394,7 +394,7 @@ const ProductList = () => {
               <Form.Item
                 name="price"
                 label="Giá"
-                rules={[{ required: false, type: 'number' }]}
+                rules={[{ required: true, }]}
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
               >
