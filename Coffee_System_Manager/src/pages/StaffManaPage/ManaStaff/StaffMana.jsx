@@ -305,7 +305,7 @@ const StaffMana = () => {
             <Input />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
+          <Form.Item>
             <Button type="primary" htmlType="submit">
               Thêm nhân viên
             </Button>
@@ -372,7 +372,7 @@ const StaffMana = () => {
             <Input />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
+          <Form.Item>
             <Button type="primary" htmlType="submit">
               Cập nhật
             </Button>
