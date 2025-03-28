@@ -11,7 +11,7 @@ const Dashboard = () => {
     totalMachines: 0,
     totalOrders: 0,
     totalCustomers: 0,
-    totalStaff: 0,
+    totalStaffs: 0,
   });
 
   const [revenueData, setRevenueData] = useState([]);
@@ -33,23 +33,26 @@ const Dashboard = () => {
       };
 
       const totalMachines = await fetchData(
-        "https://coffeeshop.ngrok.app/api/machine?page=1&pageSize=10",
+        "https://coffeeshop.ngrok.app/api/machines",
         "machines"
       );
       const totalOrders = await fetchData(
-        "https://coffeeshop.ngrok.app/api/order?page=1&pageSize=10",
+        "https://coffeeshop.ngrok.app/api/orders",
         "orders"
       );
       const totalCustomers = await fetchData(
-        "https://coffeeshop.ngrok.app/api/customer?page=1&pageSize=10",
+        "https://coffeeshop.ngrok.app/api/customers",
         "customers"
       );
-      const totalStaff = await fetchData(
-        "https://coffeeshop.ngrok.app/api/staff?page=1&pageSize=10",
-        "staffs"
+      const totalStaffs = await fetchData(
+        "https://coffeeshop.ngrok.app/api/staffs",
+        "staff"
       );
+      
+      console.log("Dữ liệu staffs:", totalStaffs);
+      
 
-      setStats({ totalMachines, totalOrders, totalCustomers, totalStaff });
+      setStats({ totalMachines, totalOrders, totalCustomers, totalStaffs });
       setLoading(false);
     };
 
@@ -60,7 +63,7 @@ const Dashboard = () => {
     const fetchRevenue = async () => {
       try {
         const response = await axios.get(
-          "https://coffeeshop.ngrok.app/api/order?sortBy=OrderId&isAscending=true&page=1&pageSize=10"
+          "https://coffeeshop.ngrok.app/api/orders"
         );
         const orders = response.data.orders || [];
 
@@ -125,7 +128,7 @@ const Dashboard = () => {
             {[
               { title: "Tổng đơn hàng", icon: <HomeOutlined />, value: stats.totalOrders },
               { title: "Tổng khách hàng", icon: <UserOutlined />, value: stats.totalCustomers },
-              { title: "Nhân viên", icon: <UserOutlined />, value: stats.totalStaff },
+              { title: "Nhân viên", icon: <UserOutlined />, value: stats.totalStaffs },
               { title: "Tổng số máy", icon: <ToolFilled />, value: stats.totalMachines },
             ].map((stat, index) => (
               <Col span={6} key={index}>

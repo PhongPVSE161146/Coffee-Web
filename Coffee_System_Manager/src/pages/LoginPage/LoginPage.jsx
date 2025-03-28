@@ -56,7 +56,11 @@ const Login = () => {
         sessionStorage.setItem("selectedRole","managerStore");
         navigate("/managerStore");
       }
-  
+      // if (userEmail === "phongpvse161146@fpt.edu.vn") {
+      //   sessionStorage.setItem("selectedRole", "manager");
+      //   navigate("/managerPage");
+      //   return;
+      // } 
       // 🔹 Gọi API để kiểm tra danh sách managerStore
       try {
         const response = await axiosInstance.get("managers?sortBy=ManagerId&isAscending=true&page=1&pageSize=10");
